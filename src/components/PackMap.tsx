@@ -64,8 +64,9 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
   const groupedFeatures = useMemo(() => {
     const groups: { [key: string]: FeatureLeaf[] } = {};
     
+    // Group features by their category based on feature ID patterns
     features.forEach(feature => {
-      const groupName = ('parent' in feature && feature.parent && (feature.parent as any).name) || 'Web Standards';
+      const groupName = feature.data.group || 'Web Standards';
       if (!groups[groupName]) {
         groups[groupName] = [];
       }

@@ -10,18 +10,36 @@ export interface AIProvider {
   enabled: boolean;
 }
 
-export const AI_PROVIDERS: Record<string, AIProvider> = {
-  // Groq API - Fast and Free (Recommended)
-  groq: {
+// Helper function to get GROQ API key with proper error handling
+function getGroqApiKey(): string {
+  const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+  if (!apiKey) {
+    console.warn("GROQ_API_KEY not found. AI chat will use fallback responses.");
+    return '';
+  }
+  return apiKey;
+}
+
+// Create dynamic headers for GROQ provider
+function getGroqHeaders(): Record<string, string> {
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${getGroqApiKey()}`
+  };
+}
+
+// Create the GROQ provider with secure API key handling
+const createGroqProvider = (): AIProvider => {
+  const apiKey = getGroqApiKey();
+  const hasValidKey = Boolean(apiKey && apiKey.length > 0);
+  
+  return {
     name: 'Groq',
     apiUrl: 'https://api.groq.com/openai/v1/chat/completions',
-    apiKey: import.meta.env.VITE_GROQ_API_KEY || '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',
+    apiKey: apiKey,
     model: 'llama-3.1-8b-instant',
-    enabled: true,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${import.meta.env.VITE_GROQ_API_KEY || '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'}`
-    },
+    enabled: true, // Always enable GROQ for now
+    headers: hasValidKey ? getGroqHeaders() : { 'Content-Type': 'application/json' },
     body: (prompt: string) => ({
       model: 'llama-3.1-8b-instant',
       messages: [
@@ -38,7 +56,13 @@ export const AI_PROVIDERS: Record<string, AIProvider> = {
       temperature: 0.7
     }),
     parseResponse: (data: any) => data.choices?.[0]?.message?.content || "I'm here to help!"
-  },
+  };
+};
+
+// Create a function that returns the providers - allowing dynamic evaluation
+const createProviders = (): Record<string, AIProvider> => ({
+  // Groq API - Fast and Free (Recommended) - lazy loaded to avoid initialization errors
+  get groq() { return createGroqProvider(); },
 
   // OpenAI API - Most Reliable
   openai: {
@@ -119,7 +143,7 @@ export const AI_PROVIDERS: Record<string, AIProvider> = {
     name: 'Ollama (Local)',
     apiUrl: '/api/generate',
     model: 'tinyllama',
-    enabled: true,
+    enabled: false, // Disabled to prioritize GROQ
     headers: {
       'Content-Type': 'application/json'
     },
@@ -135,7 +159,9 @@ export const AI_PROVIDERS: Record<string, AIProvider> = {
     }),
     parseResponse: (data: any) => data.response || "I'm here to help!"
   }
-};
+});
+
+export const AI_PROVIDERS = createProviders();
 
 // Get the first enabled provider
 export const getActiveProvider = (): AIProvider | null => {

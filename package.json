@@ -8,6 +8,10 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "baseline:stats": "npx tsx scripts/fetch-baseline.ts",
     "baseline:check": "node tools/baseline-check.mjs",
     "baseline:check:allow-newly": "node tools/baseline-check.mjs --allow-newly",
     "baseline:report": "node tools/baseline-check.mjs --report"
@@ -20,16 +24,23 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.3",
+    "@vitest/ui": "^3.2.4",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.4.0",
+    "jsdom": "^27.0.0",
     "terser": "^5.44.0",
+    "tsx": "^4.20.6",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.44.0",
-    "vite": "^5.0.0"
+    "vite": "^5.0.0",
+    "vitest": "^3.2.4"
   }
 }

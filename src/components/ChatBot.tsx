@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { getActiveProvider } from '../config/aiConfig';
-import type { AIProvider } from '../config/aiConfig';
 
 interface ChatBotProps {
   onClose: () => void;
@@ -15,12 +14,10 @@ interface Message {
 
 
 export default function ChatBot({ onClose }: ChatBotProps) {
-  const [currentProvider] = useState<AIProvider | null>(getActiveProvider());
-  
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: `Hello! I'm the Baseline Bot 🤖 powered by ${currentProvider?.name || 'Multiple AI Models'}! I can help you with web development, CSS, JavaScript, HTML, and browser compatibility questions.\n\nTry asking me anything!`,
+      text: `Hello! I'm the Baseline Bot 🤖 powered by GROQ AI! I can help you with web development, CSS, JavaScript, HTML, and browser compatibility questions.\n\nTry asking me anything!`,
       isUser: false,
       timestamp: new Date()
     }
@@ -52,6 +49,9 @@ export default function ChatBot({ onClose }: ChatBotProps) {
     setIsTyping(true);
 
     try {
+      // Get the current active provider dynamically
+      const currentProvider = getActiveProvider();
+      
       // Try the active AI provider first
       if (currentProvider) {
         try {
@@ -89,77 +89,39 @@ export default function ChatBot({ onClose }: ChatBotProps) {
         }
       }
 
-      // Fallback to Ollama if primary provider fails
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
-
-        const response = await fetch('/api/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            model: 'tinyllama',
-            prompt: userMessage.text,
-            stream:false,
-            options: { 
-              temperature: 0.7, 
-              max_tokens: 100,
-              num_predict: 100
-            }
-          }),
-          signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
-
-        if (response.ok) {
-          const data = await response.json();
-          const aiResponse = data.response || "I'm here to help!";
-          
-          const aiMessage: Message = {
-            id: Date.now() + 1,
-            text: aiResponse,
-            isUser: false,
-            timestamp: new Date()
-          };
-          setMessages(prev => [...prev, aiMessage]);
-          setIsTyping(false); // Hide thinking icon when response received  
-          return; // Success, exit early
-        } else {
-          throw new Error('Ollama API Error');
-        }
-      } catch (error) {
-        console.log('Ollama fallback error:', error);
-        
-        // Final fallback to intelligent responses
-        const userInput = userMessage.text.toLowerCase();
-        let fallbackResponse = "";
-        
-        if (userInput.includes('hello') || userInput.includes('hi')) {
-          fallbackResponse = "Hello! I'm the Baseline Bot. I can help you with web features and compatibility questions.";
-        } else if (userInput.includes('how are you')) {
-          fallbackResponse = "I'm doing great! I'm here to help you understand web features and their Baseline status.";
-        } else if (userInput.includes('css')) {
-          fallbackResponse = "CSS (Cascading Style Sheets) is used to style web pages. I can help you understand CSS properties and their browser compatibility.";
-        } else if (userInput.includes('javascript')) {
-          fallbackResponse = "JavaScript is a programming language for web development. I can help you with JavaScript APIs and browser support.";
-        } else if (userInput.includes('html')) {
-          fallbackResponse = "HTML (HyperText Markup Language) is the standard markup language for web pages. I can help you with HTML elements and features.";
-        } else if (userInput.includes('baseline')) {
-          fallbackResponse = "Baseline indicates when web features are safe to use across browsers. 'Widely' = safe everywhere, 'Newly' = recently reached baseline, 'Limited' = not yet baseline.";
-        } else {
-          fallbackResponse = `You asked: "${userMessage.text}". I'm here to help with web development questions! Ask me about CSS, JavaScript, HTML, or browser compatibility.`;
-        }
-        
-        const fallbackMessage: Message = {
-          id: Date.now() + 1,
-          text: fallbackResponse,
-          isUser: false,
-          timestamp: new Date()
-        };
-        setMessages(prev => [...prev, fallbackMessage]);
-        setIsTyping(false); // Hide thinking icon when fallback response ready
+      // If GROQ fails, show helpful message with demo responses
+      console.log('GROQ API failed, showing demo responses');
+      
+      // Provide intelligent demo responses based on user input
+      const userInput = userMessage.text.toLowerCase();
+      let demoResponse = "";
+      
+      if (userInput.includes('hello') || userInput.includes('hi') || userInput.includes('hey')) {
+        demoResponse = "Hello! I'm the Baseline Bot 🤖. I can help you with web development questions! Ask me about CSS, JavaScript, HTML, or browser compatibility.";
+      } else if (userInput.includes('css') || userInput.includes('style')) {
+        demoResponse = "CSS is great! I can help with CSS properties, layouts, and browser compatibility. What specific CSS question do you have?";
+      } else if (userInput.includes('javascript') || userInput.includes('js')) {
+        demoResponse = "JavaScript is powerful! I can assist with ES6 features, DOM manipulation, and modern JavaScript concepts. What would you like to know?";
+      } else if (userInput.includes('html')) {
+        demoResponse = "HTML is the foundation of web development! I can help with semantic elements, accessibility, and modern HTML features.";
+      } else if (userInput.includes('browser') || userInput.includes('compatibility')) {
+        demoResponse = "Browser compatibility is crucial! I can help you understand which features work across different browsers and their Baseline status.";
+      } else if (userInput.includes('baseline')) {
+        demoResponse = "Baseline indicates when web features are safe to use! 'Widely' = safe everywhere, 'Newly' = recently reached baseline, 'Limited' = not yet baseline.";
+      } else if (userInput.includes('api') || userInput.includes('key')) {
+        demoResponse = "To get a real GROQ API key: 1) Go to https://console.groq.com/ 2) Sign up for free 3) Create an API key 4) Replace the key in .env.local file";
+      } else {
+        demoResponse = `You asked: "${userMessage.text}". I'm here to help with web development! Ask me about CSS, JavaScript, HTML, or browser compatibility. To get real AI responses, add your GROQ API key to .env.local`;
       }
+      
+      const demoMessage: Message = {
+        id: Date.now() + 1,
+        text: demoResponse,
+        isUser: false,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, demoMessage]);
+      setIsTyping(false);
     } catch (finalError) {
       console.error('All requests failed:', finalError);
       const errorMessage: Message = {
