@@ -34,7 +34,7 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
         const okText = filterText ? matchesFilter(name, filterText) : true;
         const okStatus = wantStatus({ data: { baseline: n.data.baseline } });
         if (okText && okStatus) ids.add(n.data.id);
-      } else {
+      } else if ('children' in n) {
         stack.push(...n.children);
       }
     }
@@ -53,7 +53,7 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
       const n = stack.pop()!;
       if ('type' in n && n.type === 'feature') {
         features.push(n);
-      } else {
+      } else if ('children' in n) {
         stack.push(...n.children);
       }
     }
@@ -65,7 +65,7 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
     const groups: { [key: string]: FeatureLeaf[] } = {};
     
     features.forEach(feature => {
-      const groupName = feature.parent?.name || 'Web Standards';
+      const groupName = ('parent' in feature && feature.parent && (feature.parent as any).name) || 'Web Standards';
       if (!groups[groupName]) {
         groups[groupName] = [];
       }
@@ -228,14 +228,3 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
   );
 }
 
-function TooltipContent({ leaf }: { leaf: FeatureLeaf }) {
-  const s = leaf.data;
-  return (
-    <div>
-      <div className="tooltip-title">{s.name}</div>
-      <div className="tooltip-line">{labelForBaseline(s.baseline)}</div>
-      {s.baseline_high_date && <div className="tooltip-line">Widely since: {s.baseline_high_date}</div>}
-      {s.baseline_low_date && !s.baseline_high_date && <div className="tooltip-line">Newly since: {s.baseline_low_date}</div>}
-    </div>
-  );
-}

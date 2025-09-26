@@ -15,12 +15,12 @@ export const AI_PROVIDERS: Record<string, AIProvider> = {
   groq: {
     name: 'Groq',
     apiUrl: 'https://api.groq.com/openai/v1/chat/completions',
-    apiKey: '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', // Replace with your Groq API key
+    apiKey: import.meta.env.VITE_GROQ_API_KEY || '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',
     model: 'llama-3.1-8b-instant',
     enabled: true,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer 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'
+      'Authorization': `Bearer ${import.meta.env.VITE_GROQ_API_KEY || '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'}`
     },
     body: (prompt: string) => ({
       model: 'llama-3.1-8b-instant',
@@ -44,12 +44,12 @@ export const AI_PROVIDERS: Record<string, AIProvider> = {
   openai: {
     name: 'OpenAI',
     apiUrl: 'https://api.openai.com/v1/chat/completions',
-    apiKey: 'sk-your_openai_api_key_here', // Replace with your OpenAI API key
+    apiKey: import.meta.env.VITE_OPENAI_API_KEY || '',
     model: 'gpt-3.5-turbo',
     enabled: false, // Disabled by default (requires API key)
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer sk-your_openai_api_key_here'
+      'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY || ''}`
     },
     body: (prompt: string) => ({
       model: 'gpt-3.5-turbo',
@@ -72,8 +72,8 @@ export const AI_PROVIDERS: Record<string, AIProvider> = {
   // Google Gemini API - Free tier available
   gemini: {
     name: 'Google Gemini',
-    apiUrl: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
-    apiKey: 'your_gemini_api_key_here', // Replace with your Gemini API key
+    apiUrl: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY || ''}`,
+    apiKey: import.meta.env.VITE_GEMINI_API_KEY || '',
     model: 'gemini-pro',
     enabled: false, // Disabled by default (requires API key)
     headers: {
@@ -97,12 +97,12 @@ export const AI_PROVIDERS: Record<string, AIProvider> = {
   huggingface: {
     name: 'Hugging Face',
     apiUrl: 'https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium',
-    apiKey: 'hf_your_huggingface_token_here', // Replace with your Hugging Face token
+    apiKey: import.meta.env.VITE_HUGGINGFACE_API_KEY || '',
     model: 'microsoft/DialoGPT-medium',
     enabled: false, // Disabled by default (requires API key)
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer hf_your_huggingface_token_here'
+      'Authorization': `Bearer ${import.meta.env.VITE_HUGGINGFACE_API_KEY || ''}`
     },
     body: (prompt: string) => ({
       inputs: prompt,

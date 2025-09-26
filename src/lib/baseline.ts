@@ -36,15 +36,15 @@ export interface RootNode {
 export function getAllFeatures(): FeatureNode[] {
   return Object.entries(featureMap).map(([id, f]) => ({
     id,
-    name: f.name,
-    description: f.description,
-    group: f.group,
-    spec: f.spec,
-    caniuse: f.caniuse,
-    baseline: f.status?.baseline ?? false,
-    baseline_low_date: f.status?.baseline_low_date,
-    baseline_high_date: f.status?.baseline_high_date,
-    support: f.status?.support
+    name: (f as any).name,
+    description: (f as any).description,
+    group: (f as any).group,
+    spec: (f as any).spec,
+    caniuse: (f as any).caniuse,
+    baseline: (f as any).status?.baseline ?? false,
+    baseline_low_date: (f as any).status?.baseline_low_date,
+    baseline_high_date: (f as any).status?.baseline_high_date,
+    support: (f as any).status?.support
   }));
 }
 
@@ -52,7 +52,7 @@ export function buildHierarchy(filteredIds?: Set<string>): RootNode {
   // Build group nodes
   const groups: Record<string, GroupNode> = {};
   Object.entries(groupMap).forEach(([id, g]) => {
-    groups[id] = { id, name: g.name, parent: g.parent, children: [] };
+    groups[id] = { id, name: (g as any).name, parent: (g as any).parent, children: [] };
   });
 
   // Root-level groups (no parent)
@@ -84,19 +84,19 @@ export function buildHierarchy(filteredIds?: Set<string>): RootNode {
       type: 'feature',
       data: {
         id,
-        name: f.name,
-        description: f.description,
-        group: f.group,
-        spec: f.spec,
-        caniuse: f.caniuse,
-        baseline: f.status?.baseline ?? false,
-        baseline_low_date: f.status?.baseline_low_date,
-        baseline_high_date: f.status?.baseline_high_date,
-        support: f.status?.support,
+        name: (f as any).name,
+        description: (f as any).description,
+        group: (f as any).group,
+        spec: (f as any).spec,
+        caniuse: (f as any).caniuse,
+        baseline: (f as any).status?.baseline ?? false,
+        baseline_low_date: (f as any).status?.baseline_low_date,
+        baseline_high_date: (f as any).status?.baseline_high_date,
+        support: (f as any).status?.support,
       },
     };
 
-    const gId = f.group ?? miscId;
+    const gId = (f as any).group ?? miscId;
     const target = groups[gId] ?? groups[miscId];
     target.children.push(leaf);
   }
