@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "baseline:check": "node tools/baseline-check.mjs",
+    "baseline:check:allow-newly": "node tools/baseline-check.mjs --allow-newly",
+    "baseline:report": "node tools/baseline-check.mjs --report"
   },
   "dependencies": {
     "d3": "^7.9.0",

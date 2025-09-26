@@ -1,0 +1,8 @@
+{
+  "features": [
+    "css-has",
+    "view-transitions",
+    "popover",
+    "clipboard"
+  ]
+}

@@ -51,16 +51,62 @@ export default function ChatBot({ onClose }: ChatBotProps) {
     setInputText('');
     setIsTyping(true);
 
-    // Try the active AI provider first
-    if (currentProvider) {
+    try {
+      // Try the active AI provider first
+      if (currentProvider) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+
+          const response = await fetch(currentProvider.apiUrl, {
+            method: 'POST',
+            headers: currentProvider.headers,
+            body: JSON.stringify(currentProvider.body(userMessage.text)),
+            signal: controller.signal
+          });
+
+          clearTimeout(timeoutId);
+
+          if (response.ok) {
+            const data = await response.json();
+            const aiResponse = currentProvider.parseResponse(data);
+            
+            const aiMessage: Message = {
+              id: Date.now() + 1,
+              text: aiResponse,
+              isUser: false,
+              timestamp: new Date()
+            };
+            setMessages(prev => [...prev, aiMessage]);
+            setIsTyping(false); // Hide thinking icon when response received
+            return; // Success, exit early
+          } else {
+            throw new Error(`${currentProvider.name} API Error`);
+          }
+        } catch (error) {
+          console.log(`${currentProvider.name} error:`, error);
+          // Continue to fallback providers
+        }
+      }
+
+      // Fallback to Ollama if primary provider fails
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-        const response = await fetch(currentProvider.apiUrl, {
+        const response = await fetch('/api/generate', {
           method: 'POST',
-          headers: currentProvider.headers,
-          body: JSON.stringify(currentProvider.body(userMessage.text)),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'tinyllama',
+            prompt: userMessage.text,
+            stream:false,
+            options: { 
+              temperature: 0.7, 
+              max_tokens: 100,
+              num_predict: 100
+            }
+          }),
           signal: controller.signal
         });
 
@@ -68,7 +114,7 @@ export default function ChatBot({ onClose }: ChatBotProps) {
 
         if (response.ok) {
           const data = await response.json();
-          const aiResponse = currentProvider.parseResponse(data);
+          const aiResponse = data.response || "I'm here to help!";
           
           const aiMessage: Message = {
             id: Date.now() + 1,
@@ -77,86 +123,54 @@ export default function ChatBot({ onClose }: ChatBotProps) {
             timestamp: new Date()
           };
           setMessages(prev => [...prev, aiMessage]);
+          setIsTyping(false); // Hide thinking icon when response received  
           return; // Success, exit early
         } else {
-          throw new Error(`${currentProvider.name} API Error`);
+          throw new Error('Ollama API Error');
         }
       } catch (error) {
-        console.log(`${currentProvider.name} error:`, error);
-        // Continue to fallback providers
-      }
-    }
-
-    // Fallback to Ollama if primary provider fails
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
-
-      const response = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'tinyllama',
-          prompt: userMessage.text,
-          stream: false,
-          options: { 
-            temperature: 0.7, 
-            max_tokens: 100,
-            num_predict: 100
-          }
-        }),
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      if (response.ok) {
-        const data = await response.json();
-        const aiResponse = data.response || "I'm here to help!";
+        console.log('Ollama fallback error:', error);
         
-        const aiMessage: Message = {
+        // Final fallback to intelligent responses
+        const userInput = userMessage.text.toLowerCase();
+        let fallbackResponse = "";
+        
+        if (userInput.includes('hello') || userInput.includes('hi')) {
+          fallbackResponse = "Hello! I'm the Baseline Bot. I can help you with web features and compatibility questions.";
+        } else if (userInput.includes('how are you')) {
+          fallbackResponse = "I'm doing great! I'm here to help you understand web features and their Baseline status.";
+        } else if (userInput.includes('css')) {
+          fallbackResponse = "CSS (Cascading Style Sheets) is used to style web pages. I can help you understand CSS properties and their browser compatibility.";
+        } else if (userInput.includes('javascript')) {
+          fallbackResponse = "JavaScript is a programming language for web development. I can help you with JavaScript APIs and browser support.";
+        } else if (userInput.includes('html')) {
+          fallbackResponse = "HTML (HyperText Markup Language) is the standard markup language for web pages. I can help you with HTML elements and features.";
+        } else if (userInput.includes('baseline')) {
+          fallbackResponse = "Baseline indicates when web features are safe to use across browsers. 'Widely' = safe everywhere, 'Newly' = recently reached baseline, 'Limited' = not yet baseline.";
+        } else {
+          fallbackResponse = `You asked: "${userMessage.text}". I'm here to help with web development questions! Ask me about CSS, JavaScript, HTML, or browser compatibility.`;
+        }
+        
+        const fallbackMessage: Message = {
           id: Date.now() + 1,
-          text: aiResponse,
+          text: fallbackResponse,
           isUser: false,
           timestamp: new Date()
         };
-        setMessages(prev => [...prev, aiMessage]);
-        return; // Success, exit early
-      } else {
-        throw new Error('Ollama API Error');
+        setMessages(prev => [...prev, fallbackMessage]);
+        setIsTyping(false); // Hide thinking icon when fallback response ready
       }
-    } catch (error) {
-      console.log('Ollama fallback error:', error);
-      
-      // Final fallback to intelligent responses
-      const userInput = userMessage.text.toLowerCase();
-      let fallbackResponse = "";
-      
-      if (userInput.includes('hello') || userInput.includes('hi')) {
-        fallbackResponse = "Hello! I'm the Baseline Bot. I can help you with web features and compatibility questions.";
-      } else if (userInput.includes('how are you')) {
-        fallbackResponse = "I'm doing great! I'm here to help you understand web features and their Baseline status.";
-      } else if (userInput.includes('css')) {
-        fallbackResponse = "CSS (Cascading Style Sheets) is used to style web pages. I can help you understand CSS properties and their browser compatibility.";
-      } else if (userInput.includes('javascript')) {
-        fallbackResponse = "JavaScript is a programming language for web development. I can help you with JavaScript APIs and browser support.";
-      } else if (userInput.includes('html')) {
-        fallbackResponse = "HTML (HyperText Markup Language) is the standard markup language for web pages. I can help you with HTML elements and features.";
-      } else if (userInput.includes('baseline')) {
-        fallbackResponse = "Baseline indicates when web features are safe to use across browsers. 'Widely' = safe everywhere, 'Newly' = recently reached baseline, 'Limited' = not yet baseline.";
-      } else {
-        fallbackResponse = `You asked: "${userMessage.text}". I'm here to help with web development questions! Ask me about CSS, JavaScript, HTML, or browser compatibility.`;
-      }
-      
-      const fallbackMessage: Message = {
+    } catch (finalError) {
+      console.error('All requests failed:', finalError);
+      const errorMessage: Message = {
         id: Date.now() + 1,
-        text: fallbackResponse,
+        text: "I'm here to help with web development questions! Ask me about CSS, JavaScript, HTML, or browser compatibility.",
         isUser: false,
         timestamp: new Date()
       };
-      setMessages(prev => [...prev, fallbackMessage]);
+      setMessages(prev => [...prev, errorMessage]);
     } finally {
-      setIsTyping(false);
+      setIsTyping(false); // Ensure thinking icon is always hidden
     }
   };
 

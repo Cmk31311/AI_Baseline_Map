@@ -66,38 +66,43 @@ export default function App() {
       </footer>
 
       {/* Floating chat toggle */}
-      <button className="chat-toggle" onClick={() => setShowChat(true)} aria-label="Open Baseline Bot">
-        <div className="ai-icon">
-          <svg viewBox="0 0 24 24" className="ai-brain">
-            <defs>
-              <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#00d4ff" />
-                <stop offset="50%" stopColor="#7c3aed" />
-                <stop offset="100%" stopColor="#ec4899" />
-              </linearGradient>
-              <linearGradient id="circuitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#00d4ff" />
-                <stop offset="100%" stopColor="#7c3aed" />
-              </linearGradient>
-            </defs>
-            {/* AI Brain */}
-            <path d="M12 2C8.5 2 6 4.5 6 8c0 1.5.5 2.8 1.2 3.8-.7 1.2-1.2 2.5-1.2 3.9 0 3.3 2.7 6 6 6s6-2.7 6-6c0-1.4-.5-2.7-1.2-3.9.7-1 1.2-2.3 1.2-3.8 0-3.5-2.5-6-6-6z" fill="url(#brainGradient)" />
-            {/* Neural Network Lines */}
-            <path d="M8 8h8M8 12h8M8 16h8" stroke="url(#circuitGradient)" strokeWidth="1" opacity="0.6" />
-            {/* Circuit Nodes */}
-            <circle cx="8" cy="8" r="1" fill="#00d4ff" />
-            <circle cx="16" cy="8" r="1" fill="#7c3aed" />
-            <circle cx="8" cy="12" r="1" fill="#ec4899" />
-            <circle cx="16" cy="12" r="1" fill="#00d4ff" />
-            <circle cx="8" cy="16" r="1" fill="#7c3aed" />
-            <circle cx="16" cy="16" r="1" fill="#ec4899" />
-            {/* Central Processing Unit */}
-            <rect x="10" y="10" width="4" height="4" rx="1" fill="url(#brainGradient)" opacity="0.8" />
-          </svg>
-          <div className="ai-pulse"></div>
-          <div className="ai-glow"></div>
+      <div className="chat-toggle-container">
+        <div className={`chat-toggle-text ${showChat ? 'chat-toggle-text-hidden' : ''}`}>
+          Hi, how can I help you?
         </div>
-      </button>
+        <button className="chat-toggle" onClick={() => setShowChat(true)} aria-label="Open Baseline Bot">
+          <div className="ai-icon">
+            <svg viewBox="0 0 24 24" className="ai-brain">
+              <defs>
+                <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#00d4ff" />
+                  <stop offset="50%" stopColor="#7c3aed" />
+                  <stop offset="100%" stopColor="#ec4899" />
+                </linearGradient>
+                <linearGradient id="circuitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#00d4ff" />
+                  <stop offset="100%" stopColor="#7c3aed" />
+                </linearGradient>
+              </defs>
+              {/* AI Brain */}
+              <path d="M12 2C8.5 2 6 4.5 6 8c0 1.5.5 2.8 1.2 3.8-.7 1.2-1.2 2.5-1.2 3.9 0 3.3 2.7 6 6 6s6-2.7 6-6c0-1.4-.5-2.7-1.2-3.9.7-1 1.2-2.3 1.2-3.8 0-3.5-2.5-6-6-6z" fill="url(#brainGradient)" />
+              {/* Neural Network Lines */}
+              <path d="M8 8h8M8 12h8M8 16h8" stroke="url(#circuitGradient)" strokeWidth="1" opacity="0.6" />
+              {/* Circuit Nodes */}
+              <circle cx="8" cy="8" r="1" fill="#00d4ff" />
+              <circle cx="16" cy="8" r="1" fill="#7c3aed" />
+              <circle cx="8" cy="12" r="1" fill="#ec4899" />
+              <circle cx="16" cy="12" r="1" fill="#00d4ff" />
+              <circle cx="8" cy="16" r="1" fill="#7c3aed" />
+              <circle cx="16" cy="16" r="1" fill="#ec4899" />
+              {/* Central Processing Unit */}
+              <rect x="10" y="10" width="4" height="4" rx="1" fill="url(#brainGradient)" opacity="0.8" />
+            </svg>
+            <div className="ai-pulse"></div>
+            <div className="ai-glow"></div>
+          </div>
+        </button>
+      </div>
 
       {showChat && (
         <div className="chatbot-wrap">
@@ -240,27 +245,74 @@ function DetailsPanel({ leaf }: { leaf: FeatureLeaf }) {
       </div>
 
       {s.support && (
-        <div style={{ marginTop: '24px' }}>
-          <h3 style={{ 
-            fontSize: '16px', 
-            fontWeight: '600', 
-            color: 'var(--ink-secondary)', 
-            marginBottom: '12px' 
-          }}>
-            Browser Support
-          </h3>
-          <table className="support">
-            <tbody>
-            {Object.entries(s.support).map(([browser, version]) => (
-              <tr key={browser}>
-                <td style={{ fontWeight: '500' }}>{browser}</td>
-                <td style={{ color: 'var(--muted-light)' }}>{version}</td>
-              </tr>
-            ))}
-            </tbody>
-          </table>
+        <div className="browser-support-section">
+          <h3 className="browser-section-title">Browser Support</h3>
+          
+          <div className="browser-bars">
+            {Object.entries(s.support).map(([browser, version]) => {
+              // Determine support level based on feature baseline + individual browser version info
+              const versionString = version.toString().toLowerCase();
+              let supportLevel;
+              let supportStatus;
+              
+              // First check the feature's overall baseline status as primary indicator
+              const isWidelySupported = s.baseline === 'high';
+              const isNewlySupported = s.baseline === 'low';
+              const isLimitedSupported = s.baseline === null || s.baseline === false || !s.baseline;
+              
+              // Then check individual browser version data
+              const hasFullSupport = versionString.includes('all') || versionString === 'yes' || 
+                                   versionString.startsWith('3') || versionString === 'supported' ||
+                                   versionString === 'esr' || (!versionString.includes('-') && versionString.match(/^\d+$/));
+              const hasLimitedSupport = versionString.includes('partial') || versionString.includes('limited') ||
+                                       versionString.includes('no') || versionString === 'unsupported' ||
+                                       versionString.includes('-') || versionString.includes('prefixed');
+              
+              if (isWidelySupported && hasFullSupport) {
+                supportLevel = 100;
+                supportStatus = 'full';
+              } else if (isNewlySupported && hasFullSupport) {
+                supportLevel = 80;
+                supportStatus = 'partial';
+              } else if (isNewlySupported) {
+                supportLevel = 60;
+                supportStatus = 'partial';
+              } else if (isLimitedSupported && hasFullSupport) {
+                supportLevel = 70;
+                supportStatus = 'partial';
+              } else if (isLimitedSupported) {
+                supportLevel = 30;
+                supportStatus = 'limited';
+              } else {
+                // Fallback based on version string
+                supportLevel = hasFullSupport ? 80 : hasLimitedSupport ? 30 : 50;
+                supportStatus = hasFullSupport ? 'partial' : hasLimitedSupport ? 'limited' : 'partial';
+              }
+              
+              return (
+                <div key={browser} className={`browser-bar browser-${browser.toLowerCase().replace(/\s+/g, '-')}`}>
+                  <div className="browser-label">
+                    <span className="browser-name">{browser}</span>
+                    <span className="browser-version">Version: {version}</span>
+                  </div>
+                  <div className="support-indicator">
+                    <div className="support-progress-container">
+                      <div 
+                        className={`support-bar supported-${supportStatus}`}
+                        style={{ width: `${supportLevel}%` }}
+                      ></div>
+                    </div>
+                    <span className={`status-text status-${supportStatus}`}>
+                      {supportStatus === 'full' ? 'Full' : supportStatus === 'partial' ? 'Partial' : 'Limited'}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
+
     </div>
   );
 }
