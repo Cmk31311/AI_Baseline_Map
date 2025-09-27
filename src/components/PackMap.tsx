@@ -60,24 +60,14 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
     return features;
   }, [rootData]);
 
-  // Group features by their parent group
+  // Group all features under single "Baseline Features" heading
   const groupedFeatures = useMemo(() => {
-    const groups: { [key: string]: FeatureLeaf[] } = {};
-    
-    // Group features by their category based on feature ID patterns
-    features.forEach(feature => {
-      const groupName = feature.data.group || 'Web Standards';
-      if (!groups[groupName]) {
-        groups[groupName] = [];
-      }
-      groups[groupName].push(feature);
-    });
-
-    return groups;
+    return {
+      'Baseline Features': features
+    };
   }, [features]);
 
   const [hoveredFeature, setHoveredFeature] = useState<FeatureLeaf | null>(null);
-  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
   // Animated particles effect
   const [particles, setParticles] = useState<Array<{id: number, x: number, y: number, delay: number}>>([]);
@@ -121,29 +111,29 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
         ))}
       </div>
 
-      {/* Group Selector */}
-      <div className="group-selector">
-        {Object.keys(groupedFeatures).map(groupName => (
-          <button
-            key={groupName}
-            className={`group-btn ${selectedGroup === groupName ? 'active' : ''}`}
-            onClick={() => setSelectedGroup(selectedGroup === groupName ? null : groupName)}
-          >
-            <span className="group-icon">🔷</span>
-            {groupName}
-            <span className="count">{groupedFeatures[groupName].length}</span>
-          </button>
-        ))}
-      </div>
 
       {/* Modern Card Grid */}
       <div className="modern-grid">
         {Object.entries(groupedFeatures).map(([groupName, groupFeatures]) => {
-          if (selectedGroup && selectedGroup !== groupName) return null;
-          
           return (
             <div key={groupName} className="feature-group">
-              <h3 className="group-title">{groupName}</h3>
+              <div className="group-header">
+                <h3 className="group-title">{groupName}</h3>
+                <div className="status-legend">
+                  <div className="legend-item">
+                    <div className="legend-bar legend-widely"></div>
+                    <span className="legend-text">Widely Available</span>
+                  </div>
+                  <div className="legend-item">
+                    <div className="legend-bar legend-newly"></div>
+                    <span className="legend-text">Newly Available</span>
+                  </div>
+                  <div className="legend-item">
+                    <div className="legend-bar legend-limited"></div>
+                    <span className="legend-text">Limited Availability</span>
+                  </div>
+                </div>
+              </div>
               <div className="cards-container">
                 {groupFeatures.map((feature, index) => {
                   const statusColor = colorForBaseline(feature.data.baseline);
@@ -172,8 +162,6 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
                       </div>
                       
                       <div className="card-content">
-                        <div className="status-badge-modern">{statusLabel}</div>
-                        
                         {feature.data.description && (
                           <div className="feature-description-modern">
                             {feature.data.description.length > 80 
@@ -207,7 +195,18 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
       {/* Enhanced Tooltip */}
       {hoveredFeature && (
         <div className="enhanced-tooltip">
-          <div className="tooltip-content">
+          <div 
+            className="tooltip-content"
+            style={{
+              '--status-color': hoveredFeature.data.baseline === 'high' ? '#6bb86b' : 
+                               hoveredFeature.data.baseline === 'low' ? '#f0d890' : '#f0a0a0',
+              '--status-gradient': hoveredFeature.data.baseline === 'high' ? 'linear-gradient(90deg, #6bb86b, #8dd48d)' :
+                                 hoveredFeature.data.baseline === 'low' ? 'linear-gradient(90deg, #f0d890, #f8e8a0)' :
+                                 'linear-gradient(90deg, #f0a0a0, #f8b0b0)',
+              '--status-border': hoveredFeature.data.baseline === 'high' ? '#6bb86b' :
+                               hoveredFeature.data.baseline === 'low' ? '#f0d890' : '#f0a0a0'
+            } as React.CSSProperties}
+          >
             <div className="tooltip-header">
               <span className="tooltip-icon">{getStatusIcon(hoveredFeature.data.baseline)}</span>
               <div className="tooltip-title">{hoveredFeature.data.name}</div>

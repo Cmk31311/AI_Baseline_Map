@@ -93,10 +93,10 @@ export function buildHierarchy(filteredIds?: Set<string>): RootNode {
     }
   });
 
-  // Create fallback misc group for uncategorized features
-  const miscId = 'misc';
-  if (!groups[miscId]) {
-    groups[miscId] = { id: miscId, name: 'Web Standards', children: [] };
+  // Create fallback group for baseline features
+  const baselineId = 'baseline';
+  if (!groups[baselineId]) {
+    groups[baselineId] = { id: baselineId, name: 'Baseline Features', children: [] };
   }
 
   // Process each feature and attach to appropriate group
@@ -130,9 +130,9 @@ export function buildHierarchy(filteredIds?: Set<string>): RootNode {
       },
     };
 
-    // Attach feature to its corresponding group or misc
-    const groupId = leaf.data.group ?? miscId;
-    const targetGroup = groups[groupId] ?? groups[miscId];
+    // Attach feature to its corresponding group or baseline
+    const groupId = leaf.data.group ?? baselineId;
+    const targetGroup = groups[groupId] ?? groups[baselineId];
     targetGroup.children.push(leaf);
   });
 
@@ -154,7 +154,7 @@ function extractGroupFromFeature(featureId: string): string {
   if (featureId.startsWith('html-')) return 'html';
   if (featureId.startsWith('api-')) return 'api';
   if (featureId.startsWith('security-')) return 'security';
-  return 'misc';
+  return 'baseline';
 }
 
 export function colorForBaseline(level: BaselineLevel): string {

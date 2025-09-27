@@ -99,7 +99,7 @@ describe('Baseline feature mapping and web-features integration', () => {
     // Test JavaScript features  
     const jsFeatures = features.filter(f => f.id.startsWith('js-') || f.id.includes('javascript'))
     if (jsFeatures.length > 0) {
-      expect(jsFeatures[0].group).toMatch(/javascript|misc/)
+      expect(jsFeatures[0].group).toMatch(/javascript|baseline/)
     }
   })
 

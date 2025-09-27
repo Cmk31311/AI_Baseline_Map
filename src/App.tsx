@@ -16,7 +16,7 @@ export default function App() {
     <div className="app">
       <header className="app-header">
         <div className="title">
-          <span>🗺️ The Baseline Map</span>
+          <span>🧭 The Baseline Map</span>
         </div>
         <div className="controls">
           <input
@@ -32,16 +32,15 @@ export default function App() {
             title="Filter by Baseline status"
           >
             <option value="all">All statuses</option>
-            <option value="high">Baseline: Widely</option>
-            <option value="low">Baseline: Newly</option>
-            <option value="false">Baseline: Limited</option>
+            <option value="high">Baseline: Widely Available</option>
+            <option value="low">Baseline: Newly Available</option>
+            <option value="false">Baseline: Limited Availability</option>
           </select>
         </div>
       </header>
 
       <main className="main">
         <section className="canvas">
-          <Legend />
           <PackMap
             filterText={filterText}
             statusFilter={statusFilter}
@@ -113,15 +112,6 @@ export default function App() {
   );
 }
 
-function Legend() {
-  return (
-    <div className="legend">
-      <span className="dot dot-green" /> Widely
-      <span className="dot dot-amber" /> Newly
-      <span className="dot dot-red" /> Limited
-    </div>
-  );
-}
 
 function EmptyPanel() {
   return (
@@ -137,7 +127,7 @@ function EmptyPanel() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span className="dot dot-green" />
             <div>
-              <strong style={{ color: 'var(--ink)' }}>Widely</strong>
+              <strong style={{ color: 'var(--ink)' }}>Widely Available</strong>
               <div style={{ fontSize: '13px', color: 'var(--muted)', marginTop: '2px' }}>
                 Safe to use everywhere
               </div>
@@ -146,7 +136,7 @@ function EmptyPanel() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span className="dot dot-amber" />
             <div>
-              <strong style={{ color: 'var(--ink)' }}>Newly</strong>
+              <strong style={{ color: 'var(--ink)' }}>Newly Available</strong>
               <div style={{ fontSize: '13px', color: 'var(--muted)', marginTop: '2px' }}>
                 Recently reached Baseline
               </div>
@@ -155,7 +145,7 @@ function EmptyPanel() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span className="dot dot-red" />
             <div>
-              <strong style={{ color: 'var(--ink)' }}>Limited</strong>
+              <strong style={{ color: 'var(--ink)' }}>Limited Availability</strong>
               <div style={{ fontSize: '13px', color: 'var(--muted)', marginTop: '2px' }}>
                 Not Baseline yet
               </div>
@@ -277,11 +267,9 @@ function DetailsPanel({ leaf }: { leaf: FeatureLeaf }) {
               } else if (isNewlySupported) {
                 supportLevel = 60;
                 supportStatus = 'partial';
-              } else if (isLimitedSupported && hasFullSupport) {
-                supportLevel = 70;
-                supportStatus = 'partial';
               } else if (isLimitedSupported) {
-                supportLevel = 30;
+                // If baseline is limited, always show as limited regardless of individual browser support
+                supportLevel = hasFullSupport ? 50 : 30;
                 supportStatus = 'limited';
               } else {
                 // Fallback based on version string
