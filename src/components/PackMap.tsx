@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { buildHierarchy, colorForBaseline, labelForBaseline } from '../lib/baseline';
+import { buildHierarchy, colorForBaseline } from '../lib/baseline';
 import type { FeatureLeaf, GroupNode, RootNode } from '../lib/baseline';
 
 interface PackMapProps {
@@ -137,7 +137,6 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
               <div className="cards-container">
                 {groupFeatures.map((feature, index) => {
                   const statusColor = colorForBaseline(feature.data.baseline);
-                  const statusLabel = labelForBaseline(feature.data.baseline);
                   const statusIcon = getStatusIcon(feature.data.baseline);
                   const statusGradient = getStatusGradient(feature.data.baseline);
                   
