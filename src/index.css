@@ -197,17 +197,19 @@ body::-webkit-scrollbar {
 
 .sidebar { 
   border-left: 1px solid var(--border); 
-  padding: 24px; 
   background: var(--backdrop);
   backdrop-filter: blur(12px);
   box-shadow: -1px 0 3px var(--shadow);
   position: fixed;
-  top: 90px; /* Extra spacing to ensure border is fully below header */
+  top: 0; /* Start from very top of viewport */
   right: 0;
   width: 400px;
-  height: calc(100vh - 90px); /* Adjusted accordingly */
+  height: 100vh; /* Full viewport height */
+  min-height: 100vh; /* Ensure minimum full height */
   overflow-y: auto;
-  z-index: 10;
+  z-index: 5; /* Lower than header z-index */
+  padding: 24px;
+  padding-top: 150px; /* Add padding to account for header */
   
   /* Hide scrollbar but keep functionality */
   scrollbar-width: none; /* Firefox */
@@ -944,6 +946,8 @@ body::-webkit-scrollbar {
     max-height: 50vh;
     width: 100%;
     right: auto;
+    top: auto;
+    min-height: auto;
   }
   
   .app-header {
@@ -999,6 +1003,8 @@ body::-webkit-scrollbar {
     max-height: 40vh;
     width: 100%;
     right: auto;
+    top: auto;
+    min-height: auto;
   }
   
   .legend {
