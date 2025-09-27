@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { buildHierarchy, colorForBaseline } from '../lib/baseline';
+import { buildHierarchy, colorForBaseline, labelForBaseline } from '../lib/baseline';
 import type { FeatureLeaf, GroupNode, RootNode } from '../lib/baseline';
 
 interface PackMapProps {
