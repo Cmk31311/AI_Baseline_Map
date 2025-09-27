@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import PackMap from './components/PackMap';
 import { labelForBaseline } from './lib/baseline';
 import type { FeatureLeaf } from './lib/baseline';
@@ -11,6 +11,37 @@ export default function App() {
   const [selected, setSelected] = useState<FeatureLeaf | null>(null);
 
   const [showChat, setShowChat] = useState(false);
+  const [showBackToMain, setShowBackToMain] = useState(false);
+
+  // Back to Main button functionality
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      setShowBackToMain(scrollTop > 100); // Show button after scrolling 100px
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    // Try to find the actual scrollable element
+    const scrollableElement = document.scrollingElement || document.documentElement || document.body;
+    
+    // Force scroll on the main scrollable element
+    scrollableElement.scrollTop = 0;
+    
+    // Also try window scroll
+    window.scrollTo(0, 0);
+    
+    // Force scroll on all possible containers
+    const allElements = document.querySelectorAll('*');
+    allElements.forEach(el => {
+      if (el.scrollHeight > el.clientHeight) {
+        el.scrollTop = 0;
+      }
+    });
+  };
 
   return (
     <div className="app">
@@ -108,6 +139,16 @@ export default function App() {
           <ChatBot onClose={() => setShowChat(false)} />
         </div>
       )}
+
+      {/* Back to Main Button */}
+      <button 
+        className="back-to-main visible"
+        onClick={scrollToTop}
+        aria-label="Back to main page"
+        style={{ opacity: 1, visibility: 'visible', transform: 'translateY(0)' }}
+      >
+        Back to Main
+      </button>
     </div>
   );
 }
