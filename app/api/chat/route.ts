@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
 You are helpful, accurate, and focused on helping developers make informed decisions about web platform features.`
               },
               ...messages.map((m: { role: string; content: string }) => ({
-                role: m.role,
+                role: m.role as 'user' | 'assistant' | 'system',
                 content: m.content,
               }))
             ],

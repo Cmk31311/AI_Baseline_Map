@@ -1,4 +1,4 @@
-import { createReadStream, createWriteStream, mkdirSync, statSync, existsSync } from 'fs';
+import { createWriteStream, mkdirSync, statSync, existsSync } from 'fs';
 import { join, dirname, resolve, normalize } from 'path';
 import { pipeline } from 'stream/promises';
 import unzipper from 'unzipper';

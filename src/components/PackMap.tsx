@@ -23,10 +23,10 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
     const all = buildHierarchy();
     const stack: Array<GroupNode | FeatureLeaf> = [...all.children];
 
-    const wantStatus = (s: any) => {
+    const wantStatus = (baseline: 'high' | 'low' | false) => {
       if (statusFilter === 'all') return true;
-      if (statusFilter === 'false') return s?.data?.status?.baseline === false || s?.data?.baseline === false;
-      return s?.data?.status?.baseline === statusFilter || s?.data?.baseline === statusFilter;
+      if (statusFilter === 'false') return baseline === false;
+      return baseline === statusFilter;
     };
 
     while (stack.length) {
@@ -34,7 +34,7 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
       if ('type' in n && n.type === 'feature') {
         const name = n.data.name ?? n.data.id;
         const okText = filterText ? matchesFilter(name, filterText) : true;
-        const okStatus = wantStatus({ data: { baseline: n.data.baseline } });
+        const okStatus = wantStatus(n.data.baseline);
         if (okText && okStatus) ids.add(n.data.id);
       } else if ('children' in n) {
         stack.push(...n.children);
@@ -84,13 +84,13 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
     setParticles(newParticles);
   }, []);
 
-  const getStatusIcon = (baseline: any) => {
+  const getStatusIcon = (baseline: 'high' | 'low' | false) => {
     if (baseline === 'high') return '✨';
     if (baseline === 'low') return '🆕';
     return '⚠️';
   };
 
-  const getStatusGradient = (baseline: any) => {
+  const getStatusGradient = (baseline: 'high' | 'low' | false) => {
     if (baseline === 'high') return 'linear-gradient(135deg, #10b981, #34d399)';
     if (baseline === 'low') return 'linear-gradient(135deg, #f59e0b, #fbbf24)';
     return 'linear-gradient(135deg, #ef4444, #f87171)';

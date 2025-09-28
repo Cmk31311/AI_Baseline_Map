@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Finding, Language, Status, isDependencyFinding, isPatternFinding } from '../../../lib/analysis/baseline.types';
+import { Finding, isDependencyFinding, isPatternFinding } from '../../../lib/analysis/baseline.types';
 
 interface ResultsTableProps {
   findings: Finding[];

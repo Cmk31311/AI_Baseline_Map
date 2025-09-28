@@ -15,7 +15,7 @@ export function detectProjectManifests(files: { path?: string; name?: string; co
       const pkg = JSON.parse(packageJson.content);
       manifests.push({
         language: 'node',
-        file: packageJson.path || packageJson.name,
+        file: packageJson.path || packageJson.name || 'package.json',
         dependencies: pkg.dependencies,
         devDependencies: pkg.devDependencies,
         peerDependencies: pkg.peerDependencies,
@@ -31,7 +31,7 @@ export function detectProjectManifests(files: { path?: string; name?: string; co
   if (requirementsTxt) {
     manifests.push({
       language: 'python',
-      file: requirementsTxt.path || requirementsTxt.name,
+        file: requirementsTxt.path || requirementsTxt.name || 'requirements.txt',
       dependencies: parseRequirementsTxt(requirementsTxt.content),
     });
   }
@@ -44,7 +44,7 @@ export function detectProjectManifests(files: { path?: string; name?: string; co
       if (deps) {
         manifests.push({
           language: 'python',
-          file: pyprojectToml.path || pyprojectToml.name,
+          file: pyprojectToml.path || pyprojectToml.name || 'pyproject.toml',
           dependencies: deps,
         });
       }
@@ -61,7 +61,7 @@ export function detectProjectManifests(files: { path?: string; name?: string; co
       if (deps) {
         manifests.push({
           language: 'java',
-          file: pomXml.path || pomXml.name,
+          file: pomXml.path || pomXml.name || 'pom.xml',
           dependencies: deps,
         });
       }
@@ -81,7 +81,7 @@ export function detectProjectManifests(files: { path?: string; name?: string; co
       if (deps) {
         manifests.push({
           language: 'java',
-          file: buildGradle.path || buildGradle.name,
+          file: buildGradle.path || buildGradle.name || 'build.gradle',
           dependencies: deps,
         });
       }
@@ -98,7 +98,7 @@ export function detectProjectManifests(files: { path?: string; name?: string; co
       if (deps) {
         manifests.push({
           language: 'go',
-          file: goMod.path || goMod.name,
+          file: goMod.path || goMod.name || 'go.mod',
           dependencies: deps,
         });
       }
@@ -115,12 +115,12 @@ export function detectProjectManifests(files: { path?: string; name?: string; co
       if (deps) {
         manifests.push({
           language: 'dotnet',
-          file: csproj.path || csproj.name,
+          file: csproj.path || csproj.name || 'project.csproj',
           dependencies: deps,
         });
       }
     } catch (error) {
-      console.warn(`Failed to parse ${csproj.path || csproj.name}: ${error}`);
+      console.warn(`Failed to parse ${csproj.path || csproj.name || 'project.csproj'}: ${error}`);
     }
   }
   

@@ -159,8 +159,8 @@ export default function ChatBot({ onClose }: ChatBotProps) {
             color: 'var(--muted)',
             borderRadius: '4px'
           }}
-          onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--panel-hover)'}
-          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+          onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = 'var(--panel-hover)'}
+          onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'transparent'}
         >
           ✕
         </button>
@@ -263,6 +263,7 @@ export default function ChatBot({ onClose }: ChatBotProps) {
             fontSize: '14px',
             backgroundColor: 'var(--panel)',
             color: 'var(--ink)',
+            // @ts-expect-error - CSS pseudo-selector
             '::placeholder': {
               color: 'var(--muted)'
             }

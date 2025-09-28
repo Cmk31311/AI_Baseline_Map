@@ -6,8 +6,8 @@ export interface AIProvider {
   apiKey?: string;
   model: string;
   headers: Record<string, string>;
-  body: (prompt: string) => any;
-  parseResponse: (data: any) => string;
+  body: (prompt: string) => Record<string, unknown>;
+  parseResponse: (data: Record<string, unknown>) => string;
   enabled: boolean;
 }
 
@@ -56,7 +56,7 @@ const createGroqProvider = (): AIProvider => {
       max_tokens: 200,
       temperature: 0.7
     }),
-    parseResponse: (data: any) => data.choices?.[0]?.message?.content || "I'm here to help!"
+    parseResponse: (data: Record<string, unknown>) => (data.choices as Array<{ message?: { content?: string } }>)?.[0]?.message?.content || "I'm here to help!"
   };
 };
 
@@ -91,7 +91,7 @@ const createProviders = (): Record<string, AIProvider> => ({
       max_tokens: 200,
       temperature: 0.7
     }),
-    parseResponse: (data: any) => data.choices?.[0]?.message?.content || "I'm here to help!"
+    parseResponse: (data: Record<string, unknown>) => (data.choices as Array<{ message?: { content?: string } }>)?.[0]?.message?.content || "I'm here to help!"
   },
 
   // Google Gemini API - Free tier available
@@ -115,7 +115,7 @@ const createProviders = (): Record<string, AIProvider> => ({
         temperature: 0.7
       }
     }),
-    parseResponse: (data: any) => data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm here to help!"
+    parseResponse: (data: Record<string, unknown>) => (data.candidates as Array<{ content?: { parts?: Array<{ text?: string }> } }>)?.[0]?.content?.parts?.[0]?.text || "I'm here to help!"
   },
 
   // Hugging Face Inference API - Free tier
@@ -136,7 +136,7 @@ const createProviders = (): Record<string, AIProvider> => ({
         temperature: 0.7
       }
     }),
-    parseResponse: (data: any) => Array.isArray(data) ? data[0]?.generated_text || "I'm here to help!" : data.generated_text || "I'm here to help!"
+    parseResponse: (data: Record<string, unknown>) => Array.isArray(data) ? (data[0] as { generated_text?: string })?.generated_text || "I'm here to help!" : (data as { generated_text?: string }).generated_text || "I'm here to help!"
   },
 
   // Ollama - Local (fallback)
@@ -158,7 +158,7 @@ const createProviders = (): Record<string, AIProvider> => ({
         num_predict: 100
       }
     }),
-    parseResponse: (data: any) => data.response || "I'm here to help!"
+    parseResponse: (data: Record<string, unknown>) => (data as { response?: string }).response || "I'm here to help!"
   }
 });
 

@@ -21,7 +21,7 @@ export function scanSourceFiles(
     }
     
     // Skip ignored paths
-    const filePath = file.path || file.name;
+    const filePath = file.path || file.name || 'unknown';
     if (shouldIgnorePath(rules, filePath)) {
       continue;
     }
@@ -44,8 +44,8 @@ export function scanSourceFiles(
       continue;
     }
     
-    // Scan file content
-    const fileFindings = scanFileContent(file, language, patterns, rules);
+            // Scan file content
+            const fileFindings = scanFileContent(file, language, patterns);
     findings.push(...fileFindings);
   }
   
@@ -63,11 +63,11 @@ export function scanSourceFiles(
 function scanFileContent(
   file: { path?: string; name?: string; content: string },
   language: Language,
-  patterns: Array<{ pattern: string; message: string; alternative: string }>,
-  rules: BaselineRules
+  patterns: Array<{ pattern: string; message: string; alternative: string }>
 ): PatternFinding[] {
   const findings: PatternFinding[] = [];
   const lines = file.content.split('\n');
+  const filePath = file.path || file.name || 'unknown';
   
   for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
     const line = lines[lineIndex];
@@ -90,17 +90,17 @@ function scanFileContent(
             regex.lastIndex++;
           }
           
-          findings.push({
-            kind: 'pattern',
-            lang: language,
-            file: file.path || file.name || 'unknown',
-            line: lineNumber,
-            status: 'affected',
-            reason: 'deprecated-api',
-            issue: pattern.message,
-            pattern: pattern.pattern,
-            quickFix: pattern.alternative,
-          });
+                  findings.push({
+                    kind: 'pattern',
+                    lang: language,
+                    file: filePath,
+                    line: lineNumber,
+                    status: 'affected',
+                    reason: 'deprecated-api',
+                    issue: pattern.message,
+                    pattern: pattern.pattern,
+                    quickFix: pattern.alternative,
+                  });
         }
       } catch (error) {
         console.warn(`Invalid regex pattern: ${pattern.pattern} - ${error}`);
@@ -207,7 +207,13 @@ export function groupPatternFindingsByFile(findings: PatternFinding[]): Record<s
  * @returns Grouped findings by language
  */
 export function groupPatternFindingsByLanguage(findings: PatternFinding[]): Record<Language, PatternFinding[]> {
-  const grouped: Record<Language, PatternFinding[]> = {};
+  const grouped: Record<Language, PatternFinding[]> = {
+    python: [],
+    node: [],
+    java: [],
+    go: [],
+    dotnet: []
+  };
   
   for (const finding of findings) {
     if (!grouped[finding.lang]) {

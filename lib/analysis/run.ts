@@ -4,17 +4,17 @@ import { detectProjectManifests, detectLanguagesFromFiles } from './detect';
 import { analyzeDependencies } from './deps';
 import { scanSourceFiles } from './scan';
 import { extractZipToMemory } from '../files/unzip';
-import { processSingleFile, detectFileType, shouldAnalyzeFile } from '../files/single-file';
+import { processSingleFile, shouldAnalyzeFile } from '../files/single-file';
 import { storeAnalysisResults } from '../files/store';
 import {
   Report,
   Finding,
   Language,
   ReportSummary,
-  LanguageSummary,
   AnalysisContext,
   ExtractedFile,
-  ProjectManifest
+  ProjectManifest,
+  BaselineRules
 } from './baseline.types';
 
 interface GroqAnalysisResult {
@@ -63,7 +63,7 @@ async function analyzeWithGroq(
   // Analyze up to 5 key files to avoid rate limits
   const keyFiles = files
     .filter(file => {
-      const fileName = file.name || file.path || 'unknown';
+      const fileName = (file as { name?: string; path: string }).name || file.path || 'unknown';
       const ext = fileName.split('.').pop()?.toLowerCase();
       return ['js', 'ts', 'jsx', 'tsx', 'css', 'html', 'vue', 'svelte', 'py', 'java', 'go', 'cs'].includes(ext || '');
     })
@@ -80,20 +80,20 @@ async function analyzeWithGroq(
         },
         body: JSON.stringify({
           code: file.content,
-          filename: file.name || file.path || 'unknown',
+          filename: (file as { name?: string; path: string }).name || file.path || 'unknown',
           projectType,
           dependencies
         })
       });
 
       if (response.ok) {
-        const result = await response.json();
-        results.push(result);
-      } else {
-        console.error(`Groq analysis failed for ${file.name || file.path}: ${response.status} ${response.statusText}`);
-      }
-    } catch (error) {
-      console.error(`Groq analysis failed for ${file.name || file.path}:`, error);
+              const result = await response.json();
+              results.push(result);
+            } else {
+              console.error(`Groq analysis failed for ${(file as { name?: string; path: string }).name || file.path}: ${response.status} ${response.statusText}`);
+            }
+          } catch (error) {
+            console.error(`Groq analysis failed for ${(file as { name?: string; path: string }).name || file.path}:`, error);
     }
   }
 
@@ -117,8 +117,8 @@ export async function runBaselineAnalysis(
   const startTime = Date.now();
 
   try {
-    // Load baseline rules
-    const rules = loadBaselineRules();
+            // Load baseline rules
+            const rules = await loadBaselineRules();
     
     // Determine if file is ZIP or single file
     const isZipFile = filePath.toLowerCase().endsWith('.zip');
@@ -255,12 +255,12 @@ function generateSummary(findings: Finding[], detectedLanguages: Language[]): Re
     if (finding.kind === 'dependency') {
       summary[finding.status]++;
       if (summary.byLanguage[finding.lang]) {
-        summary.byLanguage[finding.lang][finding.status]++;
+        summary.byLanguage[finding.lang]![finding.status]++;
       }
     } else if (finding.kind === 'pattern') {
       summary.affected++;
       if (summary.byLanguage[finding.lang]) {
-        summary.byLanguage[finding.lang].affected++;
+        summary.byLanguage[finding.lang]!.affected++;
       }
     }
   }
@@ -289,7 +289,7 @@ function getProjectName(zipPath: string): string {
 export async function runAnalysisOnFiles(
   files: ExtractedFile[],
   manifests: ProjectManifest[],
-  rules: any
+  rules: BaselineRules
 ): Promise<AnalysisResult> {
   const analysisId = randomUUID();
   const detectedLanguages = detectLanguagesFromFiles(files);
@@ -417,7 +417,7 @@ export function checkAnalysisFeasibility(
 ): {
   feasible: boolean;
   warnings: string[];
-  estimatedTime: number;
+  estimatedTime: string;
 } {
   const warnings: string[] = [];
   let feasible = true;
@@ -438,7 +438,8 @@ export function checkAnalysisFeasibility(
     warnings.push(`Large archive: ${Math.round(totalSize / 1024 / 1024)}MB (analysis may take longer)`);
   }
 
-  const estimatedTime = estimateAnalysisTime(fileCount, Math.min(fileCount / 100, 50));
+  const estimatedTimeMs = estimateAnalysisTime(fileCount, Math.min(fileCount / 100, 50));
+  const estimatedTime = `${Math.round(estimatedTimeMs / 1000)}s`;
 
   return {
     feasible,

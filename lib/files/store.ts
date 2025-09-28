@@ -1,8 +1,8 @@
-import { writeFileSync, mkdirSync, existsSync, unlinkSync } from 'fs';
-import { join, dirname } from 'path';
+import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import { join } from 'path';
 import { randomUUID } from 'crypto';
 import Papa from 'papaparse';
-import { Report, Finding, CSVRow } from '../analysis/baseline.types';
+import { Report, CSVRow } from '../analysis/baseline.types';
 
 export interface StoredArtifacts {
   jsonUrl: string;
@@ -111,11 +111,11 @@ function generateCSV(report: Report): string {
  * @param ttl Time to live in milliseconds
  */
 function scheduleCleanup(analysisDir: string, ttl: number): void {
-  setTimeout(() => {
+  setTimeout(async () => {
     try {
       if (existsSync(analysisDir)) {
         // Remove directory and all contents
-        const { rmSync } = require('fs');
+        const { rmSync } = await import('fs');
         rmSync(analysisDir, { recursive: true, force: true });
       }
     } catch (error) {
@@ -131,11 +131,11 @@ function scheduleCleanup(analysisDir: string, ttl: number): void {
  * @param baseDir Base directory for storage
  * @returns Report content or null if not found
  */
-export function getStoredAnalysis(
+export async function getStoredAnalysis(
   analysisId: string,
   format: 'json' | 'csv' = 'json',
   baseDir: string = join(process.cwd(), 'tmp', 'analysis')
-): string | null {
+): Promise<string | null> {
   try {
     const analysisDir = join(baseDir, analysisId);
     const filePath = join(analysisDir, `report.${format}`);
@@ -144,7 +144,8 @@ export function getStoredAnalysis(
       return null;
     }
 
-    const content = require('fs').readFileSync(filePath, 'utf8');
+    const { readFileSync } = await import('fs');
+    const content = readFileSync(filePath, 'utf8');
     return content;
   } catch (error) {
     console.warn(`Failed to read stored analysis ${analysisId}: ${error}`);
@@ -172,10 +173,10 @@ export function analysisExists(
  * @param maxAge Maximum age in milliseconds
  * @returns Number of cleaned up analyses
  */
-export function cleanupOldAnalyses(
+export async function cleanupOldAnalyses(
   baseDir: string = join(process.cwd(), 'tmp', 'analysis'),
   maxAge: number = 24 * 60 * 60 * 1000 // 24 hours
-): number {
+): Promise<number> {
   let cleanedCount = 0;
 
   try {
@@ -183,7 +184,7 @@ export function cleanupOldAnalyses(
       return 0;
     }
 
-    const { readdirSync, statSync, rmSync } = require('fs');
+    const { readdirSync, statSync, rmSync } = await import('fs');
     const entries = readdirSync(baseDir, { withFileTypes: true });
 
     for (const entry of entries) {
@@ -215,10 +216,10 @@ export function cleanupOldAnalyses(
  * @param baseDir Base directory for storage
  * @returns Analysis metadata or null
  */
-export function getAnalysisMetadata(
+export async function getAnalysisMetadata(
   analysisId: string,
   baseDir: string = join(process.cwd(), 'tmp', 'analysis')
-): { createdAt: Date; size: number } | null {
+): Promise<{ createdAt: Date; size: number } | null> {
   try {
     const analysisDir = join(baseDir, analysisId);
     
@@ -226,7 +227,7 @@ export function getAnalysisMetadata(
       return null;
     }
 
-    const { statSync } = require('fs');
+    const { statSync } = await import('fs');
     const stats = statSync(analysisDir);
 
     return {
@@ -244,15 +245,15 @@ export function getAnalysisMetadata(
  * @param baseDir Base directory for storage
  * @returns Array of analysis IDs
  */
-export function listStoredAnalyses(
+export async function listStoredAnalyses(
   baseDir: string = join(process.cwd(), 'tmp', 'analysis')
-): string[] {
+): Promise<string[]> {
   try {
     if (!existsSync(baseDir)) {
       return [];
     }
 
-    const { readdirSync } = require('fs');
+    const { readdirSync } = await import('fs');
     const entries = readdirSync(baseDir, { withFileTypes: true });
 
     return entries
@@ -270,10 +271,10 @@ export function listStoredAnalyses(
  * @param baseDir Base directory for storage
  * @returns True if deleted successfully
  */
-export function deleteAnalysis(
+export async function deleteAnalysis(
   analysisId: string,
   baseDir: string = join(process.cwd(), 'tmp', 'analysis')
-): boolean {
+): Promise<boolean> {
   try {
     const analysisDir = join(baseDir, analysisId);
     
@@ -281,7 +282,7 @@ export function deleteAnalysis(
       return false;
     }
 
-    const { rmSync } = require('fs');
+    const { rmSync } = await import('fs');
     rmSync(analysisDir, { recursive: true, force: true });
     return true;
   } catch (error) {
@@ -295,14 +296,14 @@ export function deleteAnalysis(
  * @param baseDir Base directory for storage
  * @returns Storage statistics
  */
-export function getStorageStats(
+export async function getStorageStats(
   baseDir: string = join(process.cwd(), 'tmp', 'analysis')
-): {
+): Promise<{
   totalAnalyses: number;
   totalSize: number;
   oldestAnalysis: Date | null;
   newestAnalysis: Date | null;
-} {
+}> {
   try {
     if (!existsSync(baseDir)) {
       return {
@@ -313,7 +314,7 @@ export function getStorageStats(
       };
     }
 
-    const { readdirSync, statSync } = require('fs');
+    const { readdirSync, statSync } = await import('fs');
     const entries = readdirSync(baseDir, { withFileTypes: true });
     const analyses = entries.filter(entry => entry.isDirectory());
 

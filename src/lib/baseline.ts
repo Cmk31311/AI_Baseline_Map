@@ -3,7 +3,7 @@
 import data from 'web-features/data.json';
 
 
-const { features: featureMap, groups: groupMap } = data as any;
+const { features: featureMap, groups: groupMap } = data as { features: Record<string, unknown>; groups: Record<string, unknown> };
 
 export type BaselineLevel = 'high' | 'low' | false;
 
@@ -43,7 +43,22 @@ export interface RootNode {
  */
 export function getAllFeatures(): FeatureNode[] {
   return Object.entries(featureMap).map(([id, featureData]) => {
-    const typedFeature = featureData as any;
+    const typedFeature = featureData as { 
+      status?: { 
+        baseline?: string | boolean; 
+        baseline_low_date?: string;
+        baseline_high_date?: string;
+        support?: Record<string, string>;
+      }; 
+      name?: string; 
+      description?: string; 
+      group?: string; 
+      spec?: string;
+      compat?: {
+        spec?: string;
+        caniuse?: string;
+      };
+    };
     const rawBaseline = typedFeature.status?.baseline ?? false;
     let normalizedBaseline: BaselineLevel = false;
     
@@ -58,8 +73,8 @@ export function getAllFeatures(): FeatureNode[] {
     
     return {
       id,
-      name: typedFeature.name,
-      description: typedFeature.description,
+      name: typedFeature.name || id,
+      description: typedFeature.description || '',
       group: extractGroupFromFeature(id),
       spec: typedFeature.compat?.spec,
       caniuse: typedFeature.compat?.caniuse,
@@ -79,8 +94,8 @@ export function buildHierarchy(filteredIds?: Set<string>): RootNode {
   // Create group nodes from web-features data
   const groups: Record<string, GroupNode> = {};
   Object.entries(groupMap).forEach(([id, groupData]) => {
-    const typedGroup = groupData as any;
-    groups[id] = { id, name: typedGroup.name, parent: typedGroup.parent, children: [] };
+    const typedGroup = groupData as { name?: string; parent?: string };
+    groups[id] = { id, name: typedGroup.name || id, parent: typedGroup.parent, children: [] };
   });
 
   // Helper: get top-level groups without parents
@@ -106,7 +121,22 @@ export function buildHierarchy(filteredIds?: Set<string>): RootNode {
     if (filteredIds && !filteredIds.has(featureId)) return;
 
     // Normalize baseline level consistently
-    const typedFeature = featureData as any;
+    const typedFeature = featureData as { 
+      status?: { 
+        baseline?: string | boolean; 
+        baseline_low_date?: string;
+        baseline_high_date?: string;
+        support?: Record<string, string>;
+      }; 
+      name?: string; 
+      description?: string; 
+      group?: string; 
+      spec?: string;
+      compat?: {
+        spec?: string;
+        caniuse?: string;
+      };
+    };
     const rawBaseline = typedFeature.status?.baseline ?? false;
     let normalizedBaseline: BaselineLevel = false;
     
@@ -120,8 +150,8 @@ export function buildHierarchy(filteredIds?: Set<string>): RootNode {
       type: 'feature',
       data: {
         id: featureId,
-        name: typedFeature.name,
-        description: typedFeature.description,
+        name: typedFeature.name || featureId,
+        description: typedFeature.description || '',
         group: extractGroupFromFeature(featureId),
         spec: typedFeature.compat?.spec,
         caniuse: typedFeature.compat?.caniuse,

@@ -1,11 +1,9 @@
-import { readFileSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+// readFileSync imported dynamically
+import { join } from 'path';
 import YAML from 'yaml';
 import { BaselineRules, validateBaselineRules } from './baseline.types';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// Use process.cwd() for Node.js environment
 
 // Cache for loaded rules
 let rulesCache: BaselineRules | null = null;
@@ -16,13 +14,14 @@ let rulesCacheTimestamp: number = 0;
  * @param configPath Optional path to config file, defaults to config/baseline.rules.yaml
  * @returns Parsed and validated baseline rules
  */
-export function loadBaselineRules(configPath?: string): BaselineRules {
-  const defaultPath = join(__dirname, '../../config/baseline.rules.yaml');
+export async function loadBaselineRules(configPath?: string): Promise<BaselineRules> {
+  const defaultPath = join(process.cwd(), 'config', 'baseline.rules.yaml');
   const path = configPath || defaultPath;
   
   try {
     // Check if we have cached rules and they're still valid
-    const stats = require('fs').statSync(path);
+    const { statSync } = await import('fs');
+    const stats = statSync(path);
     const mtime = stats.mtime.getTime();
     
     if (rulesCache && mtime <= rulesCacheTimestamp) {
@@ -30,6 +29,7 @@ export function loadBaselineRules(configPath?: string): BaselineRules {
     }
     
     // Read and parse YAML file
+    const { readFileSync } = await import('fs');
     const yamlContent = readFileSync(path, 'utf8');
     const rawRules = YAML.parse(yamlContent);
     
@@ -70,13 +70,14 @@ export function clearRulesCache(): void {
  * @param configPath Optional path to config file
  * @returns True if cached rules are valid
  */
-export function isRulesCacheValid(configPath?: string): boolean {
+export async function isRulesCacheValid(configPath?: string): Promise<boolean> {
   if (!rulesCache) return false;
   
   try {
-    const defaultPath = join(__dirname, '../../config/baseline.rules.yaml');
+    const defaultPath = join(process.cwd(), 'config', 'baseline.rules.yaml');
     const path = configPath || defaultPath;
-    const stats = require('fs').statSync(path);
+    const { statSync } = await import('fs');
+    const stats = statSync(path);
     const mtime = stats.mtime.getTime();
     
     return mtime <= rulesCacheTimestamp;
@@ -164,9 +165,9 @@ export function getDefaultBaselineRules(): BaselineRules {
  * @param configPath Optional path to config file
  * @returns Baseline rules (loaded or default)
  */
-export function loadBaselineRulesWithFallback(configPath?: string): BaselineRules {
+export async function loadBaselineRulesWithFallback(configPath?: string): Promise<BaselineRules> {
   try {
-    return loadBaselineRules(configPath);
+    return await loadBaselineRules(configPath);
   } catch (error) {
     console.warn(`Failed to load baseline rules: ${error instanceof Error ? error.message : 'Unknown error'}`);
     console.warn('Using default baseline rules');
@@ -179,7 +180,7 @@ export function loadBaselineRulesWithFallback(configPath?: string): BaselineRule
  * @param rules Rules object to validate
  * @returns True if valid
  */
-export function validateRulesStructure(rules: any): rules is BaselineRules {
+export async function validateRulesStructure(rules: unknown): Promise<boolean> {
   try {
     validateBaselineRules(rules);
     return true;

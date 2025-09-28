@@ -30,7 +30,7 @@ export function processSingleFile(
 
   // Create extracted file object
   const extractedFile: ExtractedFile = {
-    name: filePath,
+    path: filePath,
     content: content,
     size: fileSize
   };

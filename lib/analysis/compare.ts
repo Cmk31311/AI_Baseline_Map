@@ -57,7 +57,7 @@ function compareWithSemver(version1: string, version2: string): ComparisonResult
     if (result > 0) return 'greater';
     if (result < 0) return 'less';
     return 'equal';
-  } catch (error) {
+  } catch {
     return 'unknown';
   }
 }
@@ -119,7 +119,7 @@ function compareVersionsCustom(
     }
     
     return 'equal';
-  } catch (error) {
+  } catch {
     return 'unknown';
   }
 }
@@ -160,7 +160,7 @@ function parseVersionParts(version: string, language: Language): number[] | null
     });
     
     return parts.length > 0 ? parts : null;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -202,7 +202,7 @@ export function parseVersion(versionString: string, language: Language): string 
   // Handle Java version ranges
   if (language === 'java') {
     // Extract version from ranges like [1.0,2.0) or (1.0,2.0]
-    const rangeMatch = clean.match(/[\[\(]([^,]+),/);
+    const rangeMatch = clean.match(/[[(]([^,]+),/);
     if (rangeMatch) {
       clean = rangeMatch[1];
     }
@@ -234,7 +234,7 @@ export function satisfiesRequirement(
     
     // Custom logic for other languages
     return satisfiesRequirementCustom(version, requirement, language);
-  } catch (error) {
+  } catch {
     return false;
   }
 }
@@ -284,7 +284,7 @@ function satisfiesRequirementCustom(
       default:
         return comparison === 'equal';
     }
-  } catch (error) {
+  } catch {
     return false;
   }
 }

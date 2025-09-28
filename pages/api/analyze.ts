@@ -96,7 +96,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       // For ZIP files, validate and get info
-      let feasibility = { feasible: true, warnings: [], estimatedTime: '1-2 minutes' };
+      let feasibility: { feasible: boolean; warnings: string[]; estimatedTime: string } = { feasible: true, warnings: [], estimatedTime: '1-2 minutes' };
       if (originalName.toLowerCase().endsWith('.zip')) {
         const isValidZip = await validateZip(tempPath);
         if (!isValidZip) {

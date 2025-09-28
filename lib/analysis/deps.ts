@@ -137,7 +137,7 @@ export function parseVersion(versionString: string, language: Language): string 
   // Handle Java version ranges
   if (language === 'java') {
     // Extract version from ranges like [1.0,2.0) or (1.0,2.0]
-    const rangeMatch = clean.match(/[\[\(]([^,]+),/);
+    const rangeMatch = clean.match(/[[(]([^,]+),/);
     if (rangeMatch) {
       clean = rangeMatch[1];
     }
@@ -227,7 +227,7 @@ export function hasBaselineRule(
   if (languageRules[normalized]) return true;
   
   // Check for partial matches (for scoped packages, etc.)
-  for (const [rulePackage, _] of Object.entries(languageRules)) {
+  for (const [rulePackage] of Object.entries(languageRules)) {
     if (normalizePackageName(rulePackage, language) === normalized) {
       return true;
     }

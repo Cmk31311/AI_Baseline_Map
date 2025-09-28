@@ -7,10 +7,11 @@ export const dynamic = "force-dynamic";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const analysisId = params.id;
+    const resolvedParams = await params;
+    const analysisId = resolvedParams.id;
     const { searchParams } = new URL(request.url);
     const format = searchParams.get('format') || 'json';
 
@@ -25,7 +26,7 @@ export async function GET(
     }
 
     // Get stored analysis
-    const content = getStoredAnalysis(analysisId, format as 'json' | 'csv');
+    const content = await getStoredAnalysis(analysisId, format as 'json' | 'csv');
     if (!content) {
       return NextResponse.json({ error: 'Analysis data not found' }, { status: 404 });
     }

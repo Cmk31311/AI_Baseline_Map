@@ -1,11 +1,8 @@
-import type { Metadata } from 'next'
 import '../src/index.css'
 import { ErrorBoundary } from '../src/components/ErrorBoundary'
+import { metadata } from './metadata'
 
-export const metadata: Metadata = {
-  title: 'AI Baseline Map',
-  description: 'Baseline Compatibility Analyzer',
-}
+export { metadata }
 
 export default function RootLayout({
   children,

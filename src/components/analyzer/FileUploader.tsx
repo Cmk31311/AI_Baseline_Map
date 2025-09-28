@@ -14,7 +14,7 @@ export function FileUploader({
   onFileSelect, 
   isUploading, 
   maxSize = 200 * 1024 * 1024, // 200MB
-  acceptedTypes = ['.zip']
+  // acceptedTypes removed to allow any type
 }: FileUploaderProps) {
   const [dragActive, setDragActive] = useState(false);
 

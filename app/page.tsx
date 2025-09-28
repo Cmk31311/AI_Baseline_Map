@@ -28,7 +28,7 @@ export default function HomePage() {
           <select
             className="select"
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as any)}
+            onChange={(e) => setStatusFilter(e.target.value as 'all' | 'high' | 'low' | 'false')}
             title="Filter by Baseline status"
           >
             <option value="all">All statuses</option>
@@ -164,13 +164,13 @@ function DetailsPanel({ leaf }: { leaf: FeatureLeaf }) {
 
   const baselineLine = useMemo(() => labelForBaseline(s.baseline), [s.baseline]);
 
-  const getStatusColor = (baseline: any) => {
+  const getStatusColor = (baseline: 'high' | 'low' | false) => {
     if (baseline === 'high') return 'var(--green)';
     if (baseline === 'low') return 'var(--amber)';
     return 'var(--red)';
   };
 
-  const getStatusIcon = (baseline: any) => {
+  const getStatusIcon = (baseline: 'high' | 'low' | false) => {
     if (baseline === 'high') return '✓';
     if (baseline === 'low') return '⚠';
     return '✗';

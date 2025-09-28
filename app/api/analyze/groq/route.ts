@@ -17,7 +17,7 @@ interface GroqAnalysisRequest {
 
 export async function POST(request: NextRequest) {
   try {
-    const { code, filename, projectType, dependencies }: GroqAnalysisRequest = await request.json();
+    const { code, filename }: GroqAnalysisRequest = await request.json();
 
     if (!code || !filename) {
       return NextResponse.json({ error: 'Code and filename are required' }, { status: 400 });
