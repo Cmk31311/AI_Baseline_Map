@@ -3,7 +3,7 @@
 // This file validates that all pages and layouts export the correct types
 
 import type { AppRoutes, LayoutRoutes, ParamMap, AppRouteHandlerRoutes } from "./routes.js"
-import type { NextApiHandler, ResolvingMetadata, ResolvingViewport } from "next/types.js"
+import type { ResolvingMetadata, ResolvingViewport } from "next/types.js"
 import type { NextRequest } from 'next/server.js'
 
 type AppPageConfig<Route extends AppRoutes = AppRoutes> = {
@@ -46,19 +46,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   OPTIONS?: (request: NextRequest, context: { params: Promise<ParamMap[Route]> }) => Promise<Response | void> | Response | void
 }
 
-type ApiRouteConfig = {
-  default: (req: any, res: any) => ReturnType<NextApiHandler>
-  config?: {
-    api?: {
-      bodyParser?: boolean | { sizeLimit?: string }
-      responseLimit?: string | number | boolean
-      externalResolver?: boolean
-    }
-    runtime?: 'edge' | 'experimental-edge' | 'nodejs' | string // necessary unless config is exported as const
-    maxDuration?: number
-  }
-}
-
 
 // Validate ../../app/analyzer/page.tsx
 {
@@ -96,6 +83,15 @@ type ApiRouteConfig = {
   type __Unused = __Check
 }
 
+// Validate ../../app/api/analyze/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/analyze">> = Specific
+  const handler = {} as typeof import("../../app/api/analyze/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../app/api/chat/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/chat">> = Specific
@@ -107,14 +103,7 @@ type ApiRouteConfig = {
 
 
 
-// Validate ../../pages/api/analyze.ts
-{
-  type __IsExpected<Specific extends ApiRouteConfig> = Specific
-  const handler = {} as typeof import("../../pages/api/analyze.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
+
 
 // Validate ../../app/layout.tsx
 {
