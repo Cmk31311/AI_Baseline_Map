@@ -2,8 +2,6 @@ import '../src/index.css'
 import { ErrorBoundary } from '../src/components/ErrorBoundary'
 import { metadata } from './metadata'
 
-export { metadata }
-
 export default function RootLayout({
   children,
 }: {
@@ -19,3 +17,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+export { metadata }

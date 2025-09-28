@@ -34,7 +34,7 @@ export function FileUploader({
 
   const { getRootProps, getInputProps, isDragReject } = useDropzone({
     onDrop,
-    accept: Object.fromEntries(acceptedTypes.map(type => [type, []])) as any,
+    accept: Object.fromEntries(acceptedTypes.map(type => [type, []])) as Record<string, string[]>,
     maxSize,
     multiple: false,
     onDragEnter: () => setDragActive(true),
