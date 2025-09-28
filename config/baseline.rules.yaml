@@ -1,0 +1,268 @@
+# Baseline Compatibility Rules Configuration
+# This file defines minimum versions and deprecated patterns for different languages
+
+# Language runtime requirements
+language_runtimes:
+  node: ">=18.0.0"
+  python: ">=3.10.0"
+  java: ">=17.0.0"
+  go: ">=1.21.0"
+  dotnet: ">=6.0.0"
+
+# Package minimum versions by language
+package_mins:
+  python:
+    numpy: ">=1.22.0"
+    pandas: ">=1.4.0"
+    torch: ">=2.0.0"
+    requests: ">=2.28.0"
+    flask: ">=2.2.0"
+    django: ">=4.0.0"
+    fastapi: ">=0.95.0"
+    pydantic: ">=1.10.0"
+    sqlalchemy: ">=1.4.0"
+    celery: ">=5.2.0"
+    pytest: ">=7.0.0"
+    black: ">=22.0.0"
+    mypy: ">=1.0.0"
+    
+  node:
+    react: ">=18.0.0"
+    next: ">=13.0.0"
+    express: ">=4.18.0"
+    typescript: ">=4.9.0"
+    webpack: ">=5.0.0"
+    vite: ">=4.0.0"
+    eslint: ">=8.0.0"
+    prettier: ">=2.8.0"
+    jest: ">=29.0.0"
+    vitest: ">=0.28.0"
+    node: ">=18.0.0"
+    "@types/node": ">=18.0.0"
+    axios: ">=1.0.0"
+    lodash: ">=4.17.0"
+    moment: ">=2.29.0"
+    dayjs: ">=1.11.0"
+    
+  java:
+    spring-boot: ">=3.0.0"
+    spring-framework: ">=6.0.0"
+    junit: ">=5.9.0"
+    mockito: ">=4.0.0"
+    jackson: ">=2.14.0"
+    hibernate: ">=6.0.0"
+    maven: ">=3.8.0"
+    gradle: ">=7.0.0"
+    
+  go:
+    go: ">=1.21.0"
+    gin: ">=1.9.0"
+    echo: ">=4.0.0"
+    gorilla: ">=1.1.0"
+    testify: ">=1.8.0"
+    cobra: ">=1.6.0"
+    viper: ">=1.15.0"
+    
+  dotnet:
+    microsoft-aspnetcore: ">=6.0.0"
+    entity-framework: ">=6.0.0"
+    newtonsoft-json: ">=13.0.0"
+    xunit: ">=2.4.0"
+    moq: ">=4.18.0"
+    serilog: ">=3.0.0"
+    automapper: ">=12.0.0"
+
+# Deprecated patterns to scan for
+deprecated_patterns:
+  python:
+    - pattern: "numpy\\.asscalar"
+      message: "numpy.asscalar is deprecated, use item() instead"
+      alternative: "Use numpy.item() or direct array indexing"
+      
+    - pattern: "pandas\\.Panel"
+      message: "pandas.Panel is deprecated, use MultiIndex DataFrame instead"
+      alternative: "Use pandas.DataFrame with MultiIndex or xarray"
+      
+    - pattern: "imp\\.|importlib\\.util\\.find_spec"
+      message: "imp module is deprecated, use importlib instead"
+      alternative: "Use importlib.util.find_spec() or importlib.import_module()"
+      
+    - pattern: "collections\\.abc\\.Callable"
+      message: "Use typing.Callable instead of collections.abc.Callable"
+      alternative: "Import Callable from typing module"
+      
+    - pattern: "asyncio\\.coroutine"
+      message: "asyncio.coroutine is deprecated, use async/await"
+      alternative: "Use async def instead of @asyncio.coroutine"
+      
+    - pattern: "yield from"
+      message: "Consider using async/await for better readability"
+      alternative: "Use async/await syntax for async generators"
+      
+  node:
+    - pattern: "fs\\.exists\\("
+      message: "fs.exists() is deprecated, use fs.access() or fs.stat()"
+      alternative: "Use fs.access() or fs.promises.access()"
+      
+    - pattern: "new Buffer\\("
+      message: "new Buffer() is deprecated, use Buffer.from() or Buffer.alloc()"
+      alternative: "Use Buffer.from() for strings or Buffer.alloc() for size"
+      
+    - pattern: "process\\.nextTick.*callback"
+      message: "Consider using setImmediate() for better performance"
+      alternative: "Use setImmediate() for I/O operations"
+      
+    - pattern: "util\\._extend"
+      message: "util._extend is deprecated, use Object.assign()"
+      alternative: "Use Object.assign() or spread operator"
+      
+    - pattern: "require\\(.*\\)\\.default"
+      message: "Avoid .default when importing CommonJS modules"
+      alternative: "Import directly without .default"
+      
+    - pattern: "componentWillMount|componentWillReceiveProps|componentWillUpdate"
+      message: "React lifecycle methods are deprecated in React 17+"
+      alternative: "Use useEffect, useMemo, or other hooks"
+      
+  java:
+    - pattern: "Thread\\.stop\\("
+      message: "Thread.stop() is deprecated and unsafe"
+      alternative: "Use interrupt() and check interrupted status"
+      
+    - pattern: "Date\\.getYear\\(\\)|Date\\.getMonth\\(\\)|Date\\.getDay\\(\\)"
+      message: "Date methods are deprecated, use Calendar or LocalDate"
+      alternative: "Use java.time.LocalDate or Calendar class"
+      
+    - pattern: "StringBuffer"
+      message: "StringBuffer is less efficient than StringBuilder"
+      alternative: "Use StringBuilder for better performance"
+      
+    - pattern: "Vector\\.|Hashtable\\."
+      message: "Vector and Hashtable are legacy, use ArrayList and HashMap"
+      alternative: "Use ArrayList and HashMap from java.util"
+      
+    - pattern: "System\\.gc\\(\\)"
+      message: "System.gc() is unreliable and should be avoided"
+      alternative: "Let JVM handle garbage collection automatically"
+      
+  go:
+    - pattern: "ioutil\\."
+      message: "ioutil package is deprecated, use io or os packages"
+      alternative: "Use io.ReadAll, os.ReadFile, os.WriteFile, etc."
+      
+    - pattern: "strings\\.Title"
+      message: "strings.Title is deprecated, use cases.Title"
+      alternative: "Use cases.Title from golang.org/x/text/cases"
+      
+    - pattern: "golang\\.org/x/crypto/ssh/terminal"
+      message: "terminal package is deprecated, use golang.org/x/term"
+      alternative: "Use golang.org/x/term package"
+      
+    - pattern: "context\\.WithValue.*string"
+      message: "Avoid using string keys with context.WithValue"
+      alternative: "Use typed context keys"
+      
+  dotnet:
+    - pattern: "BinaryFormatter"
+      message: "BinaryFormatter is insecure and deprecated"
+      alternative: "Use System.Text.Json or Newtonsoft.Json"
+      
+    - pattern: "WebClient"
+      message: "WebClient is deprecated, use HttpClient"
+      alternative: "Use HttpClient for HTTP operations"
+      
+    - pattern: "Thread\\.Abort"
+      message: "Thread.Abort is deprecated and unsafe"
+      alternative: "Use CancellationToken for cooperative cancellation"
+      
+    - pattern: "AppDomain\\.CreateDomain"
+      message: "AppDomain.CreateDomain is not supported in .NET Core"
+      alternative: "Use separate processes or AssemblyLoadContext"
+      
+    - pattern: "Remoting"
+      message: ".NET Remoting is deprecated"
+      alternative: "Use WCF, gRPC, or HTTP APIs"
+
+# File extensions to scan
+scan_file_exts:
+  - ".py"
+  - ".js"
+  - ".ts"
+  - ".tsx"
+  - ".jsx"
+  - ".java"
+  - ".go"
+  - ".cs"
+  - ".fs"
+  - ".vb"
+  - ".php"
+  - ".rb"
+  - ".cpp"
+  - ".c"
+  - ".h"
+  - ".hpp"
+
+# Paths to ignore during scanning
+ignore_paths:
+  - "/node_modules/"
+  - "/.venv/"
+  - "/venv/"
+  - "/dist/"
+  - "/build/"
+  - "/.git/"
+  - "/.next/"
+  - "/target/"
+  - "/bin/"
+  - "/obj/"
+  - "/.vs/"
+  - "/.idea/"
+  - "/vendor/"
+  - "/__pycache__/"
+  - "/.pytest_cache/"
+  - "/coverage/"
+  - "/.coverage/"
+  - "/.nyc_output/"
+  - "/tmp/"
+  - "/temp/"
+  - "/.DS_Store"
+  - "/Thumbs.db"
+
+# Maximum file size to scan (in bytes)
+max_file_size: 2097152  # 2MB
+
+# Maximum number of files to process
+max_files: 50000
+
+# Quick fix suggestions
+quick_fixes:
+  dependency_upgrade:
+    node: "npm install {package}@{version}"
+    python: "pip install '{package}>={version}'"
+    java: "Update {package} to version {version} in pom.xml or build.gradle"
+    go: "go get {package}@{version}"
+    dotnet: "dotnet add package {package} --version {version}"
+    
+  pattern_replacement:
+    python:
+      "numpy.asscalar": "Use .item() method instead"
+      "pandas.Panel": "Use MultiIndex DataFrame or xarray"
+      "imp.": "Use importlib instead"
+      
+    node:
+      "fs.exists(": "Use fs.access() or fs.promises.access()"
+      "new Buffer(": "Use Buffer.from() or Buffer.alloc()"
+      "componentWillMount": "Use useEffect hook instead"
+      
+    java:
+      "Thread.stop(": "Use interrupt() and check interrupted status"
+      "Date.getYear()": "Use LocalDate.getYear() from java.time"
+      "StringBuffer": "Use StringBuilder for better performance"
+      
+    go:
+      "ioutil.": "Use io or os packages instead"
+      "strings.Title": "Use cases.Title from golang.org/x/text/cases"
+      
+    dotnet:
+      "BinaryFormatter": "Use System.Text.Json or Newtonsoft.Json"
+      "WebClient": "Use HttpClient instead"
+      "Thread.Abort": "Use CancellationToken for cancellation"

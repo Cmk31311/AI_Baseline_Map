@@ -1,0 +1,33 @@
+{
+  "findings": [],
+  "summary": {
+    "ok": 0,
+    "affected": 0,
+    "unknown": 0,
+    "byLanguage": {
+      "node": {
+        "ok": 0,
+        "affected": 0,
+        "unknown": 0
+      }
+    }
+  },
+  "metadata": {
+    "analysisId": "d08a63cd-ddd6-47fd-a787-d28e36dba13c",
+    "timestamp": "2025-09-28T07:00:00.705Z",
+    "projectName": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\63395318-4799-41bc-819c-f896e0ea26ff-test-small.js",
+    "detectedLanguages": [
+      "node"
+    ],
+    "totalFiles": 1,
+    "scannedFiles": 1,
+    "skippedFiles": 0,
+    "groqAnalysis": [
+      {
+        "analysis": "## Summary\nThe provided JavaScript code is a simple console log statement, which is widely supported across various browsers and environments.\n\n## Score: 100 - PASS\n\n## Findings\n| Severity | Finding | Fix |\n|----------|---------|-----|\n| LOW | The code does not handle potential errors, such as the console object not being defined in certain environments. | Add error handling using `if (typeof console !== 'undefined') { ... }` |\n\n## Auto-Fix\n```javascript\nif (typeof console !== 'undefined') {\n  console.log('test');\n}\n```\n\n## Next Steps\n1. Consider adding more robust error handling or logging mechanisms for production environments.\n2. Review the code for any potential security vulnerabilities or best practices.",
+        "filename": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\63395318-4799-41bc-819c-f896e0ea26ff-test-small.js",
+        "timestamp": "2025-09-28T07:00:00.688Z"
+      }
+    ]
+  }
+}

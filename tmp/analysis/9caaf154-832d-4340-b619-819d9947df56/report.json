@@ -1,0 +1,33 @@
+{
+  "findings": [],
+  "summary": {
+    "ok": 0,
+    "affected": 0,
+    "unknown": 0,
+    "byLanguage": {
+      "node": {
+        "ok": 0,
+        "affected": 0,
+        "unknown": 0
+      }
+    }
+  },
+  "metadata": {
+    "analysisId": "cd406989-047f-4bd7-a06e-bd79073cbe99",
+    "timestamp": "2025-09-28T07:08:13.524Z",
+    "projectName": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\7c8bd4ff-0926-4cb4-bcc8-d308b277335f-next.config.js",
+    "detectedLanguages": [
+      "node"
+    ],
+    "totalFiles": 1,
+    "scannedFiles": 1,
+    "skippedFiles": 0,
+    "groqAnalysis": [
+      {
+        "analysis": "## Summary\nThe provided Next.js configuration file is mostly compatible with modern web browsers, but it contains a syntax error that prevents it from being parsed correctly.\n\n## Score: 80 - WARN\n\n## Findings\n| Severity | Finding | Fix |\n|----------|---------|-----|\n| [HIGH] | Syntax error in eslint configuration | Replace `f` with `false` |\n\n## Auto-Fix\n```javascript\n/** @type {import('next').NextConfig} */\r\nconst nextConfig = {\r\n  experimental: {\r\n    appDir: true,\r\n  },\r\n  typescript: {\r\n    ignoreBuildErrors: false,\r\n  },\r\n  eslint: {\r\n    ignoreDuringBuilds: false, // Fix: Replace 'f' with 'false'\r\n  },\r\n};\n```\n\n## Next Steps\n1. Review the configuration to ensure all experimental features are properly configured.\n2. Consider enabling additional ESLint rules to improve code quality and security.",
+        "filename": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\7c8bd4ff-0926-4cb4-bcc8-d308b277335f-next.config.js",
+        "timestamp": "2025-09-28T07:08:13.504Z"
+      }
+    ]
+  }
+}

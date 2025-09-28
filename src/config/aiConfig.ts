@@ -1,4 +1,5 @@
 // AI Configuration - Multiple LLM Providers
+
 export interface AIProvider {
   name: string;
   apiUrl: string;
@@ -12,7 +13,7 @@ export interface AIProvider {
 
 // Helper function to get GROQ API key with proper error handling
 function getGroqApiKey(): string {
-  const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+  const apiKey = '';
   if (!apiKey) {
     console.warn("GROQ_API_KEY not found. AI chat will use fallback responses.");
     return '';
@@ -68,12 +69,12 @@ const createProviders = (): Record<string, AIProvider> => ({
   openai: {
     name: 'OpenAI',
     apiUrl: 'https://api.openai.com/v1/chat/completions',
-    apiKey: import.meta.env.VITE_OPENAI_API_KEY || '',
+    apiKey: '',
     model: 'gpt-3.5-turbo',
     enabled: false, // Disabled by default (requires API key)
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY || ''}`
+      'Authorization': `Bearer `
     },
     body: (prompt: string) => ({
       model: 'gpt-3.5-turbo',
@@ -96,8 +97,8 @@ const createProviders = (): Record<string, AIProvider> => ({
   // Google Gemini API - Free tier available
   gemini: {
     name: 'Google Gemini',
-    apiUrl: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY || ''}`,
-    apiKey: import.meta.env.VITE_GEMINI_API_KEY || '',
+    apiUrl: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=`,
+    apiKey: '',
     model: 'gemini-pro',
     enabled: false, // Disabled by default (requires API key)
     headers: {
@@ -121,12 +122,12 @@ const createProviders = (): Record<string, AIProvider> => ({
   huggingface: {
     name: 'Hugging Face',
     apiUrl: 'https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium',
-    apiKey: import.meta.env.VITE_HUGGINGFACE_API_KEY || '',
+    apiKey: '',
     model: 'microsoft/DialoGPT-medium',
     enabled: false, // Disabled by default (requires API key)
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${import.meta.env.VITE_HUGGINGFACE_API_KEY || ''}`
+      'Authorization': `Bearer `
     },
     body: (prompt: string) => ({
       inputs: prompt,

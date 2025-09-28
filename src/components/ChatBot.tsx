@@ -1,5 +1,6 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
-import { getActiveProvider } from '../config/aiConfig';
 
 interface ChatBotProps {
   onClose: () => void;
@@ -12,12 +13,11 @@ interface Message {
   timestamp: Date;
 }
 
-
 export default function ChatBot({ onClose }: ChatBotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: `Hello! I'm the Baseline Bot 🤖 powered by GROQ AI! I can help you with web development, CSS, JavaScript, HTML, and browser compatibility questions.\n\nTry asking me anything!`,
+      text: "Hello! I'm the Baseline Web Features Bot 🤖! I specialize in web platform features and browser compatibility.\n\nI can help you with:\n• Baseline status of web features (Widely/Newly/Limited availability)\n• Browser support information\n• CSS features like Grid, Flexbox, Container Queries\n• JavaScript APIs and their compatibility\n• Best practices for cross-browser development\n• Feature detection and progressive enhancement\n\nAsk me about any web feature and I'll tell you its baseline status!",
       isUser: false,
       timestamp: new Date()
     }
@@ -49,90 +49,70 @@ export default function ChatBot({ onClose }: ChatBotProps) {
     setIsTyping(true);
 
     try {
-      // Get the current active provider dynamically
-      const currentProvider = getActiveProvider();
-      
-      // Try the active AI provider first
-      if (currentProvider) {
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
-
-          const response = await fetch(currentProvider.apiUrl, {
-            method: 'POST',
-            headers: currentProvider.headers,
-            body: JSON.stringify(currentProvider.body(userMessage.text)),
-            signal: controller.signal
-          });
-
-          clearTimeout(timeoutId);
-
-          if (response.ok) {
-            const data = await response.json();
-            const aiResponse = currentProvider.parseResponse(data);
-            
-            const aiMessage: Message = {
-              id: Date.now() + 1,
-              text: aiResponse,
-              isUser: false,
-              timestamp: new Date()
-            };
-            setMessages(prev => [...prev, aiMessage]);
-            setIsTyping(false); // Hide thinking icon when response received
-            return; // Success, exit early
-          } else {
-            throw new Error(`${currentProvider.name} API Error`);
-          }
-        } catch (error) {
-          console.log(`${currentProvider.name} error:`, error);
-          // Continue to fallback providers
-        }
-      }
-
-      // If GROQ fails, show helpful message with demo responses
-      console.log('GROQ API failed, showing demo responses');
-      
-      // Provide intelligent demo responses based on user input
-      const userInput = userMessage.text.toLowerCase();
-      let demoResponse = "";
-      
-      if (userInput.includes('hello') || userInput.includes('hi') || userInput.includes('hey')) {
-        demoResponse = "Hello! I'm the Baseline Bot 🤖. I can help you with web development questions! Ask me about CSS, JavaScript, HTML, or browser compatibility.";
-      } else if (userInput.includes('css') || userInput.includes('style')) {
-        demoResponse = "CSS is great! I can help with CSS properties, layouts, and browser compatibility. What specific CSS question do you have?";
-      } else if (userInput.includes('javascript') || userInput.includes('js')) {
-        demoResponse = "JavaScript is powerful! I can assist with ES6 features, DOM manipulation, and modern JavaScript concepts. What would you like to know?";
-      } else if (userInput.includes('html')) {
-        demoResponse = "HTML is the foundation of web development! I can help with semantic elements, accessibility, and modern HTML features.";
-      } else if (userInput.includes('browser') || userInput.includes('compatibility')) {
-        demoResponse = "Browser compatibility is crucial! I can help you understand which features work across different browsers and their Baseline status.";
-      } else if (userInput.includes('baseline')) {
-        demoResponse = "Baseline indicates when web features are safe to use! 'Widely' = safe everywhere, 'Newly' = recently reached baseline, 'Limited' = not yet baseline.";
-      } else if (userInput.includes('api') || userInput.includes('key')) {
-        demoResponse = "To get a real GROQ API key: 1) Go to https://console.groq.com/ 2) Sign up for free 3) Create an API key 4) Replace the key in .env.local file";
-      } else {
-        demoResponse = `You asked: "${userMessage.text}". I'm here to help with web development! Ask me about CSS, JavaScript, HTML, or browser compatibility. To get real AI responses, add your GROQ API key to .env.local`;
-      }
-      
-      const demoMessage: Message = {
-        id: Date.now() + 1,
-        text: demoResponse,
+      // Create AI message placeholder for streaming
+      const aiMessageId = Date.now() + 1;
+      const aiMessage: Message = {
+        id: aiMessageId,
+        text: '',
         isUser: false,
         timestamp: new Date()
       };
-      setMessages(prev => [...prev, demoMessage]);
+      setMessages(prev => [...prev, aiMessage]);
+
+      // Call our streaming chat API
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: [
+            ...messages.map(m => ({ role: m.isUser ? 'user' : 'assistant', content: m.text })),
+            { role: 'user', content: userMessage.text }
+          ]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      if (!response.body) {
+        throw new Error('No response body');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedText = '';
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        accumulatedText += chunk;
+
+        // Update the AI message with accumulated text
+        setMessages(prev => prev.map(msg => 
+          msg.id === aiMessageId 
+            ? { ...msg, text: accumulatedText }
+            : msg
+        ));
+      }
+
       setIsTyping(false);
-    } catch (finalError) {
-      console.error('All requests failed:', finalError);
+    } catch (error) {
+      console.error('Chat error:', error);
+      
+      // Show error message
       const errorMessage: Message = {
-        id: Date.now() + 1,
-        text: "I'm here to help with web development questions! Ask me about CSS, JavaScript, HTML, or browser compatibility.",
+        id: Date.now() + 2,
+        text: 'Sorry, I encountered an error. Please check if GROQ_API_KEY is configured and try again.',
         isUser: false,
         timestamp: new Date()
       };
       setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsTyping(false); // Ensure thinking icon is always hidden
+      setIsTyping(false);
     }
   };
 
@@ -144,47 +124,114 @@ export default function ChatBot({ onClose }: ChatBotProps) {
   };
 
   return (
-    <div className="chatbot">
-      <div className="chatbot-header">
-        <div className="chatbot-title">
-          <div className="ai-icon-small">
-            <svg viewBox="0 0 24 24" className="ai-brain-small">
-              <defs>
-                <linearGradient id="brainGradientSmall" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#00d4ff" />
-                  <stop offset="50%" stopColor="#7c3aed" />
-                  <stop offset="100%" stopColor="#ec4899" />
-                </linearGradient>
-              </defs>
-              <path d="M12 2C8.5 2 6 4.5 6 8c0 1.5.5 2.8 1.2 3.8-.7 1.2-1.2 2.5-1.2 3.9 0 3.3 2.7 6 6 6s6-2.7 6-6c0-1.4-.5-2.7-1.2-3.9.7-1 1.2-2.3 1.2-3.8 0-3.5-2.5-6-6-6z" fill="url(#brainGradientSmall)" />
-              <rect x="10" y="10" width="4" height="4" rx="1" fill="url(#brainGradientSmall)" opacity="0.8" />
-            </svg>
-          </div>
-          Baseline Bot
+    <div style={{
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'var(--panel)',
+      borderRadius: '12px',
+      boxShadow: '0 8px 32px var(--shadow-lg)',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden',
+      border: '1px solid var(--border)'
+    }}>
+      {/* Header */}
+      <div style={{
+        padding: '16px',
+        borderBottom: '1px solid var(--border)',
+        backgroundColor: 'var(--bg-secondary)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ fontSize: '20px' }}>🤖</div>
+          <span style={{ fontWeight: '600', color: 'var(--ink)' }}>AI Assistant</span>
         </div>
-        <div className="chatbot-controls">
-          <button className="btn btn-close" onClick={onClose} aria-label="Close chat">
-            ✕
-          </button>
-        </div>
+        <button 
+          onClick={onClose}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontSize: '16px',
+            cursor: 'pointer',
+            padding: '4px',
+            color: 'var(--muted)',
+            borderRadius: '4px'
+          }}
+          onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--panel-hover)'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+        >
+          ✕
+        </button>
       </div>
 
-      <div className="chatbot-messages">
+      {/* Messages */}
+      <div style={{
+        flex: 1,
+        padding: '16px',
+        overflowY: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+        backgroundColor: 'var(--bg)'
+      }}>
         {messages.map((message) => (
-          <div key={message.id} className={`chat-msg ${message.isUser ? 'user' : 'assistant'}`}>
-            <div className="bubble">
+          <div key={message.id} style={{
+            display: 'flex',
+            justifyContent: message.isUser ? 'flex-end' : 'flex-start'
+          }}>
+            <div style={{
+              maxWidth: '80%',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              backgroundColor: message.isUser ? 'var(--blue)' : 'var(--panel)',
+              color: message.isUser ? 'white' : 'var(--ink)',
+              whiteSpace: 'pre-wrap',
+              lineHeight: '1.5',
+              border: message.isUser ? 'none' : '1px solid var(--border)'
+            }}>
               {message.text}
             </div>
           </div>
         ))}
         
         {isTyping && (
-          <div className="chat-msg assistant">
-            <div className="bubble typing-indicator">
-              <div className="typing-dots">
-                <span></span>
-                <span></span>
-                <span></span>
+          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+            <div style={{
+              padding: '12px 16px',
+              borderRadius: '12px',
+              backgroundColor: 'var(--panel)',
+              color: 'var(--ink)',
+              border: '1px solid var(--border)'
+            }}>
+              <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                <span>Thinking</span>
+                <div style={{ display: 'flex', gap: '2px' }}>
+                  <div style={{ 
+                    width: '4px', 
+                    height: '4px', 
+                    backgroundColor: 'var(--blue)', 
+                    borderRadius: '50%',
+                    animation: 'bounce 1.4s infinite ease-in-out'
+                  }}></div>
+                  <div style={{ 
+                    width: '4px', 
+                    height: '4px', 
+                    backgroundColor: 'var(--blue)', 
+                    borderRadius: '50%',
+                    animation: 'bounce 1.4s infinite ease-in-out',
+                    animationDelay: '0.16s'
+                  }}></div>
+                  <div style={{ 
+                    width: '4px', 
+                    height: '4px', 
+                    backgroundColor: 'var(--blue)', 
+                    borderRadius: '50%',
+                    animation: 'bounce 1.4s infinite ease-in-out',
+                    animationDelay: '0.32s'
+                  }}></div>
+                </div>
               </div>
             </div>
           </div>
@@ -193,25 +240,62 @@ export default function ChatBot({ onClose }: ChatBotProps) {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="chatbot-input">
+      {/* Input */}
+      <div style={{
+        padding: '16px',
+        borderTop: '1px solid var(--border)',
+        display: 'flex',
+        gap: '8px',
+        backgroundColor: 'var(--bg-secondary)'
+      }}>
         <input
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="Ask about web features..."
-          className="chat-input"
+          placeholder="Ask about web features, baseline status, browser compatibility..."
+          style={{
+            flex: 1,
+            padding: '12px',
+            border: '1px solid var(--border)',
+            borderRadius: '8px',
+            outline: 'none',
+            fontSize: '14px',
+            backgroundColor: 'var(--panel)',
+            color: 'var(--ink)',
+            '::placeholder': {
+              color: 'var(--muted)'
+            }
+          }}
         />
         <button 
-          className="btn btn-send" 
           onClick={handleSendMessage}
           disabled={!inputText.trim()}
+          style={{
+            padding: '12px 16px',
+            backgroundColor: inputText.trim() ? 'var(--blue)' : 'var(--muted)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: inputText.trim() ? 'pointer' : 'not-allowed',
+            fontSize: '14px',
+            fontWeight: '500'
+          }}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-          </svg>
+          Send
         </button>
       </div>
+
+      <style jsx>{`
+        @keyframes bounce {
+          0%, 80%, 100% {
+            transform: scale(0);
+          }
+          40% {
+            transform: scale(1);
+          }
+        }
+      `}</style>
     </div>
   );
 }

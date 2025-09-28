@@ -1,0 +1,25 @@
+{
+  "findings": [],
+  "summary": {
+    "ok": 0,
+    "affected": 0,
+    "unknown": 0,
+    "byLanguage": {}
+  },
+  "metadata": {
+    "analysisId": "fe64ec87-1f0a-468f-a4c3-cbf81ea1f971",
+    "timestamp": "2025-09-28T06:54:07.108Z",
+    "projectName": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\422e772a-c281-45ab-a267-7ec75533feaf-index.css",
+    "detectedLanguages": [],
+    "totalFiles": 1,
+    "scannedFiles": 1,
+    "skippedFiles": 0,
+    "groqAnalysis": [
+      {
+        "analysis": "## Summary\nThis CSS file uses modern CSS features and Tailwind CSS framework, but there are some compatibility issues and best practices that need to be addressed.\n\n## Score: 80 - Status: WARN\n- PASS: ≥85 (Production ready)\n- WARN: 70-84 (Needs attention)\n- FAIL: <70 (Major issues)\n\n## Findings\n| Severity | Area | File:Line | Finding | Why it matters | Fix |\n|----------|------|-----------|---------|----------------|-----|\n| [HIGH] | Security | 1 | Using Tailwind CSS without secure configuration | Allows potential security vulnerabilities | Use secure configuration options, e.g., `purge` and `content` |\n| [HIGH] | Performance | 15 | Using `radial-gradient` and `linear-gradient` with many colors | Can cause performance issues | Use fewer colors or optimize gradients |\n| [MEDIUM] | Accessibility | 30 | Missing `alt` attribute on background images | Can cause issues for screen readers | Add `alt` attribute or use a different approach |\n| [LOW] | Language | 40 | Using `box-sizing` on all elements | Can cause issues with some browsers | Use `box-sizing` only where necessary |\n| [LOW] | Language | 50 | Using `::-webkit-scrollbar` | Can cause issues with some browsers | Use alternative approaches, e.g., `scrollbar-width` |\n\n## Auto-Fix Suggestions\n```css\n/* Secure Tailwind CSS configuration */\n@tailwind base;\n@tailwind components;\n@tailwind utilities;\n@tailwind config;\n\n/* Optimize gradients */\nbody {\n  background: linear-gradient(135deg, #4a3f2a 0%, #5c4a35 30%, #6b5a45 50%, #5c4a35 70%, #4a3f2a 100%);\n}\n\n/* Add alt attribute to background images */\nbody {\n  background-image: url('background-image.jpg');\n  background-image: var(--bg);\n  background-image: linear-gradient(135deg, #4a3f2a 0%, #5c4a35 30%, #6b5a45 50%, #5c4a35 70%, #4a3f2a 100%);\n}\n\n/* Use box-sizing only where necessary */\n.app {\n  box-sizing: border-box;\n}\n```\n\n## Checks Breakdown\n- **Language**: Modern CSS features used, but some compatibility issues with older browsers.\n- **Dependencies**: Tailwind CSS framework used, but secure configuration options are missing.\n- **Security**: Potential security vulnerabilities due to missing secure configuration options.\n- **Performance**: Gradients can cause performance issues, and scrollbar styles can be optimized.\n- **Accessibility**: Missing `alt` attribute on background images.\n- **Testing**: No testing coverage or quality assessment.\n\n## Next Steps\n1. **Secure Tailwind CSS configuration**: Use secure configuration options, e.g., `purge` and `content`.\n2. **Optimize gradients**: Use fewer colors or optimize gradients.\n3. **Add alt attribute to background images**: Add `alt` attribute or use a different approach.\n4. **Use box-sizing only where necessary**: Use `box-sizing` only where necessary.\n5. **Optimize scrollbar styles**: Use alternative approaches, e.g., `scrollbar-width`.\n6. **Implement testing coverage and quality assessment**: Use tools like Jest or Cypress to test the code.",
+        "filename": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\422e772a-c281-45ab-a267-7ec75533feaf-index.css",
+        "timestamp": "2025-09-28T06:54:07.093Z"
+      }
+    ]
+  }
+}

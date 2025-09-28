@@ -4,11 +4,13 @@ import { labelForBaseline } from './lib/baseline';
 import type { FeatureLeaf } from './lib/baseline';
 import './index.css';
 import ChatBot from './components/ChatBot';
+import Analyzer from './pages/Analyzer';
 
 export default function App() {
   const [filterText, setFilterText] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'high' | 'low' | 'false'>('all');
   const [selected, setSelected] = useState<FeatureLeaf | null>(null);
+  const [currentPage, setCurrentPage] = useState<'map' | 'analyzer'>('map');
 
   const [showChat, setShowChat] = useState(false);
 
@@ -30,6 +32,10 @@ export default function App() {
       }
     });
   };
+
+  if (currentPage === 'analyzer') {
+    return <Analyzer />;
+  }
 
   return (
     <div className="app">
@@ -55,6 +61,12 @@ export default function App() {
             <option value="low">Baseline: Newly Available</option>
             <option value="false">Baseline: Limited Availability</option>
           </select>
+          <button
+            onClick={() => setCurrentPage('analyzer')}
+            className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            📊 Code Analyzer
+          </button>
         </div>
       </header>
 
