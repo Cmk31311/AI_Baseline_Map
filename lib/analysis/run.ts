@@ -107,7 +107,7 @@ export async function runBaselineAnalysis(
   const {
     maxFiles = 50000,
     maxFileSize = 2 * 1024 * 1024, // 2MB
-    allowedExtensions = ['.py', '.js', '.ts', '.tsx', '.jsx', '.java', '.go', '.cs', '.fs', '.vb'],
+    allowedExtensions = ['.html', '.htm', '.css', '.js', '.mjs', '.ts', '.svg', '.wasm', '.json', '.webmanifest'],
     ignorePaths = ['/node_modules/', '/.venv/', '/venv/', '/dist/', '/build/', '/.git/', '/.next/'],
     storeResults = true,
     publicUrl = 'http://localhost:3000',
@@ -162,6 +162,10 @@ export async function runBaselineAnalysis(
 
     // Run analysis
     const findings = await runAnalysis(context);
+    
+    // Add additional analysis findings
+    const additionalFindings = await runAdditionalAnalysis(context);
+    findings.push(...additionalFindings);
     
     // Generate summary
     const summary = generateSummary(findings, detectedLanguages);
@@ -225,6 +229,419 @@ async function runAnalysis(context: AnalysisContext): Promise<Finding[]> {
   findings.push(...patternFindings);
 
   return findings;
+}
+
+/**
+ * Run additional analysis for enhanced detection
+ * @param context Analysis context
+ * @returns Array of additional findings
+ */
+async function runAdditionalAnalysis(context: AnalysisContext): Promise<Finding[]> {
+  const findings: Finding[] = [];
+
+  // Analyze code quality and best practices
+  const qualityFindings = analyzeCodeQuality(context.extractedFiles);
+  findings.push(...qualityFindings);
+
+  // Analyze security vulnerabilities
+  const securityFindings = analyzeSecurityVulnerabilities(context.extractedFiles);
+  findings.push(...securityFindings);
+
+  // Analyze performance issues
+  const performanceFindings = analyzePerformanceIssues(context.extractedFiles);
+  findings.push(...performanceFindings);
+
+  return findings;
+}
+
+/**
+ * Analyze code quality and best practices
+ * @param files Array of extracted files
+ * @returns Array of quality findings
+ */
+function analyzeCodeQuality(files: Array<{ path?: string; name?: string; content: string; size: number }>): Finding[] {
+  const findings: Finding[] = [];
+
+  for (const file of files) {
+    const filePath = file.path || file.name || 'unknown';
+    const extension = getFileExtension(filePath);
+    const language = detectLanguageFromExtension(extension);
+    
+    if (!language) continue;
+
+    const lines = file.content.split('\n');
+    
+    // Check for code quality issues
+    for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+      const line = lines[lineIndex];
+      const lineNumber = lineIndex + 1;
+      
+      // Skip empty lines and comments
+      if (isCommentLine(line, language) || line.trim() === '') {
+        continue;
+      }
+
+      // Check for long lines
+      if (line.length > 120) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'code-quality',
+          issue: 'Line is too long (>120 characters)',
+          pattern: 'long-line',
+          quickFix: 'Break long lines for better readability',
+        });
+      }
+
+      // Check for trailing whitespace
+      if (line.endsWith(' ') || line.endsWith('\t')) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'code-quality',
+          issue: 'Trailing whitespace detected',
+          pattern: 'trailing-whitespace',
+          quickFix: 'Remove trailing whitespace',
+        });
+      }
+
+      // Check for mixed tabs and spaces
+      if (line.includes('\t') && line.includes(' ')) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'code-quality',
+          issue: 'Mixed tabs and spaces for indentation',
+          pattern: 'mixed-indentation',
+          quickFix: 'Use consistent indentation (prefer spaces)',
+        });
+      }
+
+      // Check for TODO/FIXME comments
+      if (line.toLowerCase().includes('todo') || line.toLowerCase().includes('fixme')) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'code-quality',
+          issue: 'TODO/FIXME comment found',
+          pattern: 'todo-comment',
+          quickFix: 'Address TODO/FIXME items before production',
+        });
+      }
+
+      // Check for console.log in production code
+      if (language === 'node' && line.includes('console.log')) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'code-quality',
+          issue: 'console.log should be removed in production',
+          pattern: 'console-log',
+          quickFix: 'Use proper logging library or remove debug statements',
+        });
+      }
+
+      // Check for print statements in Python
+      if (language === 'python' && line.includes('print(')) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'code-quality',
+          issue: 'print() should be removed in production',
+          pattern: 'print-statement',
+          quickFix: 'Use proper logging library or remove debug statements',
+        });
+      }
+    }
+  }
+
+  return findings;
+}
+
+/**
+ * Analyze security vulnerabilities
+ * @param files Array of extracted files
+ * @returns Array of security findings
+ */
+function analyzeSecurityVulnerabilities(files: Array<{ path?: string; name?: string; content: string; size: number }>): Finding[] {
+  const findings: Finding[] = [];
+
+  for (const file of files) {
+    const filePath = file.path || file.name || 'unknown';
+    const extension = getFileExtension(filePath);
+    const language = detectLanguageFromExtension(extension);
+    
+    if (!language) continue;
+
+    const lines = file.content.split('\n');
+    
+    // Check for security vulnerabilities
+    for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+      const line = lines[lineIndex];
+      const lineNumber = lineIndex + 1;
+      
+      // Skip empty lines and comments
+      if (isCommentLine(line, language) || line.trim() === '') {
+        continue;
+      }
+
+      // Check for hardcoded passwords
+      if (line.toLowerCase().includes('password') && line.includes('=') && !line.includes('input(')) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'security',
+          issue: 'Potential hardcoded password detected',
+          pattern: 'hardcoded-password',
+          quickFix: 'Use environment variables or secure credential storage',
+        });
+      }
+
+      // Check for hardcoded API keys
+      if (line.toLowerCase().includes('api') && line.toLowerCase().includes('key') && line.includes('=')) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'security',
+          issue: 'Potential hardcoded API key detected',
+          pattern: 'hardcoded-api-key',
+          quickFix: 'Use environment variables or secure credential storage',
+        });
+      }
+
+      // Check for SQL injection vulnerabilities
+      if (line.includes('SELECT') || line.includes('INSERT') || line.includes('UPDATE') || line.includes('DELETE')) {
+        if (line.includes('+') || line.includes('${') || line.includes('%s')) {
+          findings.push({
+            kind: 'pattern',
+            lang: language,
+            file: filePath,
+            line: lineNumber,
+            status: 'affected',
+            reason: 'security',
+            issue: 'Potential SQL injection vulnerability',
+            pattern: 'sql-injection',
+            quickFix: 'Use parameterized queries or prepared statements',
+          });
+        }
+      }
+
+      // Check for XSS vulnerabilities
+      if (line.includes('innerHTML') || line.includes('outerHTML') || line.includes('document.write')) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'security',
+          issue: 'Potential XSS vulnerability',
+          pattern: 'xss-vulnerability',
+          quickFix: 'Use textContent or sanitize HTML content',
+        });
+      }
+
+      // Check for unsafe deserialization
+      if (line.includes('pickle.load') || line.includes('unpickle') || line.includes('deserialize')) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'security',
+          issue: 'Unsafe deserialization detected',
+          pattern: 'unsafe-deserialization',
+          quickFix: 'Use safe serialization formats like JSON',
+        });
+      }
+    }
+  }
+
+  return findings;
+}
+
+/**
+ * Analyze performance issues
+ * @param files Array of extracted files
+ * @returns Array of performance findings
+ */
+function analyzePerformanceIssues(files: Array<{ path?: string; name?: string; content: string; size: number }>): Finding[] {
+  const findings: Finding[] = [];
+
+  for (const file of files) {
+    const filePath = file.path || file.name || 'unknown';
+    const extension = getFileExtension(filePath);
+    const language = detectLanguageFromExtension(extension);
+    
+    if (!language) continue;
+
+    const lines = file.content.split('\n');
+    
+    // Check for performance issues
+    for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+      const line = lines[lineIndex];
+      const lineNumber = lineIndex + 1;
+      
+      // Skip empty lines and comments
+      if (isCommentLine(line, language) || line.trim() === '') {
+        continue;
+      }
+
+      // Check for synchronous file operations
+      if (language === 'node' && (line.includes('fs.readFileSync') || line.includes('fs.writeFileSync'))) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'performance',
+          issue: 'Synchronous file operation can block the event loop',
+          pattern: 'sync-file-operation',
+          quickFix: 'Use asynchronous file operations (fs.promises)',
+        });
+      }
+
+      // Check for blocking operations
+      if (line.includes('sleep(') || line.includes('time.sleep(')) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'performance',
+          issue: 'Blocking sleep operation detected',
+          pattern: 'blocking-sleep',
+          quickFix: 'Use asynchronous alternatives or reduce sleep time',
+        });
+      }
+
+      // Check for inefficient loops
+      if (line.includes('for') && line.includes('in') && line.includes('range(')) {
+        if (line.includes('len(') || line.includes('.length')) {
+          findings.push({
+            kind: 'pattern',
+            lang: language,
+            file: filePath,
+            line: lineNumber,
+            status: 'affected',
+            reason: 'performance',
+            issue: 'Inefficient loop with len()/length call',
+            pattern: 'inefficient-loop',
+            quickFix: 'Cache length or use enumerate()/entries()',
+          });
+        }
+      }
+
+      // Check for string concatenation in loops
+      if (line.includes('+=') && line.includes('str') || line.includes('+=') && line.includes('string')) {
+        findings.push({
+          kind: 'pattern',
+          lang: language,
+          file: filePath,
+          line: lineNumber,
+          status: 'affected',
+          reason: 'performance',
+          issue: 'String concatenation in loop is inefficient',
+          pattern: 'string-concatenation',
+          quickFix: 'Use join() or StringBuilder for better performance',
+        });
+      }
+    }
+  }
+
+  return findings;
+}
+
+/**
+ * Get file extension from path
+ * @param filePath File path
+ * @returns File extension with dot
+ */
+function getFileExtension(filePath: string): string {
+  const lastDot = filePath.lastIndexOf('.');
+  if (lastDot === -1) return '';
+  return filePath.substring(lastDot);
+}
+
+/**
+ * Detect language from file extension
+ * @param extension File extension
+ * @returns Language or null
+ */
+function detectLanguageFromExtension(extension: string): Language | null {
+  const languageMap: Record<string, Language> = {
+    '.html': 'node',
+    '.htm': 'node',
+    '.css': 'node',
+    '.js': 'node',
+    '.jsx': 'node',
+    '.mjs': 'node',
+    '.ts': 'node',
+    '.tsx': 'node',
+    '.svg': 'node',
+    '.wasm': 'node',
+    '.json': 'node',
+    '.webmanifest': 'node',
+    '.py': 'python',
+    '.java': 'java',
+    '.go': 'go',
+    '.cs': 'dotnet',
+    '.fs': 'dotnet',
+    '.vb': 'dotnet',
+  };
+  
+  return languageMap[extension] || null;
+}
+
+/**
+ * Check if a line is a comment
+ * @param line Line content
+ * @param language Language context
+ * @returns True if comment line
+ */
+function isCommentLine(line: string, language: Language): boolean {
+  const trimmed = line.trim();
+  
+  switch (language) {
+    case 'node':
+    case 'java':
+    case 'go':
+    case 'dotnet':
+      return trimmed.startsWith('//') || trimmed.startsWith('/*') || trimmed.startsWith('*') || trimmed.startsWith('<!--');
+    
+    case 'python':
+      return trimmed.startsWith('#');
+    
+    default:
+      return false;
+  }
 }
 
 /**
@@ -330,7 +747,7 @@ export function validateAnalysisOptions(options: AnalysisOptions): AnalysisOptio
   return {
     maxFiles: Math.min(options.maxFiles || 50000, 100000), // Cap at 100k
     maxFileSize: Math.min(options.maxFileSize || 2 * 1024 * 1024, 10 * 1024 * 1024), // Cap at 10MB
-    allowedExtensions: options.allowedExtensions || ['.py', '.js', '.ts', '.tsx', '.jsx', '.java', '.go', '.cs', '.fs', '.vb'],
+    allowedExtensions: options.allowedExtensions || ['.html', '.htm', '.css', '.js', '.mjs', '.ts', '.svg', '.wasm', '.json', '.webmanifest'],
     ignorePaths: options.ignorePaths || ['/node_modules/', '/.venv/', '/venv/', '/dist/', '/build/', '/.git/', '/.next/'],
     storeResults: options.storeResults !== false,
     publicUrl: options.publicUrl || 'http://localhost:3000',

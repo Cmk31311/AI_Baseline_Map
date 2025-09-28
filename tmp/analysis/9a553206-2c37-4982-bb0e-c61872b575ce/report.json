@@ -1,0 +1,540 @@
+{
+  "findings": [
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 15,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "Function declarations are less preferred than arrow functions",
+      "pattern": "function\\s+\\w+\\s*\\(",
+      "quickFix": "Use arrow functions for better scope handling"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 21,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 22,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 23,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 24,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 36,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 37,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 38,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 39,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 40,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 48,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "Check for potential logical operator misuse",
+      "pattern": "\\b\\w+\\s*&&\\s*\\w+",
+      "quickFix": "Use explicit boolean checks"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 60,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 61,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 63,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 66,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console.log() should be removed in production",
+      "pattern": "\\bconsole\\.log\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 15,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "Function declarations are less preferred than arrow functions",
+      "pattern": "function\\s+\\w+\\s*\\(",
+      "quickFix": "Use arrow functions for better scope handling"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 21,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 22,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 23,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 24,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 31,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "== can cause type coercion issues",
+      "pattern": "==\\s*\\w+|\\w+\\s*==",
+      "quickFix": "Use === for strict equality"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 32,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "== can cause type coercion issues",
+      "pattern": "==\\s*\\w+|\\w+\\s*==",
+      "quickFix": "Use === for strict equality"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 33,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "== can cause type coercion issues",
+      "pattern": "==\\s*\\w+|\\w+\\s*==",
+      "quickFix": "Use === for strict equality"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 36,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 37,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 38,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 39,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 40,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 48,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "== can cause type coercion issues",
+      "pattern": "==\\s*\\w+|\\w+\\s*==",
+      "quickFix": "Use === for strict equality"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 60,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 61,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 63,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 66,
+      "status": "affected",
+      "reason": "deprecated-api",
+      "issue": "console methods should be removed in production",
+      "pattern": "console\\.(log|warn|error|info|debug|trace|dir|table|time|timeEnd|count|countReset|group|groupEnd|groupCollapsed|assert|clear|profile|profileEnd|timeStamp|markTimeline|timeline|timelineEnd|memory|exception)\\s*\\(",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 21,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 22,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 23,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 24,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 36,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 37,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 38,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 39,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 40,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 60,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 61,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 63,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+      "line": 66,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "console.log should be removed in production",
+      "pattern": "console-log",
+      "quickFix": "Use proper logging library or remove debug statements"
+    }
+  ],
+  "summary": {
+    "ok": 0,
+    "affected": 46,
+    "unknown": 0,
+    "byLanguage": {
+      "node": {
+        "ok": 0,
+        "affected": 46,
+        "unknown": 0
+      }
+    }
+  },
+  "metadata": {
+    "analysisId": "f6b65687-fe07-4e01-80ae-893f4d0a11da",
+    "timestamp": "2025-09-28T17:29:54.019Z",
+    "projectName": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+    "detectedLanguages": [
+      "node"
+    ],
+    "totalFiles": 1,
+    "scannedFiles": 1,
+    "skippedFiles": 0,
+    "groqAnalysis": [
+      {
+        "analysis": "## Summary\nThe provided TypeScript code snippet appears to be a Node.js script that imports data from a JSON file and uses it to demonstrate integration with the web-features package. However, there are some potential issues that may affect web compatibility.\n\n## Score: 60 - WARN\n\n## Findings\n| Severity | Finding | Fix |\n|----------|---------|-----|\n| HIGH | The script starts with a shebang line (`#!/usr/bin/env node`), which is typically used for Unix-based systems. This may cause issues when running the script on Windows. | Replace the shebang line with a Windows-compatible equivalent, such as `@file node`. |\n| LOW | The script imports data from a local JSON file (`data.json`). This may not be suitable for web deployment, where data should ideally be fetched from a remote source. | Consider using a remote data source or a package that provides data in a more web-friendly format. |\n| LOW | The script uses the `web-features` package, which may not be widely supported or maintained. | Consider using a more widely supported package or rolling your own solution. |\n\n## Auto-Fix\n```typescript\n/**\n * Script to verify baseline data import and show key stats\n * Demonstrates web-features package integration\n */\n\nimport data from 'web-features/data.json';\nimport { getA } from 'web-features';\n\n// Replace shebang line\n// @file node\n\n// Consider using a remote data source or a",
+        "filename": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\810162f8-6b91-4c6d-8744-2a11b5a401c9-fetch-baseline.ts",
+        "timestamp": "2025-09-28T17:29:54.005Z"
+      }
+    ]
+  }
+}

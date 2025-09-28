@@ -159,20 +159,16 @@ export function detectFileType(filename: string): string {
 export function shouldAnalyzeFile(filename: string): boolean {
   const ext = filename.split('.').pop()?.toLowerCase();
   
-  // Skip binary files (but allow ZIP for project archives)
-  const binaryExtensions = [
-    'exe', 'dll', 'so', 'dylib', 'bin', 'dat', 'db', 'sqlite',
-    'jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'ico', 'webp',
-    'mp3', 'mp4', 'avi', 'mov', 'wav', 'flac', 'ogg',
-    'rar', '7z', 'tar', 'gz', 'bz2', 'xz',
-    'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx',
-    'woff', 'woff2', 'ttf', 'otf', 'eot'
+  // Only allow web file types
+  const allowedExtensions = [
+    'html', 'htm',           // HTML files
+    'css',                   // CSS files
+    'js', 'mjs', 'ts',       // JavaScript/TypeScript files
+    'svg',                   // SVG files
+    'wasm',                  // WebAssembly files
+    'json',                  // JSON files
+    'webmanifest'            // Web manifest files
   ];
   
-  if (binaryExtensions.includes(ext || '')) {
-    return false;
-  }
-  
-  // Skip very large files (over 1MB for single file analysis)
-  return true;
+  return allowedExtensions.includes(ext || '');
 }

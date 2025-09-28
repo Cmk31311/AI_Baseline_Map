@@ -99,6 +99,214 @@ deprecated_patterns:
       message: "Consider using async/await for better readability"
       alternative: "Use async/await syntax for async generators"
       
+    - pattern: "urllib2\\.|urllib\\.request"
+      message: "urllib2 is deprecated in Python 3, use urllib.request"
+      alternative: "Use urllib.request or requests library"
+      
+    - pattern: "execfile\\("
+      message: "execfile() is deprecated in Python 3"
+      alternative: "Use exec(open(filename).read())"
+      
+    - pattern: "reload\\("
+      message: "reload() is deprecated, use importlib.reload()"
+      alternative: "Use importlib.reload(module)"
+      
+    - pattern: "file\\("
+      message: "file() is deprecated, use open()"
+      alternative: "Use open() function instead"
+      
+    - pattern: "raw_input\\("
+      message: "raw_input() is deprecated in Python 3, use input()"
+      alternative: "Use input() function"
+      
+    - pattern: "xrange\\("
+      message: "xrange() is deprecated in Python 3, use range()"
+      alternative: "Use range() function"
+      
+    - pattern: "basestring"
+      message: "basestring is deprecated in Python 3"
+      alternative: "Use str or bytes directly"
+      
+    - pattern: "unicode\\("
+      message: "unicode() is deprecated in Python 3"
+      alternative: "Use str() function"
+      
+    - pattern: "long\\("
+      message: "long() is deprecated in Python 3"
+      alternative: "Use int() function"
+      
+    - pattern: "cmp\\("
+      message: "cmp() is deprecated in Python 3"
+      alternative: "Use (a > b) - (a < b) or operator functions"
+      
+    - pattern: "reduce\\("
+      message: "reduce() is deprecated, use functools.reduce()"
+      alternative: "Import and use functools.reduce()"
+      
+    - pattern: "apply\\("
+      message: "apply() is deprecated in Python 3"
+      alternative: "Use function(*args, **kwargs) syntax"
+      
+    - pattern: "coerce\\("
+      message: "coerce() is deprecated in Python 3"
+      alternative: "Use explicit type conversion"
+      
+    - pattern: "intern\\("
+      message: "intern() is deprecated in Python 3"
+      alternative: "Use sys.intern() if needed"
+      
+    - pattern: "unichr\\("
+      message: "unichr() is deprecated in Python 3"
+      alternative: "Use chr() function"
+      
+    - pattern: "buffer\\("
+      message: "buffer() is deprecated in Python 3"
+      alternative: "Use memoryview() or bytes()"
+      
+    - pattern: "StandardError"
+      message: "StandardError is deprecated in Python 3"
+      alternative: "Use Exception or specific exception types"
+      
+    - pattern: "exec\\s+\\w+\\s+in\\s+\\w+"
+      message: "exec with 'in' syntax is deprecated"
+      alternative: "Use exec(code, globals, locals) syntax"
+      
+    - pattern: "print\\s+\\w+"
+      message: "print statement is deprecated in Python 3"
+      alternative: "Use print() function"
+      
+    - pattern: "raise\\s+\\w+,\\s+\\w+"
+      message: "raise with comma syntax is deprecated"
+      alternative: "Use raise Exception('message') syntax"
+      
+    - pattern: "except\\s+\\w+,\\s+\\w+"
+      message: "except with comma syntax is deprecated"
+      alternative: "Use except Exception as e: syntax"
+      
+    - pattern: "def\\s+\\w+\\s*\\([^)]*\\):"
+      message: "Check for Python 2 style function definitions"
+      alternative: "Ensure Python 3 compatibility"
+      
+    - pattern: "from\\s+\\w+\\s+import\\s+\\*"
+      message: "Wildcard imports are discouraged"
+      alternative: "Import specific functions or use qualified names"
+      
+    - pattern: "eval\\("
+      message: "eval() is dangerous and should be avoided"
+      alternative: "Use safer alternatives like ast.literal_eval()"
+      
+    - pattern: "exec\\("
+      message: "exec() is dangerous and should be avoided"
+      alternative: "Use safer alternatives or refactor code"
+      
+    - pattern: "subprocess\\.call.*shell=True"
+      message: "shell=True in subprocess is dangerous"
+      alternative: "Use shell=False and pass arguments as list"
+      
+    - pattern: "os\\.system\\("
+      message: "os.system() is deprecated, use subprocess"
+      alternative: "Use subprocess.run() or subprocess.Popen()"
+      
+    - pattern: "pickle\\.loads\\("
+      message: "pickle.loads() is unsafe with untrusted data"
+      alternative: "Use json.loads() or other safe serialization"
+      
+    - pattern: "pickle\\.load\\("
+      message: "pickle.load() is unsafe with untrusted data"
+      alternative: "Use json.load() or other safe serialization"
+      
+    - pattern: "md5\\.|sha1\\."
+      message: "MD5 and SHA1 are cryptographically broken"
+      alternative: "Use hashlib.sha256() or hashlib.sha3_256()"
+      
+    - pattern: "random\\.random\\("
+      message: "random.random() is not cryptographically secure"
+      alternative: "Use secrets module for cryptographic randomness"
+      
+    - pattern: "time\\.time\\("
+      message: "time.time() is not suitable for timing attacks"
+      alternative: "Use time.perf_counter() for timing"
+      
+    - pattern: "\\bclass\\s+\\w+.*:"
+      message: "Check for old-style class definitions"
+      alternative: "Ensure all classes inherit from object or use new-style classes"
+      
+    - pattern: "\\bdef\\s+\\w+\\s*\\(self,\\s*[^)]*\\):"
+      message: "Check for Python 2 style method definitions"
+      alternative: "Ensure Python 3 compatibility"
+      
+    - pattern: "\\bimport\\s+\\w+\\s*$"
+      message: "Check for Python 2 style imports"
+      alternative: "Ensure Python 3 compatibility"
+      
+    - pattern: "\\bprint\\s+\\w+"
+      message: "print statement is deprecated in Python 3"
+      alternative: "Use print() function"
+      
+    - pattern: "\\braise\\s+\\w+,\\s+\\w+"
+      message: "raise with comma syntax is deprecated"
+      alternative: "Use raise Exception('message') syntax"
+      
+    - pattern: "\\bexcept\\s+\\w+,\\s+\\w+"
+      message: "except with comma syntax is deprecated"
+      alternative: "Use except Exception as e: syntax"
+      
+    - pattern: "\\bdef\\s+\\w+\\s*\\([^)]*\\):"
+      message: "Check for Python 2 style function definitions"
+      alternative: "Ensure Python 3 compatibility"
+      
+    - pattern: "\\bfrom\\s+\\w+\\s+import\\s+\\*"
+      message: "Wildcard imports are discouraged"
+      alternative: "Import specific functions or use qualified names"
+      
+    - pattern: "\\beval\\("
+      message: "eval() is dangerous and should be avoided"
+      alternative: "Use safer alternatives like ast.literal_eval()"
+      
+    - pattern: "\\bexec\\("
+      message: "exec() is dangerous and should be avoided"
+      alternative: "Use safer alternatives or refactor code"
+      
+    - pattern: "\\bsubprocess\\.call.*shell=True"
+      message: "shell=True in subprocess is dangerous"
+      alternative: "Use shell=False and pass arguments as list"
+      
+    - pattern: "\\bos\\.system\\("
+      message: "os.system() is deprecated, use subprocess"
+      alternative: "Use subprocess.run() or subprocess.Popen()"
+      
+    - pattern: "\\bpickle\\.loads\\("
+      message: "pickle.loads() is unsafe with untrusted data"
+      alternative: "Use json.loads() or other safe serialization"
+      
+    - pattern: "\\bpickle\\.load\\("
+      message: "pickle.load() is unsafe with untrusted data"
+      alternative: "Use json.load() or other safe serialization"
+      
+    - pattern: "\\bmd5\\.|sha1\\."
+      message: "MD5 and SHA1 are cryptographically broken"
+      alternative: "Use hashlib.sha256() or hashlib.sha3_256()"
+      
+    - pattern: "\\brandom\\.random\\("
+      message: "random.random() is not cryptographically secure"
+      alternative: "Use secrets module for cryptographic randomness"
+      
+    - pattern: "\\btime\\.time\\("
+      message: "time.time() is not suitable for timing attacks"
+      alternative: "Use time.perf_counter() for timing"
+      
+    - pattern: "\\bclass\\s+\\w+.*:"
+      message: "Check for old-style class definitions"
+      alternative: "Ensure all classes inherit from object or use new-style classes"
+      
+    - pattern: "\\bdef\\s+\\w+\\s*\\(self,\\s*[^)]*\\):"
+      message: "Check for Python 2 style method definitions"
+      alternative: "Ensure Python 3 compatibility"
+      
+    - pattern: "\\bimport\\s+\\w+\\s*$"
+      message: "Check for Python 2 style imports"
+      alternative: "Ensure Python 3 compatibility"
+      
   node:
     - pattern: "fs\\.exists\\("
       message: "fs.exists() is deprecated, use fs.access() or fs.stat()"
@@ -123,6 +331,978 @@ deprecated_patterns:
     - pattern: "componentWillMount|componentWillReceiveProps|componentWillUpdate"
       message: "React lifecycle methods are deprecated in React 17+"
       alternative: "Use useEffect, useMemo, or other hooks"
+      
+    - pattern: "var\\s+\\w+"
+      message: "var is deprecated, use let or const"
+      alternative: "Use let for variables that change, const for constants"
+      
+    - pattern: "function\\s+\\w+\\s*\\("
+      message: "Function declarations are less preferred than arrow functions"
+      alternative: "Use arrow functions for better scope handling"
+      
+    - pattern: "\\bthis\\.\\w+\\s*="
+      message: "Direct this assignment is discouraged"
+      alternative: "Use class properties or bind methods properly"
+      
+    - pattern: "\\barguments\\b"
+      message: "arguments object is deprecated, use rest parameters"
+      alternative: "Use ...args rest parameter syntax"
+      
+    - pattern: "\\beval\\("
+      message: "eval() is dangerous and should be avoided"
+      alternative: "Use safer alternatives or refactor code"
+      
+    - pattern: "\\bwith\\s+\\("
+      message: "with statement is deprecated and dangerous"
+      alternative: "Use explicit variable references"
+      
+    - pattern: "\\bfor\\s*\\(\\s*var\\s+"
+      message: "var in for loops can cause scope issues"
+      alternative: "Use let in for loops"
+      
+    - pattern: "\\btypeof\\s+\\w+\\s*===\\s*['\"]undefined['\"]"
+      message: "typeof undefined check is verbose"
+      alternative: "Use === undefined or optional chaining"
+      
+    - pattern: "\\b\\w+\\s*==\\s*\\w+"
+      message: "== can cause type coercion issues"
+      alternative: "Use === for strict equality"
+      
+    - pattern: "\\b\\w+\\s*!=\\s*\\w+"
+      message: "!= can cause type coercion issues"
+      alternative: "Use !== for strict inequality"
+      
+    - pattern: "\\b\\w+\\s*&&\\s*\\w+"
+      message: "Check for potential logical operator misuse"
+      alternative: "Use explicit boolean checks"
+      
+    - pattern: "\\b\\w+\\s*\\|\\|\\s*\\w+"
+      message: "Check for potential logical operator misuse"
+      alternative: "Use explicit boolean checks"
+      
+    - pattern: "\\b\\w+\\s*\\?\\s*\\w+\\s*:\\s*\\w+"
+      message: "Ternary operators can be hard to read"
+      alternative: "Consider using if-else statements for clarity"
+      
+    - pattern: "\\b\\w+\\s*\\+\\+"
+      message: "Post-increment can be confusing"
+      alternative: "Use pre-increment or explicit addition"
+      
+    - pattern: "\\b\\+\\+\\w+"
+      message: "Pre-increment can be confusing"
+      alternative: "Use explicit addition"
+      
+    - pattern: "\\b\\w+\\s*--"
+      message: "Post-decrement can be confusing"
+      alternative: "Use pre-decrement or explicit subtraction"
+      
+    - pattern: "\\b--\\w+"
+      message: "Pre-decrement can be confusing"
+      alternative: "Use explicit subtraction"
+      
+    - pattern: "\\b\\w+\\s*\\+=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit addition"
+      
+    - pattern: "\\b\\w+\\s*-=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit subtraction"
+      
+    - pattern: "\\b\\w+\\s*\\*=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit multiplication"
+      
+    - pattern: "\\b\\w+\\s*/=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit division"
+      
+    - pattern: "\\b\\w+\\s*%=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit modulo"
+      
+    - pattern: "\\b\\w+\\s*&=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit bitwise AND"
+      
+    - pattern: "\\b\\w+\\s*\\|=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit bitwise OR"
+      
+    - pattern: "\\b\\w+\\s*\\^=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit bitwise XOR"
+      
+    - pattern: "\\b\\w+\\s*<<=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit left shift"
+      
+    - pattern: "\\b\\w+\\s*>>=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit right shift"
+      
+    - pattern: "\\b\\w+\\s*>>>=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit unsigned right shift"
+      
+    - pattern: "\\b\\w+\\s*\\*\\*=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit exponentiation"
+      
+    - pattern: "\\b\\w+\\s*&&=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit logical AND"
+      
+    - pattern: "\\b\\w+\\s*\\|\\|=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit logical OR"
+      
+    - pattern: "\\b\\w+\\s*\\?\\?=\\s*\\w+"
+      message: "Compound assignment can be confusing"
+      alternative: "Use explicit nullish coalescing"
+      
+    - pattern: "\\b\\w+\\s*\\*\\*\\s*\\w+"
+      message: "Exponentiation operator can be confusing"
+      alternative: "Use Math.pow() for clarity"
+      
+    - pattern: "\\b\\w+\\s*\\?\\?\\s*\\w+"
+      message: "Nullish coalescing can be confusing"
+      alternative: "Use explicit null/undefined checks"
+      
+    - pattern: "\\b\\w+\\s*\\?\\."
+      message: "Optional chaining can be confusing"
+      alternative: "Use explicit null/undefined checks"
+      
+    - pattern: "\\b\\w+\\s*\\?\\?\\s*\\w+"
+      message: "Nullish coalescing can be confusing"
+      alternative: "Use explicit null/undefined checks"
+      
+    - pattern: "\\b\\w+\\s*\\?\\."
+      message: "Optional chaining can be confusing"
+      alternative: "Use explicit null/undefined checks"
+      
+    - pattern: "\\b\\w+\\s*\\?\\?\\s*\\w+"
+      message: "Nullish coalescing can be confusing"
+      alternative: "Use explicit null/undefined checks"
+      
+    - pattern: "\\b\\w+\\s*\\?\\."
+      message: "Optional chaining can be confusing"
+      alternative: "Use explicit null/undefined checks"
+      
+    - pattern: "\\bconsole\\.log\\("
+      message: "console.log() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.warn\\("
+      message: "console.warn() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.error\\("
+      message: "console.error() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.info\\("
+      message: "console.info() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.debug\\("
+      message: "console.debug() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.trace\\("
+      message: "console.trace() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.dir\\("
+      message: "console.dir() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.table\\("
+      message: "console.table() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.time\\("
+      message: "console.time() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.timeEnd\\("
+      message: "console.timeEnd() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.count\\("
+      message: "console.count() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.countReset\\("
+      message: "console.countReset() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.group\\("
+      message: "console.group() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.groupEnd\\("
+      message: "console.groupEnd() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.groupCollapsed\\("
+      message: "console.groupCollapsed() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.assert\\("
+      message: "console.assert() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.clear\\("
+      message: "console.clear() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.profile\\("
+      message: "console.profile() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.profileEnd\\("
+      message: "console.profileEnd() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.timeStamp\\("
+      message: "console.timeStamp() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.markTimeline\\("
+      message: "console.markTimeline() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.timeline\\("
+      message: "console.timeline() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.timelineEnd\\("
+      message: "console.timelineEnd() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.memory"
+      message: "console.memory should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.exception\\("
+      message: "console.exception() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.warn\\("
+      message: "console.warn() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.error\\("
+      message: "console.error() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.info\\("
+      message: "console.info() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.debug\\("
+      message: "console.debug() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.trace\\("
+      message: "console.trace() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.dir\\("
+      message: "console.dir() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.table\\("
+      message: "console.table() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.time\\("
+      message: "console.time() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.timeEnd\\("
+      message: "console.timeEnd() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.count\\("
+      message: "console.count() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.countReset\\("
+      message: "console.countReset() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.group\\("
+      message: "console.group() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.groupEnd\\("
+      message: "console.groupEnd() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.groupCollapsed\\("
+      message: "console.groupCollapsed() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.assert\\("
+      message: "console.assert() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.clear\\("
+      message: "console.clear() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.profile\\("
+      message: "console.profile() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.profileEnd\\("
+      message: "console.profileEnd() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.timeStamp\\("
+      message: "console.timeStamp() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.markTimeline\\("
+      message: "console.markTimeline() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.timeline\\("
+      message: "console.timeline() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.timelineEnd\\("
+      message: "console.timelineEnd() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.memory"
+      message: "console.memory should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bconsole\\.exception\\("
+      message: "console.exception() should be removed in production"
+      alternative: "Use proper logging library or remove debug statements"
+      
+    - pattern: "\\bdebugger\\b"
+      message: "debugger statement should be removed in production"
+      alternative: "Remove debugger statements or use proper debugging tools"
+      
+    - pattern: "\\balert\\("
+      message: "alert() should not be used in production"
+      alternative: "Use proper user interface components or logging"
+      
+    - pattern: "\\bconfirm\\("
+      message: "confirm() should not be used in production"
+      alternative: "Use proper user interface components"
+      
+    - pattern: "\\bprompt\\("
+      message: "prompt() should not be used in production"
+      alternative: "Use proper user interface components"
+      
+    - pattern: "\\bdocument\\.write\\("
+      message: "document.write() is deprecated and dangerous"
+      alternative: "Use DOM manipulation methods"
+      
+    - pattern: "\\binnerHTML\\s*="
+      message: "innerHTML assignment can be dangerous"
+      alternative: "Use textContent or proper DOM methods"
+      
+    - pattern: "\\bouterHTML\\s*="
+      message: "outerHTML assignment can be dangerous"
+      alternative: "Use proper DOM manipulation methods"
+      
+    - pattern: "\\beval\\("
+      message: "eval() is dangerous and should be avoided"
+      alternative: "Use safer alternatives or refactor code"
+      
+    - pattern: "\\bFunction\\("
+      message: "Function constructor is dangerous"
+      alternative: "Use function declarations or arrow functions"
+      
+    - pattern: "\\bsetTimeout\\("
+      message: "setTimeout with string is dangerous"
+      alternative: "Use function references instead of strings"
+      
+    - pattern: "\\bsetInterval\\("
+      message: "setInterval with string is dangerous"
+      alternative: "Use function references instead of strings"
+      
+    - pattern: "\\bsetImmediate\\("
+      message: "setImmediate with string is dangerous"
+      alternative: "Use function references instead of strings"
+      
+    - pattern: "\\bprocess\\.nextTick\\("
+      message: "process.nextTick with string is dangerous"
+      alternative: "Use function references instead of strings"
+      
+    - pattern: "\\brequire\\(.*\\)"
+      message: "Dynamic require() can be dangerous"
+      alternative: "Use static imports or proper module loading"
+      
+    - pattern: "\\bimport\\(.*\\)"
+      message: "Dynamic import() can be dangerous"
+      alternative: "Use static imports or proper module loading"
+      
+    - pattern: "\\bnew\\s+Function\\("
+      message: "new Function() is dangerous"
+      alternative: "Use function declarations or arrow functions"
+      
+    - pattern: "\\bnew\\s+RegExp\\("
+      message: "new RegExp() with user input is dangerous"
+      alternative: "Use literal regex or sanitize input"
+      
+    - pattern: "\\bRegExp\\("
+      message: "RegExp() with user input is dangerous"
+      alternative: "Use literal regex or sanitize input"
+      
+    - pattern: "\\bJSON\\.parse\\("
+      message: "JSON.parse() with untrusted data is dangerous"
+      alternative: "Validate and sanitize input before parsing"
+      
+    - pattern: "\\bJSON\\.stringify\\("
+      message: "JSON.stringify() can expose sensitive data"
+      alternative: "Filter sensitive properties before stringifying"
+      
+    - pattern: "\\bXMLHttpRequest"
+      message: "XMLHttpRequest is deprecated, use fetch()"
+      alternative: "Use fetch() API or axios library"
+      
+    - pattern: "\\bActiveXObject"
+      message: "ActiveXObject is deprecated and insecure"
+      alternative: "Use modern alternatives"
+      
+    - pattern: "\\battachEvent"
+      message: "attachEvent is deprecated, use addEventListener"
+      alternative: "Use addEventListener() method"
+      
+    - pattern: "\\bdetachEvent"
+      message: "detachEvent is deprecated, use removeEventListener"
+      alternative: "Use removeEventListener() method"
+      
+    - pattern: "\\bcreateElement\\("
+      message: "createElement with user input can be dangerous"
+      alternative: "Validate and sanitize input before creating elements"
+      
+    - pattern: "\\bcreateTextNode\\("
+      message: "createTextNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before creating text nodes"
+      
+    - pattern: "\\bappendChild\\("
+      message: "appendChild with user input can be dangerous"
+      alternative: "Validate and sanitize input before appending"
+      
+    - pattern: "\\binsertBefore\\("
+      message: "insertBefore with user input can be dangerous"
+      alternative: "Validate and sanitize input before inserting"
+      
+    - pattern: "\\breplaceChild\\("
+      message: "replaceChild with user input can be dangerous"
+      alternative: "Validate and sanitize input before replacing"
+      
+    - pattern: "\\bremoveChild\\("
+      message: "removeChild with user input can be dangerous"
+      alternative: "Validate and sanitize input before removing"
+      
+    - pattern: "\\bcloneNode\\("
+      message: "cloneNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before cloning"
+      
+    - pattern: "\\bnormalize\\("
+      message: "normalize with user input can be dangerous"
+      alternative: "Validate and sanitize input before normalizing"
+      
+    - pattern: "\\bcompareDocumentPosition\\("
+      message: "compareDocumentPosition with user input can be dangerous"
+      alternative: "Validate and sanitize input before comparing"
+      
+    - pattern: "\\bcontains\\("
+      message: "contains with user input can be dangerous"
+      alternative: "Validate and sanitize input before checking containment"
+      
+    - pattern: "\\bisEqualNode\\("
+      message: "isEqualNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before comparing"
+      
+    - pattern: "\\bisSameNode\\("
+      message: "isSameNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before comparing"
+      
+    - pattern: "\\blookupPrefix\\("
+      message: "lookupPrefix with user input can be dangerous"
+      alternative: "Validate and sanitize input before looking up"
+      
+    - pattern: "\\blookupNamespaceURI\\("
+      message: "lookupNamespaceURI with user input can be dangerous"
+      alternative: "Validate and sanitize input before looking up"
+      
+    - pattern: "\\bisDefaultNamespace\\("
+      message: "isDefaultNamespace with user input can be dangerous"
+      alternative: "Validate and sanitize input before checking"
+      
+    - pattern: "\\binsertAdjacentHTML\\("
+      message: "insertAdjacentHTML with user input is dangerous"
+      alternative: "Validate and sanitize input before inserting"
+      
+    - pattern: "\\binsertAdjacentText\\("
+      message: "insertAdjacentText with user input can be dangerous"
+      alternative: "Validate and sanitize input before inserting"
+      
+    - pattern: "\\binsertAdjacentElement\\("
+      message: "insertAdjacentElement with user input can be dangerous"
+      alternative: "Validate and sanitize input before inserting"
+      
+    - pattern: "\\bscrollIntoView\\("
+      message: "scrollIntoView with user input can be dangerous"
+      alternative: "Validate and sanitize input before scrolling"
+      
+    - pattern: "\\bscrollTo\\("
+      message: "scrollTo with user input can be dangerous"
+      alternative: "Validate and sanitize input before scrolling"
+      
+    - pattern: "\\bscrollBy\\("
+      message: "scrollBy with user input can be dangerous"
+      alternative: "Validate and sanitize input before scrolling"
+      
+    - pattern: "\\bscroll\\("
+      message: "scroll with user input can be dangerous"
+      alternative: "Validate and sanitize input before scrolling"
+      
+    - pattern: "\\bscrollLeft\\s*="
+      message: "scrollLeft assignment with user input can be dangerous"
+      alternative: "Validate and sanitize input before setting"
+      
+    - pattern: "\\bscrollTop\\s*="
+      message: "scrollTop assignment with user input can be dangerous"
+      alternative: "Validate and sanitize input before setting"
+      
+    - pattern: "\\bscrollWidth"
+      message: "scrollWidth with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\bscrollHeight"
+      message: "scrollHeight with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\bclientWidth"
+      message: "clientWidth with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\bclientHeight"
+      message: "clientHeight with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\boffsetWidth"
+      message: "offsetWidth with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\boffsetHeight"
+      message: "offsetHeight with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\boffsetLeft"
+      message: "offsetLeft with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\boffsetTop"
+      message: "offsetTop with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\boffsetParent"
+      message: "offsetParent with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\bgetBoundingClientRect\\("
+      message: "getBoundingClientRect with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting bounds"
+      
+    - pattern: "\\bgetClientRects\\("
+      message: "getClientRects with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting rects"
+      
+    - pattern: "\\bgetComputedStyle\\("
+      message: "getComputedStyle with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting style"
+      
+    - pattern: "\\bmatches\\("
+      message: "matches with user input can be dangerous"
+      alternative: "Validate and sanitize input before matching"
+      
+    - pattern: "\\bclosest\\("
+      message: "closest with user input can be dangerous"
+      alternative: "Validate and sanitize input before finding closest"
+      
+    - pattern: "\\bquerySelector\\("
+      message: "querySelector with user input is dangerous"
+      alternative: "Validate and sanitize input before querying"
+      
+    - pattern: "\\bquerySelectorAll\\("
+      message: "querySelectorAll with user input is dangerous"
+      alternative: "Validate and sanitize input before querying"
+      
+    - pattern: "\\bgetElementById\\("
+      message: "getElementById with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting element"
+      
+    - pattern: "\\bgetElementsByClassName\\("
+      message: "getElementsByClassName with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting elements"
+      
+    - pattern: "\\bgetElementsByTagName\\("
+      message: "getElementsByTagName with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting elements"
+      
+    - pattern: "\\bgetElementsByName\\("
+      message: "getElementsByName with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting elements"
+      
+    - pattern: "\\bcreateElementNS\\("
+      message: "createElementNS with user input can be dangerous"
+      alternative: "Validate and sanitize input before creating elements"
+      
+    - pattern: "\\bcreateAttributeNS\\("
+      message: "createAttributeNS with user input can be dangerous"
+      alternative: "Validate and sanitize input before creating attributes"
+      
+    - pattern: "\\bgetAttributeNS\\("
+      message: "getAttributeNS with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting attributes"
+      
+    - pattern: "\\bsetAttributeNS\\("
+      message: "setAttributeNS with user input can be dangerous"
+      alternative: "Validate and sanitize input before setting attributes"
+      
+    - pattern: "\\bremoveAttributeNS\\("
+      message: "removeAttributeNS with user input can be dangerous"
+      alternative: "Validate and sanitize input before removing attributes"
+      
+    - pattern: "\\bhasAttributeNS\\("
+      message: "hasAttributeNS with user input can be dangerous"
+      alternative: "Validate and sanitize input before checking attributes"
+      
+    - pattern: "\\bgetElementsByTagNameNS\\("
+      message: "getElementsByTagNameNS with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting elements"
+      
+    - pattern: "\\bgetAttributeNodeNS\\("
+      message: "getAttributeNodeNS with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting attribute nodes"
+      
+    - pattern: "\\bsetAttributeNodeNS\\("
+      message: "setAttributeNodeNS with user input can be dangerous"
+      alternative: "Validate and sanitize input before setting attribute nodes"
+      
+    - pattern: "\\bremoveAttributeNodeNS\\("
+      message: "removeAttributeNodeNS with user input can be dangerous"
+      alternative: "Validate and sanitize input before removing attribute nodes"
+      
+    - pattern: "\\bhasAttributeNodeNS\\("
+      message: "hasAttributeNodeNS with user input can be dangerous"
+      alternative: "Validate and sanitize input before checking attribute nodes"
+      
+    - pattern: "\\bgetAttributeNode\\("
+      message: "getAttributeNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting attribute nodes"
+      
+    - pattern: "\\bsetAttributeNode\\("
+      message: "setAttributeNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before setting attribute nodes"
+      
+    - pattern: "\\bremoveAttributeNode\\("
+      message: "removeAttributeNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before removing attribute nodes"
+      
+    - pattern: "\\bhasAttributeNode\\("
+      message: "hasAttributeNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before checking attribute nodes"
+      
+    - pattern: "\\bgetAttribute\\("
+      message: "getAttribute with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting attributes"
+      
+    - pattern: "\\bsetAttribute\\("
+      message: "setAttribute with user input can be dangerous"
+      alternative: "Validate and sanitize input before setting attributes"
+      
+    - pattern: "\\bremoveAttribute\\("
+      message: "removeAttribute with user input can be dangerous"
+      alternative: "Validate and sanitize input before removing attributes"
+      
+    - pattern: "\\bhasAttribute\\("
+      message: "hasAttribute with user input can be dangerous"
+      alternative: "Validate and sanitize input before checking attributes"
+      
+    - pattern: "\\bgetElementsByTagName\\("
+      message: "getElementsByTagName with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting elements"
+      
+    - pattern: "\\bgetElementsByClassName\\("
+      message: "getElementsByClassName with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting elements"
+      
+    - pattern: "\\bgetElementsByName\\("
+      message: "getElementsByName with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting elements"
+      
+    - pattern: "\\bgetElementById\\("
+      message: "getElementById with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting element"
+      
+    - pattern: "\\bquerySelector\\("
+      message: "querySelector with user input is dangerous"
+      alternative: "Validate and sanitize input before querying"
+      
+    - pattern: "\\bquerySelectorAll\\("
+      message: "querySelectorAll with user input is dangerous"
+      alternative: "Validate and sanitize input before querying"
+      
+    - pattern: "\\bmatches\\("
+      message: "matches with user input can be dangerous"
+      alternative: "Validate and sanitize input before matching"
+      
+    - pattern: "\\bclosest\\("
+      message: "closest with user input can be dangerous"
+      alternative: "Validate and sanitize input before finding closest"
+      
+    - pattern: "\\bgetComputedStyle\\("
+      message: "getComputedStyle with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting style"
+      
+    - pattern: "\\bgetClientRects\\("
+      message: "getClientRects with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting rects"
+      
+    - pattern: "\\bgetBoundingClientRect\\("
+      message: "getBoundingClientRect with user input can be dangerous"
+      alternative: "Validate and sanitize input before getting bounds"
+      
+    - pattern: "\\boffsetParent"
+      message: "offsetParent with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\boffsetTop"
+      message: "offsetTop with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\boffsetLeft"
+      message: "offsetLeft with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\boffsetHeight"
+      message: "offsetHeight with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\boffsetWidth"
+      message: "offsetWidth with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\bclientHeight"
+      message: "clientHeight with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\bclientWidth"
+      message: "clientWidth with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\bscrollHeight"
+      message: "scrollHeight with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\bscrollWidth"
+      message: "scrollWidth with user input can be dangerous"
+      alternative: "Validate and sanitize input before accessing"
+      
+    - pattern: "\\bscrollTop\\s*="
+      message: "scrollTop assignment with user input can be dangerous"
+      alternative: "Validate and sanitize input before setting"
+      
+    - pattern: "\\bscrollLeft\\s*="
+      message: "scrollLeft assignment with user input can be dangerous"
+      alternative: "Validate and sanitize input before setting"
+      
+    - pattern: "\\bscroll\\("
+      message: "scroll with user input can be dangerous"
+      alternative: "Validate and sanitize input before scrolling"
+      
+    - pattern: "\\bscrollBy\\("
+      message: "scrollBy with user input can be dangerous"
+      alternative: "Validate and sanitize input before scrolling"
+      
+    - pattern: "\\bscrollTo\\("
+      message: "scrollTo with user input can be dangerous"
+      alternative: "Validate and sanitize input before scrolling"
+      
+    - pattern: "\\bscrollIntoView\\("
+      message: "scrollIntoView with user input can be dangerous"
+      alternative: "Validate and sanitize input before scrolling"
+      
+    - pattern: "\\binsertAdjacentElement\\("
+      message: "insertAdjacentElement with user input can be dangerous"
+      alternative: "Validate and sanitize input before inserting"
+      
+    - pattern: "\\binsertAdjacentText\\("
+      message: "insertAdjacentText with user input can be dangerous"
+      alternative: "Validate and sanitize input before inserting"
+      
+    - pattern: "\\binsertAdjacentHTML\\("
+      message: "insertAdjacentHTML with user input is dangerous"
+      alternative: "Validate and sanitize input before inserting"
+      
+    - pattern: "\\bisDefaultNamespace\\("
+      message: "isDefaultNamespace with user input can be dangerous"
+      alternative: "Validate and sanitize input before checking"
+      
+    - pattern: "\\blookupNamespaceURI\\("
+      message: "lookupNamespaceURI with user input can be dangerous"
+      alternative: "Validate and sanitize input before looking up"
+      
+    - pattern: "\\blookupPrefix\\("
+      message: "lookupPrefix with user input can be dangerous"
+      alternative: "Validate and sanitize input before looking up"
+      
+    - pattern: "\\bisSameNode\\("
+      message: "isSameNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before comparing"
+      
+    - pattern: "\\bisEqualNode\\("
+      message: "isEqualNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before comparing"
+      
+    - pattern: "\\bcontains\\("
+      message: "contains with user input can be dangerous"
+      alternative: "Validate and sanitize input before checking containment"
+      
+    - pattern: "\\bcompareDocumentPosition\\("
+      message: "compareDocumentPosition with user input can be dangerous"
+      alternative: "Validate and sanitize input before comparing"
+      
+    - pattern: "\\bnormalize\\("
+      message: "normalize with user input can be dangerous"
+      alternative: "Validate and sanitize input before normalizing"
+      
+    - pattern: "\\bcloneNode\\("
+      message: "cloneNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before cloning"
+      
+    - pattern: "\\bremoveChild\\("
+      message: "removeChild with user input can be dangerous"
+      alternative: "Validate and sanitize input before removing"
+      
+    - pattern: "\\breplaceChild\\("
+      message: "replaceChild with user input can be dangerous"
+      alternative: "Validate and sanitize input before replacing"
+      
+    - pattern: "\\binsertBefore\\("
+      message: "insertBefore with user input can be dangerous"
+      alternative: "Validate and sanitize input before inserting"
+      
+    - pattern: "\\bappendChild\\("
+      message: "appendChild with user input can be dangerous"
+      alternative: "Validate and sanitize input before appending"
+      
+    - pattern: "\\bcreateTextNode\\("
+      message: "createTextNode with user input can be dangerous"
+      alternative: "Validate and sanitize input before creating text nodes"
+      
+    - pattern: "\\bcreateElement\\("
+      message: "createElement with user input can be dangerous"
+      alternative: "Validate and sanitize input before creating elements"
+      
+    - pattern: "\\bdetachEvent"
+      message: "detachEvent is deprecated, use removeEventListener"
+      alternative: "Use removeEventListener() method"
+      
+    - pattern: "\\battachEvent"
+      message: "attachEvent is deprecated, use addEventListener"
+      alternative: "Use addEventListener() method"
+      
+    - pattern: "\\bActiveXObject"
+      message: "ActiveXObject is deprecated and insecure"
+      alternative: "Use modern alternatives"
+      
+    - pattern: "\\bXMLHttpRequest"
+      message: "XMLHttpRequest is deprecated, use fetch()"
+      alternative: "Use fetch() API or axios library"
+      
+    - pattern: "\\bJSON\\.stringify\\("
+      message: "JSON.stringify() can expose sensitive data"
+      alternative: "Filter sensitive properties before stringifying"
+      
+    - pattern: "\\bJSON\\.parse\\("
+      message: "JSON.parse() with untrusted data is dangerous"
+      alternative: "Validate and sanitize input before parsing"
+      
+    - pattern: "\\bRegExp\\("
+      message: "RegExp() with user input is dangerous"
+      alternative: "Use literal regex or sanitize input"
+      
+    - pattern: "\\bnew\\s+RegExp\\("
+      message: "new RegExp() with user input is dangerous"
+      alternative: "Use literal regex or sanitize input"
+      
+    - pattern: "\\bnew\\s+Function\\("
+      message: "new Function() is dangerous"
+      alternative: "Use function declarations or arrow functions"
+      
+    - pattern: "\\bimport\\(.*\\)"
+      message: "Dynamic import() can be dangerous"
+      alternative: "Use static imports or proper module loading"
+      
+    - pattern: "\\brequire\\(.*\\)"
+      message: "Dynamic require() can be dangerous"
+      alternative: "Use static imports or proper module loading"
+      
+    - pattern: "\\bprocess\\.nextTick\\("
+      message: "process.nextTick with string is dangerous"
+      alternative: "Use function references instead of strings"
+      
+    - pattern: "\\bsetImmediate\\("
+      message: "setImmediate with string is dangerous"
+      alternative: "Use function references instead of strings"
+      
+    - pattern: "\\bsetInterval\\("
+      message: "setInterval with string is dangerous"
+      alternative: "Use function references instead of strings"
+      
+    - pattern: "\\bsetTimeout\\("
+      message: "setTimeout with string is dangerous"
+      alternative: "Use function references instead of strings"
+      
+    - pattern: "\\bFunction\\("
+      message: "Function constructor is dangerous"
+      alternative: "Use function declarations or arrow functions"
+      
+    - pattern: "\\beval\\("
+      message: "eval() is dangerous and should be avoided"
+      alternative: "Use safer alternatives or refactor code"
+      
+    - pattern: "\\bouterHTML\\s*="
+      message: "outerHTML assignment can be dangerous"
+      alternative: "Use proper DOM manipulation methods"
+      
+    - pattern: "\\binnerHTML\\s*="
+      message: "innerHTML assignment can be dangerous"
+      alternative: "Use textContent or proper DOM methods"
+      
+    - pattern: "\\bdocument\\.write\\("
+      message: "document.write() is deprecated and dangerous"
+      alternative: "Use DOM manipulation methods"
+      
+    - pattern: "\\bprompt\\("
+      message: "prompt() should not be used in production"
+      alternative: "Use proper user interface components"
+      
+    - pattern: "\\bconfirm\\("
+      message: "confirm() should not be used in production"
+      alternative: "Use proper user interface components"
+      
+    - pattern: "\\balert\\("
+      message: "alert() should not be used in production"
+      alternative: "Use proper user interface components or logging"
+      
+    - pattern: "\\bdebugger\\b"
+      message: "debugger statement should be removed in production"
+      alternative: "Remove debugger statements or use proper debugging tools"
       
   java:
     - pattern: "Thread\\.stop\\("

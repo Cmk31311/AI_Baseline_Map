@@ -27,7 +27,7 @@ export const PatternFindingSchema = z.object({
   file: z.string(),
   line: z.number(),
   status: z.literal('affected'),
-  reason: z.literal('deprecated-api'),
+  reason: z.enum(['deprecated-api', 'code-quality', 'security', 'performance']),
   issue: z.string(),
   pattern: z.string(),
   quickFix: z.string().optional(),

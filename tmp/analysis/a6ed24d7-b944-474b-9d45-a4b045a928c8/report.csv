@@ -1,0 +1,2 @@
+Kind,Language,Component,File,Line,Status,Reason,Quick Fix,Found Version,Required Version
+Pattern,node,,C:\Users\Ckhadar\Downloads\AI_Baseline_Map\tmp\analyzer\c2f514db-6d19-48ef-8faa-57985c12cd20-index.css,59,affected,Line is too long (>120 characters),Break long lines for better readability,,

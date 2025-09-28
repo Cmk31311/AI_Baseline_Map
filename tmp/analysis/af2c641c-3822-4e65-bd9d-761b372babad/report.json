@@ -1,0 +1,27 @@
+{
+  "findings": [],
+  "summary": {
+    "ok": 0,
+    "affected": 0,
+    "unknown": 0,
+    "byLanguage": {
+      "node": {
+        "ok": 0,
+        "affected": 0,
+        "unknown": 0
+      }
+    }
+  },
+  "metadata": {
+    "analysisId": "e4ded50c-b9e0-4f81-8de0-6bd175d3d8b2",
+    "timestamp": "2025-09-28T20:22:58.001Z",
+    "projectName": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c8abec08-7e70-44e3-994b-f8e5efa67bed-eslint.config.js",
+    "detectedLanguages": [
+      "node"
+    ],
+    "totalFiles": 1,
+    "scannedFiles": 1,
+    "skippedFiles": 0,
+    "groqAnalysis": []
+  }
+}

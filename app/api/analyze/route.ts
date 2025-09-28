@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
-import { runBaselineAnalysis, validateAnalysisOptions, checkAnalysisFeasibility } from '../../../lib/analysis/run';
-import { validateZip, getZipInfo } from '../../../lib/files/unzip';
+import { runBaselineAnalysis, validateAnalysisOptions } from '../../../lib/analysis/run';
+// ZIP imports removed as per new requirements
 import { shouldAnalyzeFile } from '../../../lib/files/single-file';
 import { AnalyzeResponse } from '../../../lib/analysis/baseline.types';
 
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     console.log('File saved successfully');
 
     try {
-      // Check if file should be analyzed
+      // Check if file should be analyzed (early exit for unsupported types)
       if (!shouldAnalyzeFile(originalName)) {
         return NextResponse.json({ 
           error: 'File type not supported for analysis',
@@ -69,34 +69,12 @@ export async function POST(request: NextRequest) {
         }, { status: 400 });
       }
 
-      // For ZIP files, validate and get info
-      let feasibility: { feasible: boolean; warnings: string[]; estimatedTime: string } = { feasible: true, warnings: [], estimatedTime: '1-2 minutes' };
-      if (originalName.toLowerCase().endsWith('.zip')) {
-        const isValidZip = await validateZip(tempPath);
-        if (!isValidZip) {
-          return NextResponse.json({ error: 'Invalid ZIP file' }, { status: 400 });
-        }
-
-        const zipInfo = await getZipInfo(tempPath);
-        feasibility = checkAnalysisFeasibility(zipInfo.totalFiles, zipInfo.totalSize);
-        if (!feasibility.feasible) {
-          return NextResponse.json({ 
-            error: 'Analysis not feasible',
-            warnings: feasibility.warnings,
-            details: {
-              totalFiles: zipInfo.totalFiles,
-              totalSize: zipInfo.totalSize,
-              estimatedTime: feasibility.estimatedTime,
-            }
-          }, { status: 400 });
-        }
-      }
-
       // Run analysis
       console.log('Starting analysis for:', originalName);
       const analysisOptions = validateAnalysisOptions({
         maxFiles: 50000,
         maxFileSize: 2 * 1024 * 1024, // 2MB
+        allowedExtensions: ['.html', '.htm', '.css', '.js', '.mjs', '.ts', '.svg', '.wasm', '.json', '.webmanifest'],
         storeResults: true,
         publicUrl: process.env.PUBLIC_URL || 'http://localhost:3000',
       });

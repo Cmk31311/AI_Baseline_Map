@@ -1,0 +1,19 @@
+{
+  "findings": [],
+  "summary": {
+    "ok": 0,
+    "affected": 0,
+    "unknown": 0,
+    "byLanguage": {}
+  },
+  "metadata": {
+    "analysisId": "bfd5d7e7-de8a-46e6-84eb-6966c7fe3844",
+    "timestamp": "2025-09-28T19:55:09.121Z",
+    "projectName": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\3d9476e9-9fa5-4379-b736-22bb342d6304-index.css",
+    "detectedLanguages": [],
+    "totalFiles": 1,
+    "scannedFiles": 1,
+    "skippedFiles": 0,
+    "groqAnalysis": []
+  }
+}

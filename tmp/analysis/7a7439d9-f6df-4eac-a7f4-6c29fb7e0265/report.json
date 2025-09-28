@@ -1,0 +1,27 @@
+{
+  "findings": [],
+  "summary": {
+    "ok": 0,
+    "affected": 0,
+    "unknown": 0,
+    "byLanguage": {
+      "node": {
+        "ok": 0,
+        "affected": 0,
+        "unknown": 0
+      }
+    }
+  },
+  "metadata": {
+    "analysisId": "12e5a02a-5d3e-4d86-8abe-afbb7fe06798",
+    "timestamp": "2025-09-28T19:54:09.697Z",
+    "projectName": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\31ab9e23-74c5-487b-b2bd-7af69ede93c3-tailwind.config.js",
+    "detectedLanguages": [
+      "node"
+    ],
+    "totalFiles": 1,
+    "scannedFiles": 1,
+    "skippedFiles": 0,
+    "groqAnalysis": []
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "findings": [
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 2,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 3,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 114,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 148,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 228,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 263,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 264,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 329,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 475,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 492,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 702,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 1330,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 1334,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 1418,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    },
+    {
+      "kind": "pattern",
+      "lang": "node",
+      "file": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+      "line": 2999,
+      "status": "affected",
+      "reason": "code-quality",
+      "issue": "Line is too long (>120 characters)",
+      "pattern": "long-line",
+      "quickFix": "Break long lines for better readability"
+    }
+  ],
+  "summary": {
+    "ok": 0,
+    "affected": 15,
+    "unknown": 0,
+    "byLanguage": {}
+  },
+  "metadata": {
+    "analysisId": "2e6cc754-440a-4356-a349-709ecab16fe9",
+    "timestamp": "2025-09-28T22:52:07.339Z",
+    "projectName": "C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\tmp\\analyzer\\c53dac4b-3323-44fb-b882-429b32d4cf56-layout.css",
+    "detectedLanguages": [],
+    "totalFiles": 1,
+    "scannedFiles": 1,
+    "skippedFiles": 0,
+    "groqAnalysis": []
+  }
+}

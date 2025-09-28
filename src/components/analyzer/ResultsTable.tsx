@@ -128,83 +128,88 @@ export function ResultsTable({ findings, isLoading = false }: ResultsTableProps)
   }
 
   return (
-    <div className="bg-white rounded-lg shadow overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900">Analysis Results</h3>
-        <p className="text-sm text-gray-600 mt-1">{findings.length} findings</p>
+    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-200/50">
+      <div className="px-6 py-6 border-b border-gray-200/50 bg-gradient-to-r from-gray-50/50 to-blue-50/50">
+        <h3 className="text-xl font-bold text-gray-900 flex items-center">
+          <svg className="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Analysis Results
+        </h3>
+        <p className="text-sm text-gray-600 mt-2 bg-white px-3 py-1 rounded-full inline-block">{findings.length} findings</p>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+        <table className="min-w-full divide-y divide-gray-200/50">
+          <thead className="bg-gradient-to-r from-gray-50 to-blue-50/30">
             <tr>
               <th
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-blue-50/50 transition-colors duration-200"
                 onClick={() => handleSort('kind')}
               >
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-2">
                   <span>Kind</span>
                   {getSortIcon('kind')}
                 </div>
               </th>
               <th
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-blue-50/50 transition-colors duration-200"
                 onClick={() => handleSort('language')}
               >
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-2">
                   <span>Language</span>
                   {getSortIcon('language')}
                 </div>
               </th>
               <th
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-blue-50/50 transition-colors duration-200"
                 onClick={() => handleSort('component')}
               >
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-2">
                   <span>Component</span>
                   {getSortIcon('component')}
                 </div>
               </th>
               <th
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-blue-50/50 transition-colors duration-200"
                 onClick={() => handleSort('file')}
               >
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-2">
                   <span>File</span>
                   {getSortIcon('file')}
                 </div>
               </th>
               <th
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-blue-50/50 transition-colors duration-200"
                 onClick={() => handleSort('status')}
               >
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-2">
                   <span>Status</span>
                   {getSortIcon('status')}
                 </div>
               </th>
               <th
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-blue-50/50 transition-colors duration-200"
                 onClick={() => handleSort('reason')}
               >
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-2">
                   <span>Reason</span>
                   {getSortIcon('reason')}
                 </div>
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 Quick Fix
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white/50 divide-y divide-gray-200/50">
             {sortedFindings.map((finding, index) => (
-              <tr key={index} className="hover:bg-gray-50">
+              <tr key={index} className="hover:bg-blue-50/30 transition-colors duration-200">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                  <span className={`inline-flex items-center px-3 py-1 rounded-xl text-xs font-semibold shadow-sm ${
                     finding.kind === 'dependency' 
-                      ? 'bg-blue-100 text-blue-800' 
-                      : 'bg-purple-100 text-purple-800'
+                      ? 'bg-blue-100 text-blue-800 border border-blue-200' 
+                      : 'bg-purple-100 text-purple-800 border border-purple-200'
                   }`}>
                     {finding.kind === 'dependency' ? '📦 Dependency' : '🔍 Pattern'}
                   </span>
@@ -238,12 +243,12 @@ export function ResultsTable({ findings, isLoading = false }: ResultsTableProps)
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                  <span className={`inline-flex items-center px-3 py-1 rounded-xl text-xs font-semibold shadow-sm ${
                     finding.status === 'ok' 
-                      ? 'bg-green-100 text-green-800'
+                      ? 'bg-green-100 text-green-800 border border-green-200'
                       : finding.status === 'affected'
-                      ? 'bg-yellow-100 text-yellow-800'
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-yellow-100 text-yellow-800 border border-yellow-200'
+                      : 'bg-gray-100 text-gray-800 border border-gray-200'
                   }`}>
                     {finding.status === 'ok' ? '✅ OK' : finding.status === 'affected' ? '⚠️ Affected' : '❓ Unknown'}
                   </span>
@@ -256,7 +261,7 @@ export function ResultsTable({ findings, isLoading = false }: ResultsTableProps)
                 <td className="px-6 py-4 text-sm text-gray-900">
                   {finding.quickFix ? (
                     <div className="max-w-xs">
-                      <span className="text-blue-600">{finding.quickFix}</span>
+                      <span className="text-blue-600 bg-blue-50 px-2 py-1 rounded-lg text-xs font-medium">{finding.quickFix}</span>
                     </div>
                   ) : (
                     <span className="text-gray-400">—</span>
