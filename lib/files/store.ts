@@ -28,7 +28,7 @@ export function storeAnalysisResults(
 ): StoredArtifacts {
   const {
     baseDir = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis'),
-    publicUrl = 'http://localhost:3000',
+    publicUrl = process.env.VERCEL ? process.env.VERCEL_URL || 'https://your-app.vercel.app' : 'http://localhost:3000',
     ttl = 24 * 60 * 60 * 1000, // 24 hours
   } = options;
 

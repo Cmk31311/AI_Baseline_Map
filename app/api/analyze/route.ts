@@ -71,12 +71,13 @@ export async function POST(request: NextRequest) {
 
       // Run analysis
       console.log('Starting analysis for:', originalName);
+      const publicUrl = process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
       const analysisOptions = validateAnalysisOptions({
         maxFiles: 50000,
         maxFileSize: 2 * 1024 * 1024, // 2MB
         allowedExtensions: ['.html', '.htm', '.css', '.js', '.mjs', '.ts', '.svg', '.wasm', '.json', '.webmanifest'],
         storeResults: true,
-        publicUrl: process.env.PUBLIC_URL || 'http://localhost:3000',
+        publicUrl,
       });
 
       console.log('Analysis options:', analysisOptions);
@@ -97,6 +98,12 @@ export async function POST(request: NextRequest) {
         },
         report: result.report, // Include full report for Groq analysis
       };
+      
+      console.log('Analysis response:', {
+        analysisId: response.analysisId,
+        jsonUrl: response.artifacts.jsonUrl,
+        csvUrl: response.artifacts.csvUrl
+      });
 
       return NextResponse.json(response);
 

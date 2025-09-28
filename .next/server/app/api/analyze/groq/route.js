@@ -1,0 +1,60 @@
+(()=>{var a={};a.id=938,a.ids=[938],a.modules={261:a=>{"use strict";a.exports=require("next/dist/shared/lib/router/utils/app-paths")},3295:a=>{"use strict";a.exports=require("next/dist/server/app-render/after-task-async-storage.external.js")},9458:(a,b,c)=>{"use strict";c.r(b),c.d(b,{handler:()=>E,patchFetch:()=>D,routeModule:()=>z,serverHooks:()=>C,workAsyncStorage:()=>A,workUnitAsyncStorage:()=>B});var d={};c.r(d),c.d(d,{POST:()=>y,dynamic:()=>x,runtime:()=>w});var e=c(95736),f=c(9117),g=c(4044),h=c(39326),i=c(32324),j=c(261),k=c(54290),l=c(85328),m=c(38928),n=c(46595),o=c(3421),p=c(17679),q=c(41681),r=c(63446),s=c(86439),t=c(51356),u=c(10641),v=c(66545);let w="nodejs",x="force-dynamic";async function y(a){try{let{code:b,filename:c}=await a.json();if(!b||!c)return u.NextResponse.json({error:"Code and filename are required"},{status:400});if(!process.env.GROQ_API_KEY)return console.error("GROQ_API_KEY not found in environment variables"),u.NextResponse.json({error:"GROQ_API_KEY not configured. Please add it to your environment variables."},{status:500});console.log("GROQ_API_KEY found:",process.env.GROQ_API_KEY.substring(0,10)+"...");let d=new v.Ay({apiKey:process.env.GROQ_API_KEY});if([/node_modules/,/\.git/,/dist/,/build/,/\.next/,/vendor/,/\.cache/,/coverage/,/\.env/,/package-lock\.json/,/yarn\.lock/,/\.log$/,/\.lock$/,/\.min\./,/\.bundle\./].some(a=>a.test(c)))return u.NextResponse.json({error:"Skipping analysis for build/vendor files"},{status:400});let e=c.split(".").pop()?.toLowerCase()||"",f={html:"HTML",htm:"HTML",css:"CSS",js:"JavaScript",mjs:"JavaScript ES Module",ts:"TypeScript",svg:"SVG",wasm:"WebAssembly",json:"JSON",webmanifest:"Web App Manifest"}[e]||"web file",g={html:3e3,htm:3e3,css:2500,js:2e3,mjs:2e3,ts:2e3,svg:1500,wasm:500,json:1e3,webmanifest:800}[e]||1500,h=b.replace(/(api[_-]?key|secret|password|token)\s*[:=]\s*["']?[^"'\s]+["']?/gi,'$1 = "•••"').replace(/(bearer|authorization)\s*:\s*["']?[^"'\s]+["']?/gi,'$1: "•••"').replace(/["'][a-zA-Z0-9]{20,}["']/g,'"•••"').replace(/(https?:\/\/[^\s"']+)/gi,"https://example.com").replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/gi,"user@example.com").substring(0,g);console.log(`Processing ${c}: ${b.length} chars -> ${h.length} chars (max: ${g})`);let i=await d.chat.completions.create({messages:[{role:"system",content:`You are a Baseline Web Features expert. Analyze ${f} files against baseline web standards and modern browser compatibility.
+
+**Baseline Web Features Focus:**
+- Widely Available features (safe everywhere)
+- Newly Available features (recently reached baseline)
+- Limited Availability features (use with caution)
+- Browser support and compatibility
+- Modern web APIs and standards
+- Performance and accessibility
+
+**Analysis Requirements:**
+1. Identify specific baseline web features used
+2. Check browser compatibility for each feature
+3. Flag deprecated or non-baseline APIs
+4. Provide specific fixes and alternatives
+5. Rate overall baseline compliance
+
+Return analysis in this exact format:
+
+## Summary
+[2-3 sentence overview of baseline web feature compliance]
+
+## Score: [0-100] - [PASS/WARN/FAIL]
+[PASS: 85-100, WARN: 70-84, FAIL: 0-69]
+
+## Baseline Features Analysis
+| Feature | Status | Browser Support | Recommendation |
+|---------|--------|-----------------|----------------|
+| [Feature name] | [Widely Available/Newly Available/Limited] | [Support details] | [Action needed] |
+
+## Issues Found
+| Severity | Issue | Affected Feature | Fix |
+|----------|-------|------------------|-----|
+| HIGH/MED/LOW | [Specific problem] | [Baseline feature] | [Specific solution] |
+
+## Code Improvements
+\`\`\`${e}
+[Specific code changes with baseline-compliant alternatives]
+\`\`\`
+
+## Next Steps
+1. [Priority baseline compliance action]
+2. [Browser support improvement]
+3. [Modern web standard adoption]
+
+Focus on baseline web features and browser compatibility.`},{role:"user",content:`Analyze this ${f} file for baseline web feature compliance:
+
+**File:** ${c}
+**Type:** ${e.toUpperCase()}
+
+\`\`\`${e}
+${h}
+\`\`\`
+
+Provide a detailed baseline web features analysis focusing on:
+- Which baseline web features are used
+- Browser compatibility for each feature
+- Deprecated or non-baseline APIs
+- Specific fixes for better baseline compliance
+- Modern web standards adoption`}],model:"llama-3.1-8b-instant",max_tokens:1200,temperature:.1}),j=i.choices[0]?.message?.content;if(!j)return u.NextResponse.json({error:"No analysis generated"},{status:500});return u.NextResponse.json({analysis:j,filename:c,timestamp:new Date().toISOString()})}catch(a){return console.error("Groq analysis error:",a),u.NextResponse.json({error:"Analysis failed",details:a instanceof Error?a.message:"Unknown error"},{status:500})}}let z=new e.AppRouteRouteModule({definition:{kind:f.RouteKind.APP_ROUTE,page:"/api/analyze/groq/route",pathname:"/api/analyze/groq",filename:"route",bundlePath:"app/api/analyze/groq/route"},distDir:".next",relativeProjectDir:"",resolvedPagePath:"C:\\Users\\Ckhadar\\Downloads\\AI_Baseline_Map\\app\\api\\analyze\\groq\\route.ts",nextConfigOutput:"",userland:d}),{workAsyncStorage:A,workUnitAsyncStorage:B,serverHooks:C}=z;function D(){return(0,g.patchFetch)({workAsyncStorage:A,workUnitAsyncStorage:B})}async function E(a,b,c){var d;let e="/api/analyze/groq/route";"/index"===e&&(e="/");let g=await z.prepare(a,b,{srcPage:e,multiZoneDraftMode:!1});if(!g)return b.statusCode=400,b.end("Bad Request"),null==c.waitUntil||c.waitUntil.call(c,Promise.resolve()),null;let{buildId:u,params:v,nextConfig:w,isDraftMode:x,prerenderManifest:y,routerServerContext:A,isOnDemandRevalidate:B,revalidateOnlyGenerated:C,resolvedPathname:D}=g,E=(0,j.normalizeAppPath)(e),F=!!(y.dynamicRoutes[E]||y.routes[D]);if(F&&!x){let a=!!y.routes[D],b=y.dynamicRoutes[E];if(b&&!1===b.fallback&&!a)throw new s.NoFallbackError}let G=null;!F||z.isDev||x||(G="/index"===(G=D)?"/":G);let H=!0===z.isDev||!F,I=F&&!H,J=a.method||"GET",K=(0,i.getTracer)(),L=K.getActiveScopeSpan(),M={params:v,prerenderManifest:y,renderOpts:{experimental:{cacheComponents:!!w.experimental.cacheComponents,authInterrupts:!!w.experimental.authInterrupts},supportsDynamicResponse:H,incrementalCache:(0,h.getRequestMeta)(a,"incrementalCache"),cacheLifeProfiles:null==(d=w.experimental)?void 0:d.cacheLife,isRevalidate:I,waitUntil:c.waitUntil,onClose:a=>{b.on("close",a)},onAfterTaskError:void 0,onInstrumentationRequestError:(b,c,d)=>z.onRequestError(a,b,d,A)},sharedContext:{buildId:u}},N=new k.NodeNextRequest(a),O=new k.NodeNextResponse(b),P=l.NextRequestAdapter.fromNodeNextRequest(N,(0,l.signalFromNodeResponse)(b));try{let d=async c=>z.handle(P,M).finally(()=>{if(!c)return;c.setAttributes({"http.status_code":b.statusCode,"next.rsc":!1});let d=K.getRootSpanAttributes();if(!d)return;if(d.get("next.span_type")!==m.BaseServerSpan.handleRequest)return void console.warn(`Unexpected root span type '${d.get("next.span_type")}'. Please report this Next.js issue https://github.com/vercel/next.js`);let e=d.get("next.route");if(e){let a=`${J} ${e}`;c.setAttributes({"next.route":e,"http.route":e,"next.span_name":a}),c.updateName(a)}else c.updateName(`${J} ${a.url}`)}),g=async g=>{var i,j;let k=async({previousCacheEntry:f})=>{try{if(!(0,h.getRequestMeta)(a,"minimalMode")&&B&&C&&!f)return b.statusCode=404,b.setHeader("x-nextjs-cache","REVALIDATED"),b.end("This page could not be found"),null;let e=await d(g);a.fetchMetrics=M.renderOpts.fetchMetrics;let i=M.renderOpts.pendingWaitUntil;i&&c.waitUntil&&(c.waitUntil(i),i=void 0);let j=M.renderOpts.collectedTags;if(!F)return await (0,o.I)(N,O,e,M.renderOpts.pendingWaitUntil),null;{let a=await e.blob(),b=(0,p.toNodeOutgoingHttpHeaders)(e.headers);j&&(b[r.NEXT_CACHE_TAGS_HEADER]=j),!b["content-type"]&&a.type&&(b["content-type"]=a.type);let c=void 0!==M.renderOpts.collectedRevalidate&&!(M.renderOpts.collectedRevalidate>=r.INFINITE_CACHE)&&M.renderOpts.collectedRevalidate,d=void 0===M.renderOpts.collectedExpire||M.renderOpts.collectedExpire>=r.INFINITE_CACHE?void 0:M.renderOpts.collectedExpire;return{value:{kind:t.CachedRouteKind.APP_ROUTE,status:e.status,body:Buffer.from(await a.arrayBuffer()),headers:b},cacheControl:{revalidate:c,expire:d}}}}catch(b){throw(null==f?void 0:f.isStale)&&await z.onRequestError(a,b,{routerKind:"App Router",routePath:e,routeType:"route",revalidateReason:(0,n.c)({isRevalidate:I,isOnDemandRevalidate:B})},A),b}},l=await z.handleResponse({req:a,nextConfig:w,cacheKey:G,routeKind:f.RouteKind.APP_ROUTE,isFallback:!1,prerenderManifest:y,isRoutePPREnabled:!1,isOnDemandRevalidate:B,revalidateOnlyGenerated:C,responseGenerator:k,waitUntil:c.waitUntil});if(!F)return null;if((null==l||null==(i=l.value)?void 0:i.kind)!==t.CachedRouteKind.APP_ROUTE)throw Object.defineProperty(Error(`Invariant: app-route received invalid cache entry ${null==l||null==(j=l.value)?void 0:j.kind}`),"__NEXT_ERROR_CODE",{value:"E701",enumerable:!1,configurable:!0});(0,h.getRequestMeta)(a,"minimalMode")||b.setHeader("x-nextjs-cache",B?"REVALIDATED":l.isMiss?"MISS":l.isStale?"STALE":"HIT"),x&&b.setHeader("Cache-Control","private, no-cache, no-store, max-age=0, must-revalidate");let m=(0,p.fromNodeOutgoingHttpHeaders)(l.value.headers);return(0,h.getRequestMeta)(a,"minimalMode")&&F||m.delete(r.NEXT_CACHE_TAGS_HEADER),!l.cacheControl||b.getHeader("Cache-Control")||m.get("Cache-Control")||m.set("Cache-Control",(0,q.getCacheControlHeader)(l.cacheControl)),await (0,o.I)(N,O,new Response(l.value.body,{headers:m,status:l.value.status||200})),null};L?await g(L):await K.withPropagatedContext(a.headers,()=>K.trace(m.BaseServerSpan.handleRequest,{spanName:`${J} ${a.url}`,kind:i.SpanKind.SERVER,attributes:{"http.method":J,"http.target":a.url}},g))}catch(b){if(b instanceof s.NoFallbackError||await z.onRequestError(a,b,{routerKind:"App Router",routePath:E,routeType:"route",revalidateReason:(0,n.c)({isRevalidate:I,isOnDemandRevalidate:B})}),F)throw b;return await (0,o.I)(N,O,new Response(null,{status:500})),null}}},10846:a=>{"use strict";a.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},11997:a=>{"use strict";a.exports=require("punycode")},19121:a=>{"use strict";a.exports=require("next/dist/server/app-render/action-async-storage.external.js")},27910:a=>{"use strict";a.exports=require("stream")},28354:a=>{"use strict";a.exports=require("util")},29021:a=>{"use strict";a.exports=require("fs")},29294:a=>{"use strict";a.exports=require("next/dist/server/app-render/work-async-storage.external.js")},33873:a=>{"use strict";a.exports=require("path")},37830:a=>{"use strict";a.exports=require("node:stream/web")},44870:a=>{"use strict";a.exports=require("next/dist/compiled/next-server/app-route.runtime.prod.js")},55591:a=>{"use strict";a.exports=require("https")},57075:a=>{"use strict";a.exports=require("node:stream")},63033:a=>{"use strict";a.exports=require("next/dist/server/app-render/work-unit-async-storage.external.js")},73024:a=>{"use strict";a.exports=require("node:fs")},73566:a=>{"use strict";a.exports=require("worker_threads")},74075:a=>{"use strict";a.exports=require("zlib")},78335:()=>{},79551:a=>{"use strict";a.exports=require("url")},81630:a=>{"use strict";a.exports=require("http")},86439:a=>{"use strict";a.exports=require("next/dist/shared/lib/no-fallback-error.external")},96487:()=>{}};var b=require("../../../../webpack-runtime.js");b.C(a);var c=b.X(0,[586,692,545],()=>b(b.s=9458));module.exports=c})();
