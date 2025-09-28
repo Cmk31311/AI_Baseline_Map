@@ -33,8 +33,8 @@ export async function POST(request: NextRequest) {
       size: file.size
     });
 
-    // Create temporary directory
-    const tempDir = path.join(process.cwd(), 'tmp', 'analyzer');
+    // Create temporary directory - use /tmp for Vercel serverless
+    const tempDir = process.env.VERCEL ? '/tmp/analyzer' : path.join(process.cwd(), 'tmp', 'analyzer');
     await fs.mkdir(tempDir, { recursive: true });
 
     // Save uploaded file

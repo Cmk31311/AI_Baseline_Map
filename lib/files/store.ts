@@ -27,7 +27,7 @@ export function storeAnalysisResults(
   options: StorageOptions = {}
 ): StoredArtifacts {
   const {
-    baseDir = join(process.cwd(), 'tmp', 'analysis'),
+    baseDir = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis'),
     publicUrl = 'http://localhost:3000',
     ttl = 24 * 60 * 60 * 1000, // 24 hours
   } = options;
@@ -134,7 +134,7 @@ function scheduleCleanup(analysisDir: string, ttl: number): void {
 export async function getStoredAnalysis(
   analysisId: string,
   format: 'json' | 'csv' = 'json',
-  baseDir: string = join(process.cwd(), 'tmp', 'analysis')
+  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
 ): Promise<string | null> {
   try {
     const analysisDir = join(baseDir, analysisId);
@@ -161,7 +161,7 @@ export async function getStoredAnalysis(
  */
 export function analysisExists(
   analysisId: string,
-  baseDir: string = join(process.cwd(), 'tmp', 'analysis')
+  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
 ): boolean {
   const analysisDir = join(baseDir, analysisId);
   return existsSync(analysisDir);
@@ -174,7 +174,7 @@ export function analysisExists(
  * @returns Number of cleaned up analyses
  */
 export async function cleanupOldAnalyses(
-  baseDir: string = join(process.cwd(), 'tmp', 'analysis'),
+  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis'),
   maxAge: number = 24 * 60 * 60 * 1000 // 24 hours
 ): Promise<number> {
   let cleanedCount = 0;
@@ -218,7 +218,7 @@ export async function cleanupOldAnalyses(
  */
 export async function getAnalysisMetadata(
   analysisId: string,
-  baseDir: string = join(process.cwd(), 'tmp', 'analysis')
+  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
 ): Promise<{ createdAt: Date; size: number } | null> {
   try {
     const analysisDir = join(baseDir, analysisId);
@@ -246,7 +246,7 @@ export async function getAnalysisMetadata(
  * @returns Array of analysis IDs
  */
 export async function listStoredAnalyses(
-  baseDir: string = join(process.cwd(), 'tmp', 'analysis')
+  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
 ): Promise<string[]> {
   try {
     if (!existsSync(baseDir)) {
@@ -273,7 +273,7 @@ export async function listStoredAnalyses(
  */
 export async function deleteAnalysis(
   analysisId: string,
-  baseDir: string = join(process.cwd(), 'tmp', 'analysis')
+  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
 ): Promise<boolean> {
   try {
     const analysisDir = join(baseDir, analysisId);
@@ -297,7 +297,7 @@ export async function deleteAnalysis(
  * @returns Storage statistics
  */
 export async function getStorageStats(
-  baseDir: string = join(process.cwd(), 'tmp', 'analysis')
+  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
 ): Promise<{
   totalAnalyses: number;
   totalSize: number;
