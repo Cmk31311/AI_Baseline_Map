@@ -1,4 +1,4 @@
-# AI Baseline Tool for Hackathon
+# AI Baseline Tool for Google Chrome Hackathon
 
 A comprehensive web application for visualizing and analyzing Baseline web features, with integrated AI chat assistance powered by multiple LLM providers.
 
