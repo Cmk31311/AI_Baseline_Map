@@ -4,10 +4,6 @@ import Groq from 'groq-sdk';
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
-
 interface GroqAnalysisRequest {
   code: string;
   filename: string;
@@ -29,6 +25,11 @@ export async function POST(request: NextRequest) {
         error: 'GROQ_API_KEY not configured. Please add it to your environment variables.' 
       }, { status: 500 });
     }
+
+    // Initialize Groq client only when needed
+    const groq = new Groq({
+      apiKey: process.env.GROQ_API_KEY,
+    });
 
     // Skip analysis for build/vendor files
     const skipPatterns = [

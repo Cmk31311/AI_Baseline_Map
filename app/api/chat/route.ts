@@ -4,10 +4,6 @@ import Groq from 'groq-sdk';
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const groq = process.env.GROQ_API_KEY ? new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-}) : null;
-
 export async function POST(request: NextRequest) {
   try {
     const { messages } = await request.json();
@@ -22,11 +18,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if API key is available
-    if (!groq) {
+    if (!process.env.GROQ_API_KEY) {
       return NextResponse.json({ 
         error: 'GROQ_API_KEY not configured. Please add it to your environment variables.' 
       }, { status: 500 });
     }
+
+    // Initialize Groq client only when needed
+    const groq = new Groq({
+      apiKey: process.env.GROQ_API_KEY,
+    });
 
     // Create streaming response
     const stream = new ReadableStream({
