@@ -24,7 +24,7 @@ export default function GroqAnalysis({ analysis }: GroqAnalysisProps) {
           </svg>
           🤖 AI Baseline Analysis
         </h3>
-        <p className="text-blue-100 mt-2">Advanced AI-powered analysis of your web file's baseline compatibility</p>
+        <p className="text-blue-100 mt-2">Advanced AI-powered analysis of your web file&apos;s baseline compatibility</p>
       </div>
       
       {analysis.map((result, index) => (

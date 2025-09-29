@@ -1,9 +1,9 @@
 {
   "version": 1,
   "functions": {
-    "/api/analyze/[id]": {},
-    "/api/analyze/groq": {},
     "/api/chat": {},
-    "/api/analyze": {}
+    "/api/analyze/groq": {},
+    "/api/analyze": {},
+    "/api/analyze/[id]": {}
   }
 }

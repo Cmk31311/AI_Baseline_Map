@@ -66,7 +66,7 @@ export default function HomePage() {
       <footer className="footer">
         <div>
           Data source: <strong>web-features</strong> (official Baseline data).<br/>
-          Baseline statuses: <em>Widely</em> = "high", <em>Newly</em> = "low", <em>Limited</em> = false.
+          Baseline statuses: <em>Widely</em> = &quot;high&quot;, <em>Newly</em> = &quot;low&quot;, <em>Limited</em> = false.
         </div>
       </footer>
 

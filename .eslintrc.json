@@ -1,7 +1,6 @@
 {
   "extends": ["next/core-web-vitals"],
   "rules": {
-    "@typescript-eslint/no-explicit-any": "off",
-    "react-refresh/only-export-components": "warn"
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

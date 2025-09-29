@@ -153,7 +153,7 @@ export function FiltersBar({
 
             {searchText.trim() !== '' && (
               <span className="inline-flex items-center px-3 py-1 rounded-xl text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200 shadow-sm">
-                Search: "{searchText}"
+                Search: &quot;{searchText}&quot;
                 <button
                   onClick={() => onSearchChange('')}
                   className="ml-2 inline-flex items-center justify-center w-4 h-4 rounded-full text-purple-400 hover:bg-purple-200 hover:text-purple-500 transition-colors"
