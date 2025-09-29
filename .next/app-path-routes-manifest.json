@@ -1,9 +1,0 @@
-{
-  "/_not-found/page": "/_not-found",
-  "/api/analyze/[id]/route": "/api/analyze/[id]",
-  "/api/analyze/route": "/api/analyze",
-  "/api/chat/route": "/api/chat",
-  "/api/analyze/groq/route": "/api/analyze/groq",
-  "/analyzer/page": "/analyzer",
-  "/page": "/"
-}
