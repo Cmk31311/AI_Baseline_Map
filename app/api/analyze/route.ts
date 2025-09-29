@@ -81,7 +81,17 @@ export async function POST(request: NextRequest) {
 
       // Run analysis
       console.log('Starting analysis for:', originalName);
-      const publicUrl = process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
+      
+      // Determine public URL - use request headers if on Vercel
+      let publicUrl: string;
+      if (process.env.VERCEL) {
+        const host = request.headers.get('host');
+        const protocol = request.headers.get('x-forwarded-proto') || 'https';
+        publicUrl = `${protocol}://${host}`;
+        console.log('Constructed Vercel URL from headers:', publicUrl);
+      } else {
+        publicUrl = 'http://localhost:3000';
+      }
       const analysisOptions = validateAnalysisOptions({
         maxFiles: 50000,
         maxFileSize: 2 * 1024 * 1024, // 2MB
@@ -93,6 +103,8 @@ export async function POST(request: NextRequest) {
       console.log('Analysis options:', analysisOptions);
       const result = await runBaselineAnalysis(tempPath, analysisOptions);
       console.log('Analysis completed successfully');
+      console.log('Is Vercel:', !!process.env.VERCEL);
+      console.log('Public URL:', publicUrl);
 
       // For Vercel deployment, include the full report directly in the response
       let response: AnalyzeResponse;
@@ -111,7 +123,13 @@ export async function POST(request: NextRequest) {
         };
         
         // Store the report temporarily for the download endpoints
-        global.tempReports.set(analysisId, result.report);
+        try {
+          global.tempReports.set(analysisId, result.report);
+          console.log(`Stored report ${analysisId} in temp storage`);
+        } catch (error) {
+          console.error('Failed to store report in temp storage:', error);
+          // Don't fail the request, but log the error
+        }
       } else {
         // On local development, use file storage
         if (!result.artifacts) {

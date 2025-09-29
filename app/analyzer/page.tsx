@@ -83,13 +83,20 @@ export default function AnalyzerPage() {
 
       const result: AnalyzeResponse = await response.json();
       
-      // Fetch the full report
-      const reportResponse = await fetch(result.artifacts.jsonUrl);
-      if (!reportResponse.ok) {
-        throw new Error('Failed to fetch analysis report');
+      // Use the report directly if available (Vercel), otherwise fetch it
+      let fullReport: any;
+      if (result.report) {
+        // For Vercel, the report is included directly
+        fullReport = result.report;
+      } else {
+        // For local development, fetch the report separately
+        const reportResponse = await fetch(result.artifacts.jsonUrl);
+        if (!reportResponse.ok) {
+          throw new Error('Failed to fetch analysis report');
+        }
+        fullReport = await reportResponse.json();
       }
-
-      const fullReport = await reportResponse.json();
+      
       setFindings(fullReport.findings || []);
 
       setAnalysisState({
