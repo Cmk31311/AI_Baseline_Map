@@ -10,4 +10,4 @@ const nextConfig = {
   serverExternalPackages: [],
 }
 
-export default nextConfig
+module.exports = nextConfig

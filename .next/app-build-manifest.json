@@ -15,19 +15,19 @@
       "static/css/d372d5d4a0fecfbd.css",
       "static/chunks/app/layout-ee464e876238d741.js"
     ],
-    "/api/analyze/groq/route": [
-      "static/chunks/webpack-56bd635c2077d6c7.js",
-      "static/chunks/4bd1b696-c023c6e3521b1417.js",
-      "static/chunks/255-4efeec91c7871d79.js",
-      "static/chunks/main-app-eb0a1ad129f73995.js",
-      "static/chunks/app/api/analyze/groq/route-dbac1e52f5b9c4d0.js"
-    ],
     "/api/chat/route": [
       "static/chunks/webpack-56bd635c2077d6c7.js",
       "static/chunks/4bd1b696-c023c6e3521b1417.js",
       "static/chunks/255-4efeec91c7871d79.js",
       "static/chunks/main-app-eb0a1ad129f73995.js",
       "static/chunks/app/api/chat/route-dbac1e52f5b9c4d0.js"
+    ],
+    "/api/analyze/groq/route": [
+      "static/chunks/webpack-56bd635c2077d6c7.js",
+      "static/chunks/4bd1b696-c023c6e3521b1417.js",
+      "static/chunks/255-4efeec91c7871d79.js",
+      "static/chunks/main-app-eb0a1ad129f73995.js",
+      "static/chunks/app/api/analyze/groq/route-dbac1e52f5b9c4d0.js"
     ],
     "/api/analyze/route": [
       "static/chunks/webpack-56bd635c2077d6c7.js",

@@ -208,7 +208,6 @@
       "devtoolSegmentExplorer": true,
       "browserDebugInfoInTerminal": false,
       "optimizeRouterScrolling": false,
-      "serverComponentsExternalPackages": [],
       "optimizePackageImports": [
         "lucide-react",
         "date-fns",
