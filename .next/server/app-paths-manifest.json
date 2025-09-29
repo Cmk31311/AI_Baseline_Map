@@ -1,1 +1,9 @@
-{}
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/analyze/route": "app/api/analyze/route.js",
+  "/api/analyze/[id]/route": "app/api/analyze/[id]/route.js",
+  "/api/chat/route": "app/api/chat/route.js",
+  "/api/analyze/groq/route": "app/api/analyze/groq/route.js",
+  "/page": "app/page.js",
+  "/analyzer/page": "app/analyzer/page.js"
+}

@@ -5,7 +5,17 @@ import { randomUUID } from 'crypto';
 import { runBaselineAnalysis, validateAnalysisOptions } from '../../../lib/analysis/run';
 // ZIP imports removed as per new requirements
 import { shouldAnalyzeFile } from '../../../lib/files/single-file';
-import { AnalyzeResponse } from '../../../lib/analysis/baseline.types';
+import { AnalyzeResponse, Report } from '../../../lib/analysis/baseline.types';
+
+// Temporary storage for Vercel (in-memory only)
+declare global {
+  var tempReports: Map<string, Report>;
+}
+
+// Initialize tempReports if not exists
+if (!global.tempReports) {
+  global.tempReports = new Map();
+}
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -84,25 +94,46 @@ export async function POST(request: NextRequest) {
       const result = await runBaselineAnalysis(tempPath, analysisOptions);
       console.log('Analysis completed successfully');
 
-      if (!result.artifacts) {
-        throw new Error('Failed to store analysis results');
+      // For Vercel deployment, include the full report directly in the response
+      let response: AnalyzeResponse;
+      
+      if (process.env.VERCEL) {
+        // On Vercel, return the report directly since file storage is not persistent
+        const analysisId = result.artifacts?.analysisId || randomUUID();
+        response = {
+          analysisId,
+          summary: result.report.summary,
+          artifacts: {
+            jsonUrl: `${publicUrl}/api/analyze/${analysisId}?format=json`,
+            csvUrl: `${publicUrl}/api/analyze/${analysisId}?format=csv`,
+          },
+          report: result.report,
+        };
+        
+        // Store the report temporarily for the download endpoints
+        global.tempReports.set(analysisId, result.report);
+      } else {
+        // On local development, use file storage
+        if (!result.artifacts) {
+          throw new Error('Failed to store analysis results');
+        }
+        
+        response = {
+          analysisId: result.artifacts.analysisId,
+          summary: result.report.summary,
+          artifacts: {
+            jsonUrl: result.artifacts.jsonUrl,
+            csvUrl: result.artifacts.csvUrl,
+          },
+          report: result.report,
+        };
       }
-
-      // Create response
-      const response: AnalyzeResponse = {
-        analysisId: result.artifacts.analysisId,
-        summary: result.report.summary,
-        artifacts: {
-          jsonUrl: result.artifacts.jsonUrl,
-          csvUrl: result.artifacts.csvUrl,
-        },
-        report: result.report, // Include full report for Groq analysis
-      };
       
       console.log('Analysis response:', {
         analysisId: response.analysisId,
         jsonUrl: response.artifacts.jsonUrl,
-        csvUrl: response.artifacts.csvUrl
+        csvUrl: response.artifacts.csvUrl,
+        isVercel: !!process.env.VERCEL
       });
 
       return NextResponse.json(response);

@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "functions": {
+    "/api/chat": {},
+    "/api/analyze/groq": {},
+    "/api/analyze": {},
+    "/api/analyze/[id]": {}
+  }
+}

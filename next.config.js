@@ -7,6 +7,9 @@ const nextConfig = {
     ignoreDuringBuilds: false,
     dirs: ['app', 'src', 'lib'],
   },
+  experimental: {
+    serverComponentsExternalPackages: [],
+  },
 }
 
 export default nextConfig

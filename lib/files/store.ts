@@ -26,37 +26,48 @@ export function storeAnalysisResults(
   report: Report,
   options: StorageOptions = {}
 ): StoredArtifacts {
-  const {
-    baseDir = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis'),
-    publicUrl = process.env.VERCEL ? process.env.VERCEL_URL || 'https://your-app.vercel.app' : 'http://localhost:3000',
-    ttl = 24 * 60 * 60 * 1000, // 24 hours
-  } = options;
-
   const analysisId = randomUUID();
   
-  // Ensure base directory exists
-  if (!existsSync(baseDir)) {
-    mkdirSync(baseDir, { recursive: true });
+  // On local development, store files on disk
+  if (!process.env.VERCEL) {
+    const {
+      baseDir = join(process.cwd(), 'tmp', 'analysis'),
+      publicUrl = 'http://localhost:3000',
+      ttl = 24 * 60 * 60 * 1000, // 24 hours
+    } = options;
+
+    // Ensure base directory exists
+    if (!existsSync(baseDir)) {
+      mkdirSync(baseDir, { recursive: true });
+    }
+
+    // Create analysis directory
+    const analysisDir = join(baseDir, analysisId);
+    if (!existsSync(analysisDir)) {
+      mkdirSync(analysisDir, { recursive: true });
+    }
+
+    // Store JSON report
+    const jsonPath = join(analysisDir, 'report.json');
+    writeFileSync(jsonPath, JSON.stringify(report, null, 2));
+
+    // Store CSV report
+    const csvPath = join(analysisDir, 'report.csv');
+    const csvContent = generateCSV(report);
+    writeFileSync(csvPath, csvContent);
+
+    // Schedule cleanup
+    scheduleCleanup(analysisDir, ttl);
+
+    return {
+      jsonUrl: `${publicUrl}/api/analyze/${analysisId}?format=json`,
+      csvUrl: `${publicUrl}/api/analyze/${analysisId}?format=csv`,
+      analysisId,
+    };
   }
 
-  // Create analysis directory
-  const analysisDir = join(baseDir, analysisId);
-  if (!existsSync(analysisDir)) {
-    mkdirSync(analysisDir, { recursive: true });
-  }
-
-  // Store JSON report
-  const jsonPath = join(analysisDir, 'report.json');
-  writeFileSync(jsonPath, JSON.stringify(report, null, 2));
-
-  // Store CSV report
-  const csvPath = join(analysisDir, 'report.csv');
-  const csvContent = generateCSV(report);
-  writeFileSync(csvPath, csvContent);
-
-  // Schedule cleanup
-  scheduleCleanup(analysisDir, ttl);
-
+  // On Vercel, return in-memory URLs (no file storage)
+  const publicUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://your-app.vercel.app';
   return {
     jsonUrl: `${publicUrl}/api/analyze/${analysisId}?format=json`,
     csvUrl: `${publicUrl}/api/analyze/${analysisId}?format=csv`,
@@ -72,31 +83,32 @@ export function storeAnalysisResults(
 function generateCSV(report: Report): string {
   const rows: CSVRow[] = [];
 
+  // Add findings
   for (const finding of report.findings) {
     if (finding.kind === 'dependency') {
       rows.push({
         Kind: 'Dependency',
         Language: finding.lang,
         Component: finding.component,
-        File: finding.file,
-        Line: '',
-        Status: finding.status,
-        Reason: finding.reason,
-        'Quick Fix': finding.quickFix || '',
         'Found Version': finding.foundVersion || '',
         'Required Version': finding.baselineRequired || '',
+        Status: finding.status,
+        Reason: finding.reason,
+        File: finding.file,
+        Line: '',
+        'Quick Fix': finding.quickFix || '',
       });
-    } else if (finding.kind === 'pattern') {
+    } else {
       rows.push({
         Kind: 'Pattern',
         Language: finding.lang,
         Component: '',
-        File: finding.file,
-        Line: finding.line.toString(),
+        'Found Version': '',
         Status: finding.status,
         Reason: finding.issue,
+        File: finding.file,
+        Line: finding.line.toString(),
         'Quick Fix': finding.quickFix || '',
-        'Found Version': '',
         'Required Version': '',
       });
     }
@@ -136,6 +148,12 @@ export async function getStoredAnalysis(
   format: 'json' | 'csv' = 'json',
   baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
 ): Promise<string | null> {
+  // On Vercel, files are not stored persistently
+  if (process.env.VERCEL) {
+    console.log('File storage not available on Vercel:', analysisId);
+    return null;
+  }
+
   try {
     const analysisDir = join(baseDir, analysisId);
     const filePath = join(analysisDir, `report.${format}`);
@@ -163,193 +181,12 @@ export function analysisExists(
   analysisId: string,
   baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
 ): boolean {
-  const analysisDir = join(baseDir, analysisId);
-  return existsSync(analysisDir);
-}
-
-/**
- * Clean up old analysis files
- * @param baseDir Base directory for storage
- * @param maxAge Maximum age in milliseconds
- * @returns Number of cleaned up analyses
- */
-export async function cleanupOldAnalyses(
-  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis'),
-  maxAge: number = 24 * 60 * 60 * 1000 // 24 hours
-): Promise<number> {
-  let cleanedCount = 0;
-
-  try {
-    if (!existsSync(baseDir)) {
-      return 0;
-    }
-
-    const { readdirSync, statSync, rmSync } = await import('fs');
-    const entries = readdirSync(baseDir, { withFileTypes: true });
-
-    for (const entry of entries) {
-      if (entry.isDirectory()) {
-        const analysisDir = join(baseDir, entry.name);
-        const stats = statSync(analysisDir);
-        const age = Date.now() - stats.mtime.getTime();
-
-        if (age > maxAge) {
-          try {
-            rmSync(analysisDir, { recursive: true, force: true });
-            cleanedCount++;
-          } catch (error) {
-            console.warn(`Failed to cleanup ${analysisDir}: ${error}`);
-          }
-        }
-      }
-    }
-  } catch (error) {
-    console.warn(`Failed to cleanup old analyses: ${error}`);
-  }
-
-  return cleanedCount;
-}
-
-/**
- * Get analysis metadata
- * @param analysisId Analysis ID
- * @param baseDir Base directory for storage
- * @returns Analysis metadata or null
- */
-export async function getAnalysisMetadata(
-  analysisId: string,
-  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
-): Promise<{ createdAt: Date; size: number } | null> {
-  try {
-    const analysisDir = join(baseDir, analysisId);
-    
-    if (!existsSync(analysisDir)) {
-      return null;
-    }
-
-    const { statSync } = await import('fs');
-    const stats = statSync(analysisDir);
-
-    return {
-      createdAt: stats.birthtime,
-      size: stats.size,
-    };
-  } catch (error) {
-    console.warn(`Failed to get metadata for ${analysisId}: ${error}`);
-    return null;
-  }
-}
-
-/**
- * List all stored analyses
- * @param baseDir Base directory for storage
- * @returns Array of analysis IDs
- */
-export async function listStoredAnalyses(
-  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
-): Promise<string[]> {
-  try {
-    if (!existsSync(baseDir)) {
-      return [];
-    }
-
-    const { readdirSync } = await import('fs');
-    const entries = readdirSync(baseDir, { withFileTypes: true });
-
-    return entries
-      .filter(entry => entry.isDirectory())
-      .map(entry => entry.name);
-  } catch (error) {
-    console.warn(`Failed to list stored analyses: ${error}`);
-    return [];
-  }
-}
-
-/**
- * Delete specific analysis
- * @param analysisId Analysis ID
- * @param baseDir Base directory for storage
- * @returns True if deleted successfully
- */
-export async function deleteAnalysis(
-  analysisId: string,
-  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
-): Promise<boolean> {
-  try {
-    const analysisDir = join(baseDir, analysisId);
-    
-    if (!existsSync(analysisDir)) {
-      return false;
-    }
-
-    const { rmSync } = await import('fs');
-    rmSync(analysisDir, { recursive: true, force: true });
-    return true;
-  } catch (error) {
-    console.warn(`Failed to delete analysis ${analysisId}: ${error}`);
+  // On Vercel, files are not stored persistently
+  if (process.env.VERCEL) {
+    console.log('File existence check not available on Vercel:', analysisId);
     return false;
   }
-}
 
-/**
- * Get storage statistics
- * @param baseDir Base directory for storage
- * @returns Storage statistics
- */
-export async function getStorageStats(
-  baseDir: string = process.env.VERCEL ? '/tmp/analysis' : join(process.cwd(), 'tmp', 'analysis')
-): Promise<{
-  totalAnalyses: number;
-  totalSize: number;
-  oldestAnalysis: Date | null;
-  newestAnalysis: Date | null;
-}> {
-  try {
-    if (!existsSync(baseDir)) {
-      return {
-        totalAnalyses: 0,
-        totalSize: 0,
-        oldestAnalysis: null,
-        newestAnalysis: null,
-      };
-    }
-
-    const { readdirSync, statSync } = await import('fs');
-    const entries = readdirSync(baseDir, { withFileTypes: true });
-    const analyses = entries.filter(entry => entry.isDirectory());
-
-    let totalSize = 0;
-    let oldestDate: Date | null = null;
-    let newestDate: Date | null = null;
-
-    for (const analysis of analyses) {
-      const analysisDir = join(baseDir, analysis.name);
-      const stats = statSync(analysisDir);
-      
-      totalSize += stats.size;
-      
-      if (!oldestDate || stats.birthtime < oldestDate) {
-        oldestDate = stats.birthtime;
-      }
-      
-      if (!newestDate || stats.birthtime > newestDate) {
-        newestDate = stats.birthtime;
-      }
-    }
-
-    return {
-      totalAnalyses: analyses.length,
-      totalSize,
-      oldestAnalysis: oldestDate,
-      newestAnalysis: newestDate,
-    };
-  } catch (error) {
-    console.warn(`Failed to get storage stats: ${error}`);
-    return {
-      totalAnalyses: 0,
-      totalSize: 0,
-      oldestAnalysis: null,
-      newestAnalysis: null,
-    };
-  }
+  const analysisDir = join(baseDir, analysisId);
+  return existsSync(analysisDir);
 }
