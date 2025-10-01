@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import PackMap from '../src/components/PackMap';
 import { labelForBaseline } from '../src/lib/baseline';
 import type { FeatureLeaf } from '../src/lib/baseline';
@@ -12,8 +12,11 @@ export default function HomePage() {
   const [selected, setSelected] = useState<FeatureLeaf | null>(null);
   const [showChat, setShowChat] = useState(false);
 
+
+
   return (
     <div className="app">
+      
       <header className="app-header">
         <div className="title">
           <span>🧭 The Baseline Map</span>
@@ -298,6 +301,8 @@ function DetailsPanel({ leaf }: { leaf: FeatureLeaf }) {
         </div>
       )}
 
+
+      
 
     </div>
   );

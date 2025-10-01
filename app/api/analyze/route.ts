@@ -69,12 +69,12 @@ export async function POST(request: NextRequest) {
 
       // Check file size
       const stats = await fs.stat(tempPath);
-      if (stats.size > 200 * 1024 * 1024) { // 200MB limit
+      if (stats.size > 5 * 1024 * 1024) { // 5MB limit
         return NextResponse.json({ 
           error: 'File too large',
           details: { 
             size: stats.size,
-            maxSize: 200 * 1024 * 1024
+            maxSize: 5 * 1024 * 1024
           }
         }, { status: 400 });
       }
@@ -94,8 +94,8 @@ export async function POST(request: NextRequest) {
       }
       const analysisOptions = validateAnalysisOptions({
         maxFiles: 50000,
-        maxFileSize: 2 * 1024 * 1024, // 2MB
-        allowedExtensions: ['.html', '.htm', '.css', '.js', '.mjs', '.ts', '.svg', '.wasm', '.json', '.webmanifest'],
+        maxFileSize: 5 * 1024 * 1024, // 5MB
+        allowedExtensions: ['.html', '.htm', '.js', '.mjs', '.ts', '.json', '.webmanifest', '.wasm'],
         storeResults: true,
         publicUrl,
       });

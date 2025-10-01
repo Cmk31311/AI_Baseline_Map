@@ -13,15 +13,13 @@ interface FileUploaderProps {
 export function FileUploader({ 
   onFileSelect, 
   isUploading, 
-  maxSize = 200 * 1024 * 1024, // 200MB
+  maxSize = 5 * 1024 * 1024, // 5MB
   acceptedTypes = [
     '.html', '.htm',
-    '.css',
     '.js', '.mjs', '.ts',
-    '.svg',
-    '.wasm',
     '.json',
-    '.webmanifest'
+    '.webmanifest',
+    '.wasm'
   ]
 }: FileUploaderProps) {
   const [dragActive, setDragActive] = useState(false);
@@ -116,11 +114,11 @@ export function FileUploader({
             </div>
 
             {/* File Requirements */}
-            <div className="text-sm text-slate-400 space-y-2 bg-slate-800/50 rounded-xl p-4">
-              <p>• Maximum file size: {formatFileSize(maxSize)}</p>
-              <p>• Supported formats: HTML, CSS, JavaScript/TypeScript, SVG, WebAssembly, JSON, Web Manifest</p>
-              <p>• Single file analysis only (no ZIP archives)</p>
-            </div>
+                    <div className="text-sm text-slate-400 space-y-2 bg-slate-800/50 rounded-xl p-4">
+                      <p>• Maximum file size: {formatFileSize(maxSize)}</p>
+                      <p>• Supported formats: HTML, JavaScript/TypeScript, JSON, Web Manifest, WebAssembly</p>
+                      <p>• Single file analysis only (no ZIP archives)</p>
+                    </div>
 
             {/* Browse Button */}
             <div className="pt-4">
@@ -142,29 +140,23 @@ export function FileUploader({
       {!isUploading && (
         <div className="mt-8 text-center">
           <p className="text-base text-slate-300 mb-4 font-medium">Web files you can analyze:</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-blue-800/50 text-blue-200 border border-blue-600/50 shadow-sm hover:shadow-md transition-shadow">
-              📄 HTML files
-            </span>
-            <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-green-800/50 text-green-200 border border-green-600/50 shadow-sm hover:shadow-md transition-shadow">
-              🎨 CSS stylesheets
-            </span>
-            <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-yellow-800/50 text-yellow-200 border border-yellow-600/50 shadow-sm hover:shadow-md transition-shadow">
-              ⚡ JavaScript/TypeScript
-            </span>
-            <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-purple-800/50 text-purple-200 border border-purple-600/50 shadow-sm hover:shadow-md transition-shadow">
-              🖼️ SVG graphics
-            </span>
-            <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-orange-800/50 text-orange-200 border border-orange-600/50 shadow-sm hover:shadow-md transition-shadow">
-              🚀 WebAssembly
-            </span>
-            <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-slate-700/50 text-slate-200 border border-slate-600/50 shadow-sm hover:shadow-md transition-shadow">
-              📋 JSON data
-            </span>
-            <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-indigo-800/50 text-indigo-200 border border-indigo-600/50 shadow-sm hover:shadow-md transition-shadow">
-              📱 Web Manifest
-            </span>
-          </div>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-blue-800/50 text-blue-200 border border-blue-600/50 shadow-sm hover:shadow-md transition-shadow">
+                      📄 HTML files
+                    </span>
+                    <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-yellow-800/50 text-yellow-200 border border-yellow-600/50 shadow-sm hover:shadow-md transition-shadow">
+                      ⚡ JavaScript/TypeScript
+                    </span>
+                    <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-slate-700/50 text-slate-200 border border-slate-600/50 shadow-sm hover:shadow-md transition-shadow">
+                      📋 JSON data
+                    </span>
+                    <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-indigo-800/50 text-indigo-200 border border-indigo-600/50 shadow-sm hover:shadow-md transition-shadow">
+                      📱 Web Manifest
+                    </span>
+                    <span className="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-orange-800/50 text-orange-200 border border-orange-600/50 shadow-sm hover:shadow-md transition-shadow">
+                      🚀 WebAssembly
+                    </span>
+                  </div>
         </div>
       )}
     </div>

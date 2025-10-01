@@ -16,7 +16,7 @@ export interface SingleFileResult {
 export function processSingleFile(
   filePath: string,
   content: string,
-  maxFileSize: number = 2 * 1024 * 1024 // 2MB
+  maxFileSize: number = 5 * 1024 * 1024 // 5MB
 ): SingleFileResult {
   // Check file size
   const fileSize = Buffer.byteLength(content, 'utf8');
@@ -162,12 +162,10 @@ export function shouldAnalyzeFile(filename: string): boolean {
   // Only allow web file types
   const allowedExtensions = [
     'html', 'htm',           // HTML files
-    'css',                   // CSS files
     'js', 'mjs', 'ts',       // JavaScript/TypeScript files
-    'svg',                   // SVG files
-    'wasm',                  // WebAssembly files
     'json',                  // JSON files
-    'webmanifest'            // Web manifest files
+    'webmanifest',           // Web manifest files
+    'wasm'                   // WebAssembly files
   ];
   
   return allowedExtensions.includes(ext || '');

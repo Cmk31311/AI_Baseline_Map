@@ -3,7 +3,6 @@ import { loadBaselineRules } from './baseline.loader';
 import { detectProjectManifests, detectLanguagesFromFiles } from './detect';
 import { analyzeDependencies } from './deps';
 import { scanSourceFiles } from './scan';
-import { extractZipToMemory } from '../files/unzip';
 import { processSingleFile, shouldAnalyzeFile } from '../files/single-file';
 import { storeAnalysisResults } from '../files/store';
 import {
@@ -120,33 +119,15 @@ export async function runBaselineAnalysis(
             // Load baseline rules
             const rules = await loadBaselineRules();
     
-    // Determine if file is ZIP or single file
-    const isZipFile = filePath.toLowerCase().endsWith('.zip');
-    let extractResult;
+    // Process single file
+    const fs = await import('fs');
+    const content = fs.readFileSync(filePath, 'utf8');
     
-    if (isZipFile) {
-      // Extract ZIP file
-      extractResult = await extractZipToMemory(filePath, {
-        maxFiles,
-        maxFileSize,
-        allowedExtensions,
-        ignorePaths,
-      });
-
-      if (extractResult.errors.length > 0) {
-        console.warn('Extraction warnings:', extractResult.errors);
-      }
-    } else {
-      // Process single file
-      const fs = await import('fs');
-      const content = fs.readFileSync(filePath, 'utf8');
-      
-      if (!shouldAnalyzeFile(filePath)) {
-        throw new Error(`File type not supported for analysis: ${filePath}`);
-      }
-      
-      extractResult = processSingleFile(filePath, content, maxFileSize);
+    if (!shouldAnalyzeFile(filePath)) {
+      throw new Error(`File type not supported for analysis: ${filePath}`);
     }
+    
+    const extractResult = processSingleFile(filePath, content, maxFileSize);
 
     // Detect project manifests and languages
     const manifests = detectProjectManifests(extractResult.files);

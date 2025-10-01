@@ -442,7 +442,7 @@ body::-webkit-scrollbar {
 
 .cards-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 16px;
   margin: 0 auto;
   max-width: 100%;
@@ -498,11 +498,12 @@ body::-webkit-scrollbar {
 
 .card-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   padding: 16px 20px 12px 20px;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
+  min-height: 70px;
 }
 
 .status-indicator-modern {
@@ -515,6 +516,7 @@ body::-webkit-scrollbar {
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .status-icon-modern {
@@ -523,11 +525,18 @@ body::-webkit-scrollbar {
 }
 
 .feature-name-modern {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--ink);
-  line-height: 1.3;
+  line-height: 1.4;
   flex: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  min-height: auto;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
 }
 
 .card-content {
@@ -984,6 +993,44 @@ body::-webkit-scrollbar {
   font-weight: 500;
 }
 
+/* Scroll to Top Button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  color: #1a1a1a;
+  font-size: 0;
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 8px 30px rgba(255, 215, 0, 0.6);
+  background: linear-gradient(135deg, #ffed4e, #ffd700);
+}
+
+.scroll-to-top:active {
+  transform: translateY(-1px) scale(1.05);
+}
+
+.scroll-to-top svg {
+  width: 24px;
+  height: 24px;
+  stroke: #1a1a1a;
+  stroke-width: 2.5;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .main {
@@ -1017,13 +1064,13 @@ body::-webkit-scrollbar {
 
 @media (max-width: 1200px) {
   .cards-container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
 }
 
 @media (max-width: 900px) {
   .cards-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
 }
 
@@ -1096,6 +1143,7 @@ body::-webkit-scrollbar {
   
   .card-header {
     padding: 12px 16px 8px 16px;
+    min-height: 60px;
   }
   
   .card-content {
@@ -1113,6 +1161,12 @@ body::-webkit-scrollbar {
   
   .feature-name-modern {
     font-size: 14px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
   }
   
   .status-badge-modern {
@@ -1587,6 +1641,21 @@ html {
 
 .legend {
   animation: slideIn 0.4s ease-out;
+}
+
+/* Mobile responsive for scroll to top button */
+@media (max-width: 768px) {
+  .scroll-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+  }
+  
+  .scroll-to-top svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .tooltip {
