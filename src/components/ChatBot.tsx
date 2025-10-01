@@ -51,13 +51,13 @@ export default function ChatBot({ onClose }: ChatBotProps) {
     try {
       // Create AI message placeholder for streaming
       const aiMessageId = Date.now() + 1;
-      const aiMessage: Message = {
+            const aiMessage: Message = {
         id: aiMessageId,
         text: '',
-        isUser: false,
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, aiMessage]);
+              isUser: false,
+              timestamp: new Date()
+            };
+            setMessages(prev => [...prev, aiMessage]);
 
       // Call our streaming chat API
       const response = await fetch('/api/chat', {
@@ -147,7 +147,7 @@ export default function ChatBot({ onClose }: ChatBotProps) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div style={{ fontSize: '20px' }}>🤖</div>
           <span style={{ fontWeight: '600', color: 'var(--ink)' }}>AI Assistant</span>
-        </div>
+          </div>
         <button 
           onClick={onClose}
           style={{
@@ -162,8 +162,8 @@ export default function ChatBot({ onClose }: ChatBotProps) {
           onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = 'var(--panel-hover)'}
           onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'transparent'}
         >
-          ✕
-        </button>
+            ✕
+          </button>
       </div>
 
       {/* Messages */}

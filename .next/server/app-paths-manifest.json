@@ -1,6 +1,4 @@
 {
-  "/api/analyze/route": "app/api/analyze/route.js",
-  "/api/analyze/groq/route": "app/api/analyze/groq/route.js",
   "/analyzer/page": "app/analyzer/page.js",
   "/page": "app/page.js"
 }
