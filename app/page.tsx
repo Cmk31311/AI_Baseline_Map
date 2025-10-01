@@ -69,7 +69,7 @@ export default function HomePage() {
       {/* Scroll to Top Button */}
       <div style={{
         position: 'fixed',
-        bottom: '40px',
+        bottom: '15px',
         left: '20px',
         zIndex: 1000
       }}>
