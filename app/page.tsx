@@ -66,6 +66,77 @@ export default function HomePage() {
         </aside>
       </main>
 
+      {/* Scroll to Top Button */}
+      <div style={{
+        position: 'fixed',
+        bottom: '40px',
+        left: '20px',
+        zIndex: 1000
+      }}>
+        <button 
+          onClick={() => {
+            console.log('Scroll to top button clicked!');
+            // Force scroll to top with multiple methods
+            try {
+              // Method 1: Modern smooth scroll
+              window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+              });
+            } catch (e) {
+              console.log('Smooth scroll failed, trying instant scroll');
+            }
+            
+            // Method 2: Direct scrollTop assignment
+            setTimeout(() => {
+              document.documentElement.scrollTop = 0;
+              document.body.scrollTop = 0;
+              window.scrollY = 0;
+              window.pageYOffset = 0;
+            }, 100);
+            
+            // Method 3: Force scroll with scrollIntoView
+            setTimeout(() => {
+              const header = document.querySelector('header');
+              if (header) {
+                header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }, 200);
+          }}
+          style={{
+            padding: '12px 16px',
+            fontSize: '14px',
+            fontWeight: '600',
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            color: 'white',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            borderRadius: '12px',
+            cursor: 'pointer',
+            boxShadow: '0 6px 24px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+            transition: 'all 0.3s ease',
+            minWidth: '120px',
+            height: '44px',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.boxShadow = '0 8px 28px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.boxShadow = '0 6px 24px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+          }}
+        >
+          ⬆️ Scroll to Top
+        </button>
+      </div>
+
       <footer className="footer">
         <div>
           Data source: <strong>web-features</strong> (official Baseline data).<br/>
