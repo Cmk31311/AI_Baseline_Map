@@ -91,9 +91,9 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
   };
 
   const getStatusGradient = (baseline: 'high' | 'low' | false) => {
-    if (baseline === 'high') return 'linear-gradient(135deg, #10b981, #34d399)';
-    if (baseline === 'low') return 'linear-gradient(135deg, #f59e0b, #fbbf24)';
-    return 'linear-gradient(135deg, #ef4444, #f87171)';
+    if (baseline === 'high') return 'linear-gradient(135deg,rgb(58, 245, 182),rgb(41, 230, 160))';
+    if (baseline === 'low') return 'linear-gradient(135deg,rgb(73, 142, 252),rgb(73, 150, 245))';
+    return 'linear-gradient(135deg,rgb(228, 209, 6),rgb(226, 208, 3))';
   };
 
   return (
@@ -200,12 +200,12 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
             className="tooltip-content"
             style={{
               '--status-color': hoveredFeature.data.baseline === 'high' ? '#6bb86b' : 
-                               hoveredFeature.data.baseline === 'low' ? '#f0d890' : '#f0a0a0',
+                               hoveredFeature.data.baseline === 'low' ? 'var(--blue)' : '#D4AF37',
               '--status-gradient': hoveredFeature.data.baseline === 'high' ? 'linear-gradient(90deg, #6bb86b, #8dd48d)' :
-                                 hoveredFeature.data.baseline === 'low' ? 'linear-gradient(90deg, #f0d890, #f8e8a0)' :
-                                 'linear-gradient(90deg, #f0a0a0, #f8b0b0)',
+                                 hoveredFeature.data.baseline === 'low' ? 'linear-gradient(90deg, var(--blue), var(--blue-light))' :
+                                 'linear-gradient(90deg, #D4AF37, #F4D03F)',
               '--status-border': hoveredFeature.data.baseline === 'high' ? '#6bb86b' :
-                               hoveredFeature.data.baseline === 'low' ? '#f0d890' : '#f0a0a0'
+                               hoveredFeature.data.baseline === 'low' ? 'var(--blue)' : '#D4AF37'
             } as React.CSSProperties}
           >
             <div className="tooltip-header">

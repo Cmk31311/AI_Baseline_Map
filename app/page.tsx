@@ -45,6 +45,18 @@ export default function HomePage() {
           >
             📊 Code Analyzer
           </button>
+          <button
+            onClick={() => window.location.href = '/extensions/vscode'}
+            className="ml-2 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+          >
+            🔧 VS Code Extension
+          </button>
+          <button
+            onClick={() => window.location.href = '/extensions/eslint'}
+            className="ml-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+          >
+            📋 ESLint Plugin
+          </button>
         </div>
       </header>
 
@@ -192,7 +204,19 @@ export default function HomePage() {
 function EmptyPanel() {
   return (
     <div className="panel-empty">
-      <h2>Welcome to the Baseline Map</h2>
+      <h2 style={{
+        fontSize: '2rem',
+        fontWeight: '900',
+        background: 'linear-gradient(135deg, #D4AF37 0%, #F4D03F 30%, #FFD700 60%, #DAA520 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
+        textShadow: '0 0 20px rgba(212, 175, 55, 0.3)',
+        marginBottom: '16px',
+        textAlign: 'center'
+      }}>
+        Welcome to the Baseline Map
+      </h2>
       <p>Explore web features and their Baseline status. Hover over any bubble to see its status, or click to view detailed information.</p>
       
       <div style={{ marginTop: '24px' }}>
@@ -210,7 +234,7 @@ function EmptyPanel() {
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span className="dot dot-amber" />
+            <span className="dot dot-blue" />
             <div>
               <strong style={{ color: 'var(--ink)' }}>Newly Available</strong>
               <div style={{ fontSize: '13px', color: 'var(--muted)', marginTop: '2px' }}>
@@ -219,7 +243,7 @@ function EmptyPanel() {
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span className="dot dot-red" />
+            <span className="dot dot-gold" />
             <div>
               <strong style={{ color: 'var(--ink)' }}>Limited Availability</strong>
               <div style={{ fontSize: '13px', color: 'var(--muted)', marginTop: '2px' }}>
@@ -240,8 +264,8 @@ function DetailsPanel({ leaf }: { leaf: FeatureLeaf }) {
 
   const getStatusColor = (baseline: 'high' | 'low' | false) => {
     if (baseline === 'high') return 'var(--green)';
-    if (baseline === 'low') return 'var(--amber)';
-    return 'var(--red)';
+    if (baseline === 'low') return 'var(--blue)';
+    return '#B8860B'; // Dark gold color
   };
 
   const getStatusIcon = (baseline: 'high' | 'low' | false) => {

@@ -191,8 +191,8 @@ function extractGroupFromFeature(featureId: string): string {
 
 export function colorForBaseline(level: BaselineLevel): string {
   if (level === 'high') return '#22c55e'; // green
-  if (level === 'low') return '#f59e0b';  // amber
-  return '#ef4444';                       // red
+  if (level === 'low') return '#3b82f6';  // blue
+  return '#B8860B';                       // dark gold
 }
 
 export function labelForBaseline(level: BaselineLevel): string {

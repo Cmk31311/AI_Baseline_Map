@@ -1357,10 +1357,10 @@ video {
   --border-light: #9c8b75;
   --green: #6bb86b;
   --green-light: #8dd48d;
-  --amber: #f0d890;
-  --amber-light: #f8e8a0;
-  --red: #f0a0a0;
-  --red-light: #f8b0b0;
+  --amber: var(--blue);
+  --amber-light: var(--blue-light);
+  --red: #D4AF37;
+  --red-light: #F4D03F;
   --blue: #3b82f6;
   --blue-light: #60a5fa;
   --purple: #8b5cf6;
@@ -1740,11 +1740,11 @@ body::-webkit-scrollbar {
 }
 
 .legend-newly {
-  background: linear-gradient(90deg, #f0d890, #f8e8a0);
+  background: linear-gradient(90deg, var(--blue), var(--blue-light));
 }
 
 .legend-limited {
-  background: linear-gradient(90deg, #f0a0a0, #f8b0b0);
+  background: linear-gradient(90deg, #D4AF37, #F4D03F);
 }
 
 .legend-text {
@@ -2208,13 +2208,13 @@ body::-webkit-scrollbar {
 }
 
 .support-bar.supported-partial {
-  background: linear-gradient(90deg, #f0d890, #f8e8a0);
-  box-shadow: 0 1px 3px rgba(240, 216, 144, 0.3);
+  background: linear-gradient(90deg, var(--blue), var(--blue-light));
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
 }
 
 .support-bar.supported-limited {
-  background: linear-gradient(90deg, #f0a0a0, #f8b0b0);
-  box-shadow: 0 1px 3px rgba(240, 160, 160, 0.3);
+  background: linear-gradient(90deg, #D4AF37, #F4D03F);
+  box-shadow: 0 1px 3px rgba(212, 175, 55, 0.3);
 }
 
 .support-bar::after {
@@ -2248,11 +2248,11 @@ body::-webkit-scrollbar {
 }
 
 .status-partial {
-  color: #f0d890;
+  color: var(--blue);
 }
 
 .status-limited {
-  color: #f0a0a0;
+  color: #D4AF37;
 }
 
 /* Browser-specific border accent */
@@ -3027,6 +3027,30 @@ html {
 /* Enhanced focus states */
 .input:focus, .select:focus {
   transform: translateY(-1px);
+}
+
+/* Status indicator dots */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.dot-green {
+  background-color: var(--green);
+  box-shadow: 0 0 6px var(--green);
+}
+
+.dot-blue {
+  background-color: var(--blue);
+  box-shadow: 0 0 6px var(--blue);
+}
+
+.dot-gold {
+  background-color: #D4AF37;
+  box-shadow: 0 0 6px #D4AF37;
 }
 
 /* Subtle glow effects */

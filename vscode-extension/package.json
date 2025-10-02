@@ -1,0 +1,75 @@
+{
+  "name": "baseline-map-extension",
+  "displayName": "Baseline Map - Web Feature Compatibility",
+  "description": "Shows baseline compatibility information for web features on hover",
+  "version": "1.5.1",
+  "publisher": "ckhadar3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ckhadar/baseline-map-extension.git"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Linters"
+  ],
+  "keywords": [
+    "web",
+    "baseline",
+    "compatibility",
+    "css",
+    "javascript",
+    "html"
+  ],
+  "activationEvents": [
+    "onLanguage:html",
+    "onLanguage:css",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:jsx",
+    "onLanguage:tsx"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "baselineMap.showCompatibility",
+        "title": "Show Baseline Compatibility"
+      }
+    ],
+    "configuration": {
+      "title": "Baseline Map",
+      "properties": {
+        "baselineMap.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable baseline compatibility hover information"
+        },
+        "baselineMap.showIcons": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show status icons in hover information"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {}
+}

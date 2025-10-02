@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baseline Map Extension Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .feature {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            border-left: 4px solid #007acc;
+        }
+        .hover-instruction {
+            color: #666;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        .status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status.widely { background: #22c55e; color: white; }
+        .status.newly { background: #3b82f6; color: white; }
+        .status.limited { background: #B8860B; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🧭 Baseline Map VS Code Extension Demo</h1>
+    
+    <div class="demo-section">
+        <h2>📋 How to Use the Extension</h2>
+        <ol>
+            <li>Open VS Code</li>
+            <li>Open the <code>vscode-extension</code> folder</li>
+            <li>Press <strong>F5</strong> to launch the extension</li>
+            <li>A new "Extension Development Host" window will open</li>
+            <li>Open any CSS, JavaScript, or HTML file</li>
+            <li>Hover over web features to see baseline compatibility</li>
+        </ol>
+    </div>
+
+    <div class="demo-section">
+        <h2>🎯 Supported Web Features</h2>
+        
+        <h3>CSS Features</h3>
+        <div class="feature">
+            <strong>CSS Grid Layout</strong>
+            <span class="status widely">Widely Available</span>
+            <div class="hover-instruction">Hover over "grid" in CSS files</div>
+        </div>
+        
+        <div class="feature">
+            <strong>CSS Flexbox</strong>
+            <span class="status widely">Widely Available</span>
+            <div class="hover-instruction">Hover over "flex" in CSS files</div>
+        </div>
+        
+        <div class="feature">
+            <strong>CSS Custom Properties</strong>
+            <span class="status widely">Widely Available</span>
+            <div class="hover-instruction">Hover over "--" in CSS files</div>
+        </div>
+        
+        <div class="feature">
+            <strong>CSS Container Queries</strong>
+            <span class="status newly">Newly Available</span>
+            <div class="hover-instruction">Hover over "@container" in CSS files</div>
+        </div>
+        
+        <div class="feature">
+            <strong>CSS Subgrid</strong>
+            <span class="status limited">Limited Availability</span>
+            <div class="hover-instruction">Hover over "subgrid" in CSS files</div>
+        </div>
+
+        <h3>JavaScript Features</h3>
+        <div class="feature">
+            <strong>Fetch API</strong>
+            <span class="status widely">Widely Available</span>
+            <div class="hover-instruction">Hover over "fetch" in JavaScript files</div>
+        </div>
+        
+        <div class="feature">
+            <strong>Async/Await</strong>
+            <span class="status widely">Widely Available</span>
+            <div class="hover-instruction">Hover over "async" or "await" in JavaScript files</div>
+        </div>
+        
+        <div class="feature">
+            <strong>Optional Chaining</strong>
+            <span class="status newly">Newly Available</span>
+            <div class="hover-instruction">Hover over "?." in JavaScript files</div>
+        </div>
+        
+        <div class="feature">
+            <strong>Nullish Coalescing</strong>
+            <span class="status newly">Newly Available</span>
+            <div class="hover-instruction">Hover over "??" in JavaScript files</div>
+        </div>
+        
+        <div class="feature">
+            <strong>Web Components</strong>
+            <span class="status widely">Widely Available</span>
+            <div class="hover-instruction">Hover over "customElements" in JavaScript files</div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>🔧 Troubleshooting</h2>
+        <ul>
+            <li><strong>F5 not working:</strong> Make sure you're in the extension folder and have the .vscode folder with launch.json</li>
+            <li><strong>No hover information:</strong> Check that you're hovering over supported features in the right file types</li>
+            <li><strong>Extension not loading:</strong> Run <code>npm run compile</code> to rebuild the extension</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2>📁 Test Files</h2>
+        <p>The extension includes sample files in the <code>test-files</code> folder:</p>
+        <ul>
+            <li><code>sample.css</code> - CSS features demonstration</li>
+            <li><code>sample.js</code> - JavaScript features demonstration</li>
+            <li><code>sample.html</code> - HTML with web components</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2>✅ Extension Status</h2>
+        <p><strong>✅ Compiled Successfully</strong></p>
+        <p><strong>✅ All files present</strong></p>
+        <p><strong>✅ Ready to launch with F5</strong></p>
+    </div>
+</body>
+</html>

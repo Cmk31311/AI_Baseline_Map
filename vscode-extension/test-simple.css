@@ -1,0 +1,22 @@
+/* Simple CSS test file for Baseline Map Extension */
+/* Hover over the CSS properties below */
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: center;
+}
+
+.subgrid-test {
+    grid-template-rows: subgrid;
+}
+
+.container-query {
+    container-type: inline-size;
+}
+
+.custom-props {
+    --my-color: red;
+    color: var(--my-color);
+}

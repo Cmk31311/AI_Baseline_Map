@@ -1,0 +1,74 @@
+/* Comprehensive test file for ALL web features */
+/* Hover over any CSS property to see detailed baseline compatibility */
+
+.layout-container {
+    /* Grid Layout - should show detailed browser support */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: subgrid;
+    
+    /* Flexbox - should show browser versions */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.modern-features {
+    /* Container Queries - should show "low" baseline */
+    container-type: inline-size;
+    container-name: sidebar;
+    
+    /* Aspect Ratio - should show "low" baseline */
+    aspect-ratio: 16/9;
+    
+    /* Object Fit - should show browser support */
+    object-fit: cover;
+    
+    /* Position Sticky - should show browser versions */
+    position: sticky;
+    top: 0;
+}
+
+.transforms-animations {
+    /* Transforms - should show browser support */
+    transform: rotate(45deg) scale(1.2);
+    
+    /* Transitions - should show browser versions */
+    transition: all 0.3s ease;
+    
+    /* Animations - should show browser support */
+    animation: slideIn 1s ease-out;
+}
+
+.custom-properties {
+    /* Custom Properties - should show browser support */
+    --primary-color: #007acc;
+    --spacing: 1rem;
+    
+    /* Using custom properties */
+    color: var(--primary-color);
+    padding: var(--spacing);
+}
+
+.advanced-selectors {
+    /* This should show limited availability */
+    &:has(.child-element) {
+        background: red;
+    }
+}
+
+/* Container Query - should show "low" baseline */
+@container sidebar (min-width: 300px) {
+    .card {
+        display: flex;
+    }
+}
+
+/* Keyframes - should show browser support */
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}

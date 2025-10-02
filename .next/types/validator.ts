@@ -56,6 +56,24 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../app/extensions/eslint/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/extensions/eslint">> = Specific
+  const handler = {} as typeof import("../../app/extensions/eslint/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/extensions/vscode/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/extensions/vscode">> = Specific
+  const handler = {} as typeof import("../../app/extensions/vscode/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../app/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/">> = Specific

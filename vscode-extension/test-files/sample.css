@@ -1,0 +1,42 @@
+/* Test CSS features for Baseline Map extension */
+
+.container {
+  /* CSS Grid - hover over 'grid' to see baseline info */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 20px;
+}
+
+.flex-container {
+  /* CSS Flexbox - hover over 'flex' to see baseline info */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+:root {
+  /* CSS Custom Properties - hover over '--' to see baseline info */
+  --primary-color: #3b82f6;
+  --secondary-color: #64748b;
+  --spacing: 16px;
+}
+
+.card {
+  background-color: var(--primary-color);
+  padding: var(--spacing);
+}
+
+/* CSS Container Queries - hover over '@container' to see baseline info */
+@container (min-width: 300px) {
+  .card {
+    font-size: 1.2rem;
+  }
+}
+
+/* CSS Subgrid - hover over 'subgrid' to see baseline info */
+.grid-with-subgrid {
+  display: grid;
+  grid-template-columns: subgrid;
+}

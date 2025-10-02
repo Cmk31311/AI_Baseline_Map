@@ -1,0 +1,49 @@
+{
+  "name": "eslint-plugin-baseline-compatibility",
+  "version": "1.0.2",
+  "description": "ESLint plugin to check web features against Baseline compatibility standards",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "baseline",
+    "web-features",
+    "compatibility",
+    "css",
+    "javascript"
+  ],
+  "author": "Ckhadar",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ckhadar/eslint-plugin-baseline-compatibility.git"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-baseline-compatibility": "^1.0.1",
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "node test/test.js",
+    "lint": "eslint src --ext .ts",
+    "prepare": "npm run build"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "bugs": {
+    "url": "https://github.com/ckhadar/eslint-plugin-baseline-compatibility/issues"
+  },
+  "homepage": "https://github.com/ckhadar/eslint-plugin-baseline-compatibility#readme"
+}
