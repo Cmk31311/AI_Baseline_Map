@@ -27,3 +27,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# VS Code extension (should be built separately)
+vscode-extension/
+
+# ESLint plugin (should be built separately)  
+eslint-plugin-baseline/
