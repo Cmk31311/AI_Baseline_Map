@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       }, { status: 500 });
     }
 
-    // Initialize Groq client only when needed
+    // Initialize Groq client
     const groq = new Groq({
       apiKey: process.env.GROQ_API_KEY,
     });
@@ -35,35 +35,13 @@ export async function POST(request: NextRequest) {
         const encoder = new TextEncoder();
         
         try {
+          const systemPrompt = `You are a helpful AI assistant that provides information about web development, browser compatibility, and modern web technologies. Answer questions about CSS, JavaScript, HTML, and web APIs with accurate and helpful information.`;
+
           const completion = await groq.chat.completions.create({
             messages: [
               {
                 role: "system",
-                content: `You are the Baseline Web Features Bot, a specialized AI assistant for web platform features and browser compatibility. Your expertise includes:
-
-**Core Knowledge:**
-- Baseline status: Widely Available (safe everywhere), Newly Available (recently reached baseline), Limited Availability (not baseline yet)
-- Browser compatibility and support information
-- CSS features: Grid, Flexbox, Container Queries, Custom Properties, Nesting, Cascade Layers
-- JavaScript APIs: Fetch, Promise, async/await, Intersection Observer, Performance API, Canvas, WebGL
-- Progressive enhancement and feature detection best practices
-- Cross-browser development strategies
-
-**Response Guidelines:**
-- Always provide baseline status when discussing web features
-- Include browser support information when relevant
-- Suggest progressive enhancement approaches
-- Recommend feature detection over browser detection
-- Use clear, technical but accessible language
-- Provide practical examples and code snippets when helpful
-- Focus on production-ready advice
-
-**Baseline Status Colors:**
-- 🟢 Widely Available = Safe to use everywhere
-- 🟡 Newly Available = Recently reached baseline  
-- 🔴 Limited Availability = Use with caution
-
-You are helpful, accurate, and focused on helping developers make informed decisions about web platform features.`
+                content: systemPrompt
               },
               ...messages.map((m: { role: string; content: string }) => ({
                 role: m.role as 'user' | 'assistant' | 'system',
@@ -72,8 +50,8 @@ You are helpful, accurate, and focused on helping developers make informed decis
             ],
             model: "llama-3.1-8b-instant",
             stream: true,
-            max_tokens: 1000,
-            temperature: 0.7,
+            max_tokens: 2000,
+            temperature: 0.3,
           });
 
           for await (const chunk of completion) {

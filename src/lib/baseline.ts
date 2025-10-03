@@ -1,5 +1,3 @@
-'use client';
-
 import data from 'web-features/data.json';
 
 

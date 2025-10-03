@@ -17,7 +17,7 @@ export default function ChatBot({ onClose }: ChatBotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! I'm the Baseline Web Features Bot 🤖! I specialize in web platform features and browser compatibility.\n\nI can help you with:\n• Baseline status of web features (Widely/Newly/Limited availability)\n• Browser support information\n• CSS features like Grid, Flexbox, Container Queries\n• JavaScript APIs and their compatibility\n• Best practices for cross-browser development\n• Feature detection and progressive enhancement\n\nAsk me about any web feature and I'll tell you its baseline status!",
+      text: "Hello! I'm the Baseline Web Features Bot 🤖! I have access to the most current web platform features data from the official web-features database.\n\nI can help you with:\n• **Accurate baseline status** of web features (🟢 Widely/🟡 Newly/🔴 Limited availability)\n• **Real-time browser support** information from current data\n• **Specific feature details** including specs, Can I Use links, and dates\n• **CSS features** like Grid, Flexbox, Container Queries, Custom Properties\n• **JavaScript APIs** and their current compatibility status\n• **Progressive enhancement** strategies and best practices\n• **Feature detection** recommendations\n\nAsk me about any specific web feature (like 'CSS Grid' or 'Fetch API') and I'll give you the most up-to-date information from our database!",
       isUser: false,
       timestamp: new Date()
     }

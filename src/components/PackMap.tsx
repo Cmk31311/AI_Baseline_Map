@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { buildHierarchy, colorForBaseline, labelForBaseline } from '../lib/baseline';
 import type { FeatureLeaf, GroupNode, RootNode } from '../lib/baseline';
 
@@ -84,17 +84,17 @@ export default function PackMap({ filterText, statusFilter, onSelectFeature }: P
     setParticles(newParticles);
   }, []);
 
-  const getStatusIcon = (baseline: 'high' | 'low' | false) => {
+  const getStatusIcon = useCallback((baseline: 'high' | 'low' | false) => {
     if (baseline === 'high') return '✨';
     if (baseline === 'low') return '🆕';
     return '⚠️';
-  };
+  }, []);
 
-  const getStatusGradient = (baseline: 'high' | 'low' | false) => {
+  const getStatusGradient = useCallback((baseline: 'high' | 'low' | false) => {
     if (baseline === 'high') return 'linear-gradient(135deg,rgb(58, 245, 182),rgb(41, 230, 160))';
     if (baseline === 'low') return 'linear-gradient(135deg,rgb(73, 142, 252),rgb(73, 150, 245))';
     return 'linear-gradient(135deg,rgb(228, 209, 6),rgb(226, 208, 3))';
-  };
+  }, []);
 
   return (
     <div className="honeycomb-container">

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ai-baseline-map.vercel.app/sitemap.xml
+
+# Performance hints
+User-agent: *
+Crawl-delay: 1
