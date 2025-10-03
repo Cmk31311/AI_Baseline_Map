@@ -18,20 +18,20 @@ const nextConfig = {
   
   // Image optimization
   images: {
-    formats: ['image/webp', 'image/avif'],
+    formats: ['image/webp'],
     minimumCacheTTL: 31536000, // 1 year
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    unoptimized: false,
   },
   
   // Experimental performance features
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['react', 'react-dom', 'lucide-react', '@radix-ui/react-icons'],
+    optimizePackageImports: ['react', 'react-dom', 'lucide-react'],
     webpackBuildWorker: true,
-    serverMinification: true,
   },
   
   webpack: (config, { dev, isServer }) => {
@@ -67,7 +67,7 @@ const nextConfig = {
       config.optimization.splitChunks = {
         chunks: 'all',
         minSize: 20000,
-        maxSize: 244000,
+        maxSize: 200000,
         cacheGroups: {
           vendor: {
             test: /[\\/]node_modules[\\/]/,
@@ -94,9 +94,10 @@ const nextConfig = {
         },
       };
       
-      // Enable tree shaking
+      // Enable tree shaking and module concatenation
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
+      config.optimization.concatenateModules = true;
     }
     
     return config;

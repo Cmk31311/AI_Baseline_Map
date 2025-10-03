@@ -1,17 +1,13 @@
 // Service Worker for Baseline Map
-const CACHE_NAME = 'baseline-map-v2';
-const STATIC_CACHE = 'baseline-map-static-v2';
-const DYNAMIC_CACHE = 'baseline-map-dynamic-v2';
+const CACHE_NAME = 'baseline-map-v3';
+const STATIC_CACHE = 'baseline-map-static-v3';
+const DYNAMIC_CACHE = 'baseline-map-dynamic-v3';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
   '/',
-  '/analyzer',
-  '/extensions/vscode',
-  '/extensions/eslint',
   '/manifest.json',
   '/robots.txt',
-  '/sitemap.xml',
 ];
 
 // Cache strategies

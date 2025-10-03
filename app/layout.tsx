@@ -22,10 +22,6 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         
-        {/* Resource hints for better performance */}
-        <link rel="preload" href="/_next/static/css/app/layout.css" as="style" />
-        <link rel="preload" href="/_next/static/chunks/webpack.js" as="script" />
-        
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#3b82f6" />
@@ -35,7 +31,6 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
         
         {/* Performance optimizations */}
-        <meta httpEquiv="Cache-Control" content="public, max-age=31536000, immutable" />
         <meta name="format-detection" content="telephone=no" />
       </head>
       <body>

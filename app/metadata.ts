@@ -1,4 +1,5 @@
 export const metadata = {
+  metadataBase: new URL('https://ai-baseline-map.vercel.app'),
   title: {
     default: 'Baseline Map',
     template: '%s | Baseline Map'
@@ -33,24 +34,11 @@ export const metadata = {
     title: 'Baseline Map - Web Features Compatibility Checker',
     description: 'Check browser support and compatibility for modern web technologies',
     siteName: 'Baseline Map',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Baseline Map - Web Features Compatibility',
-      },
-    ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: 'Baseline Map - Web Features Compatibility Checker',
     description: 'Check browser support and compatibility for modern web technologies',
-    creator: '@baselinemap',
-    images: ['/twitter-image.png'],
-  },
-  verification: {
-    google: 'your-google-verification-code',
   },
   category: 'technology',
 }
