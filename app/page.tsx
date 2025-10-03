@@ -330,7 +330,7 @@ function DetailsPanel({ leaf }: { leaf: FeatureLeaf }) {
       )}
 
       <div className="panel-links">
-        {s.spec && <a href={s.spec} target="_blank" rel="noreferrer">📋 Spec</a>}
+        {s.spec && <a href={s.spec} target="_blank" rel="noreferrer">📋 Specifications</a>}
         {s.caniuse && <a href={`https://caniuse.com/${s.caniuse}`} target="_blank" rel="noreferrer">📊 Can I Use</a>}
       </div>
 

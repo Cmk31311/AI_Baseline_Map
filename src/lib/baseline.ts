@@ -50,8 +50,8 @@ export function getAllFeatures(): FeatureNode[] {
       }; 
       name?: string; 
       description?: string; 
-      group?: string; 
-      spec?: string;
+      group?: string | string[]; 
+      spec?: string | string[];
       compat?: {
         spec?: string;
         caniuse?: string;
@@ -73,8 +73,8 @@ export function getAllFeatures(): FeatureNode[] {
       id,
       name: typedFeature.name || id,
       description: typedFeature.description || '',
-      group: extractGroupFromFeature(id),
-      spec: typedFeature.compat?.spec,
+      group: Array.isArray(typedFeature.group) ? typedFeature.group[0] : typedFeature.group || extractGroupFromFeature(id),
+      spec: Array.isArray(typedFeature.spec) ? typedFeature.spec[0] : typedFeature.spec,
       caniuse: typedFeature.compat?.caniuse,
       baseline: normalizedBaseline,
       baseline_low_date: typedFeature.status?.baseline_low_date,
@@ -128,8 +128,8 @@ export function buildHierarchy(filteredIds?: Set<string>): RootNode {
       }; 
       name?: string; 
       description?: string; 
-      group?: string; 
-      spec?: string;
+      group?: string | string[]; 
+      spec?: string | string[];
       compat?: {
         spec?: string;
         caniuse?: string;
@@ -150,8 +150,8 @@ export function buildHierarchy(filteredIds?: Set<string>): RootNode {
         id: featureId,
         name: typedFeature.name || featureId,
         description: typedFeature.description || '',
-        group: extractGroupFromFeature(featureId),
-        spec: typedFeature.compat?.spec,
+        group: Array.isArray(typedFeature.group) ? typedFeature.group[0] : typedFeature.group || extractGroupFromFeature(featureId),
+        spec: Array.isArray(typedFeature.spec) ? typedFeature.spec[0] : typedFeature.spec,
         caniuse: typedFeature.compat?.caniuse,
         baseline: normalizedBaseline,
         baseline_low_date: typedFeature.status?.baseline_low_date,

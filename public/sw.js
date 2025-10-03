@@ -1,12 +1,16 @@
 // Service Worker for Baseline Map
-const CACHE_NAME = 'baseline-map-v4';
-const STATIC_CACHE = 'baseline-map-static-v4';
-const DYNAMIC_CACHE = 'baseline-map-dynamic-v4';
+const CACHE_NAME = 'baseline-map-v1';
+const STATIC_CACHE = 'baseline-map-static-v1';
+const DYNAMIC_CACHE = 'baseline-map-dynamic-v1';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
   '/',
-  '/manifest.json',
+  '/analyzer',
+  '/extensions/vscode',
+  '/extensions/eslint',
+  '/_next/static/css/',
+  '/_next/static/js/',
 ];
 
 // Install event - cache static assets
@@ -54,27 +58,38 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-first strategy for all requests
   event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      
-      return fetch(request).then((response) => {
-        if (response.status === 200) {
+    caches.match(request)
+      .then((cachedResponse) => {
+        // Return cached version if available
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+
+        // Otherwise fetch from network
+        return fetch(request).then((response) => {
+          // Don't cache if not a valid response
+          if (!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
+
+          // Clone the response
           const responseToCache = response.clone();
-          caches.open(STATIC_CACHE).then((cache) => {
+
+          // Cache dynamic content
+          caches.open(DYNAMIC_CACHE).then((cache) => {
             cache.put(request, responseToCache);
           });
-        }
-        return response;
-      }).catch(() => {
+
+          return response;
+        });
+      })
+      .catch(() => {
+        // Return offline page for navigation requests
         if (request.mode === 'navigate') {
           return caches.match('/');
         }
-      });
-    })
+      })
   );
 });
 

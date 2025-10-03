@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-baseline-compatibility",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "ESLint plugin to check web features against Baseline compatibility standards",
   "main": "lib/index.js",
   "files": [
