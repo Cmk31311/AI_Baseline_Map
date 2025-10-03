@@ -143,7 +143,7 @@ export default function VSCodeExtensionPage() {
                 📦 Install from Marketplace
               </a>
               <a
-                href="https://github.com/Cmk31311/baseline-map-extension"
+                href="https://github.com/Cmk31311/AI_Baseline_Map/tree/main/vscode-extension"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-3 bg-purple-800/80 text-white font-semibold rounded-lg hover:bg-purple-700/90 transition-colors border border-purple-400/30 shadow-lg"

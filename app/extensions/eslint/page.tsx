@@ -214,7 +214,7 @@ export default function ESLintPluginPage() {
                 📦 Install from npm
               </a>
               <a
-                href="https://github.com/Cmk31311/eslint-plugin-baseline-compatibility"
+                href="https://github.com/Cmk31311/AI_Baseline_Map/tree/main/eslint-plugin-baseline"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-3 bg-green-800/80 text-white font-semibold rounded-lg hover:bg-green-700/90 transition-colors border border-green-400/30 shadow-lg"
