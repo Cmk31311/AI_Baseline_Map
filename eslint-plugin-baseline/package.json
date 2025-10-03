@@ -19,7 +19,8 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ckhadar/eslint-plugin-baseline-compatibility.git"
+    "url": "git+https://github.com/Cmk31311/AI_Baseline_Map.git",
+    "directory": "eslint-plugin-baseline"
   },
   "engines": {
     "node": ">=16.0.0"
@@ -43,7 +44,7 @@
     "test": "test"
   },
   "bugs": {
-    "url": "https://github.com/ckhadar/eslint-plugin-baseline-compatibility/issues"
+    "url": "https://github.com/Cmk31311/AI_Baseline_Map/issues"
   },
-  "homepage": "https://github.com/ckhadar/eslint-plugin-baseline-compatibility#readme"
+  "homepage": "https://github.com/Cmk31311/AI_Baseline_Map/tree/main/eslint-plugin-baseline#readme"
 }
