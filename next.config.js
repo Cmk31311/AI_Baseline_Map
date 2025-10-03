@@ -11,27 +11,36 @@ const nextConfig = {
   },
   serverExternalPackages: ['groq-sdk'],
   
-  // Performance optimizations
+  // Aggressive performance optimizations
   compress: true,
   poweredByHeader: false,
   generateEtags: true,
+  output: 'standalone',
   
   // Image optimization
   images: {
     formats: ['image/webp'],
-    minimumCacheTTL: 31536000, // 1 year
+    minimumCacheTTL: 31536000,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
     unoptimized: false,
   },
   
   // Experimental performance features
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['react', 'react-dom', 'lucide-react'],
+    optimizePackageImports: ['react', 'react-dom'],
     webpackBuildWorker: true,
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
   },
   
   webpack: (config, { dev, isServer }) => {
@@ -62,25 +71,29 @@ const nextConfig = {
       },
     };
     
-    // Performance optimizations
+    // Aggressive performance optimizations
     if (!dev && !isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
-        minSize: 20000,
-        maxSize: 200000,
+        minSize: 10000,
+        maxSize: 100000,
+        maxAsyncRequests: 6,
+        maxInitialRequests: 4,
         cacheGroups: {
+          default: false,
+          vendors: false,
           vendor: {
             test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
+            name: 'vendor',
             chunks: 'all',
-            priority: 10,
+            priority: 20,
             enforce: true,
           },
           common: {
             name: 'common',
             minChunks: 2,
             chunks: 'all',
-            priority: 5,
+            priority: 10,
             reuseExistingChunk: true,
             enforce: true,
           },
@@ -88,16 +101,22 @@ const nextConfig = {
             test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
             name: 'react',
             chunks: 'all',
-            priority: 20,
+            priority: 30,
             enforce: true,
           },
         },
       };
       
-      // Enable tree shaking and module concatenation
+      // Enable aggressive tree shaking and optimization
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
       config.optimization.concatenateModules = true;
+      config.optimization.providedExports = true;
+      config.optimization.innerGraph = true;
+      
+      // Minimize bundle size
+      config.optimization.minimize = true;
+      config.optimization.minimizer = config.optimization.minimizer || [];
     }
     
     return config;

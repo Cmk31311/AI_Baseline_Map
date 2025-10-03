@@ -1,21 +1,13 @@
 // Service Worker for Baseline Map
-const CACHE_NAME = 'baseline-map-v3';
-const STATIC_CACHE = 'baseline-map-static-v3';
-const DYNAMIC_CACHE = 'baseline-map-dynamic-v3';
+const CACHE_NAME = 'baseline-map-v4';
+const STATIC_CACHE = 'baseline-map-static-v4';
+const DYNAMIC_CACHE = 'baseline-map-dynamic-v4';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
-  '/robots.txt',
 ];
-
-// Cache strategies
-const CACHE_STRATEGIES = {
-  static: 'cache-first',
-  dynamic: 'network-first',
-  api: 'network-first',
-};
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
@@ -62,74 +54,28 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Determine cache strategy based on request type
-  const isStaticAsset = url.pathname.startsWith('/_next/static/') || 
-                       url.pathname.endsWith('.css') || 
-                       url.pathname.endsWith('.js') ||
-                       url.pathname.endsWith('.png') ||
-                       url.pathname.endsWith('.jpg') ||
-                       url.pathname.endsWith('.webp') ||
-                       url.pathname.endsWith('.svg');
-
-  const isApiRequest = url.pathname.startsWith('/api/');
-
-  if (isStaticAsset) {
-    // Cache-first strategy for static assets
-    event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        
-        return fetch(request).then((response) => {
-          if (response.status === 200) {
-            const responseToCache = response.clone();
-            caches.open(STATIC_CACHE).then((cache) => {
-              cache.put(request, responseToCache);
-            });
-          }
-          return response;
-        });
-      })
-    );
-  } else if (isApiRequest) {
-    // Network-first strategy for API requests
-    event.respondWith(
-      fetch(request).then((response) => {
+  // Cache-first strategy for all requests
+  event.respondWith(
+    caches.match(request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      
+      return fetch(request).then((response) => {
         if (response.status === 200) {
           const responseToCache = response.clone();
-          caches.open(DYNAMIC_CACHE).then((cache) => {
+          caches.open(STATIC_CACHE).then((cache) => {
             cache.put(request, responseToCache);
           });
         }
         return response;
       }).catch(() => {
-        return caches.match(request);
-      })
-    );
-  } else {
-    // Network-first for pages
-    event.respondWith(
-      fetch(request).then((response) => {
-        if (response.status === 200) {
-          const responseToCache = response.clone();
-          caches.open(DYNAMIC_CACHE).then((cache) => {
-            cache.put(request, responseToCache);
-          });
+        if (request.mode === 'navigate') {
+          return caches.match('/');
         }
-        return response;
-      }).catch(() => {
-        return caches.match(request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-          if (request.mode === 'navigate') {
-            return caches.match('/');
-          }
-        });
-      })
-    );
-  }
+      });
+    })
+  );
 });
 
 // Background sync for API calls
