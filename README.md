@@ -65,7 +65,7 @@ This monorepo contains several interconnected tools:
 ### Installation
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone <https://github.com/Cmk31311/AI_Baseline_Map>
 cd AI_Baseline_Map
 
 # Install dependencies
@@ -202,10 +202,6 @@ GROQ_API_KEY=your_groq_api_key_here
 - Update documentation for API changes
 - Ensure baseline compliance in your code
 
-## 📄 License
-
-MIT License - see LICENSE file for details
-
 ## 📦 Published Packages
 
 ### VS Code Extension
@@ -221,6 +217,10 @@ MIT License - see LICENSE file for details
 
 ## 🙏 Acknowledgments
 
-- Built for Google Chrome Hackathon
+- Built for Baseline Tooling Hackathon by Google
 - Uses data from [web-features](https://github.com/web-platform-dx/web-features)
 - Powered by [Groq](https://groq.com/) for AI capabilities
+
+## 📄 License
+
+MIT License - see LICENSE file for details
