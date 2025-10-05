@@ -1,4 +1,4 @@
-# AI Baseline Tool for Google Chrome Hackathon
+# AI Baseline Map for Baseline Tooling Hackathon by Google Chrome
 
 A comprehensive monorepo containing multiple tools for visualizing, analyzing, and working with Baseline web features. This project includes a web application, VS Code extension, ESLint plugin, and AI-powered code analyzer.
 
